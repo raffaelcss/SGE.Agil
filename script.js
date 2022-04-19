@@ -88,8 +88,8 @@ var SGE_Agil_ON_Plan_aula;
 /////////////////     Código a ser executado no início da página, acesso aos cookies     ////////////////////
 receber_cookies();
 
-console.log("Debug:SGE.Ágil 0.0.1 run!");
-console.log(SGE_Agil_ON ? "SGE.Ágil 0.0.1 ON!" : "SGE.Ágil 0.0.1 OFF!");
+console.log("Debug:SGE.Ágil 0.0.2 run!");
+console.log(SGE_Agil_ON ? "SGE.Ágil 0.0.2 ON!" : "SGE.Ágil 0.0.2 OFF!");
 
 /////////////////////           Ligando e desligando Funções             /////////////////////
 if (SGE_Agil_ON){
