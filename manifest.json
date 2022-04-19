@@ -1,0 +1,37 @@
+{
+    "name":"SGE Ágil",
+    "version":"0.0.1",
+    "description":"Adiciona recursos ao SGE",
+    "author":"Raffael Christopher Soares Souza",
+    "icons": {
+        "16": "./icons/icon16.png",
+        "48": "./icons/icon48.png",
+       "128": "./icons/icon128.png" 
+    },
+    "action":{
+        "default_title": "SGE Ágil",
+        "default_popup": "index.html"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "scripting"
+    ],
+    "background": {
+        "service_worker": "./background.js"
+      },
+    "content_scripts": [{
+        "js": ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "plano_aula_assistido.js","script.js"],
+        "matches": ["http://www2.fiemg.com.br/Corpore.Net/*","https://www2.fiemg.com.br/Corpore.Net/*"]
+    }],
+    "web_accessible_resources": [{
+        "resources": ["SGE_Agil_basic.css","dark_mode.css","icons/btRaio_amarelo.gif","icons/btRaio_azul.gif","icons/mn_Professor.gif","icons/sesi-senai.png"],
+        "matches": ["<all_urls>"]
+    }],
+    "host_permissions": [
+        "http://www.google.com/*",
+        "http://www2.fiemg.com.br/Corpore.Net/*",
+        "https://www2.fiemg.com.br/Corpore.Net/*"
+    ],
+    "manifest_version":3
+}

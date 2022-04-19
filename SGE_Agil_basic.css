@@ -1,0 +1,169 @@
+.oculto{
+    display: none;
+}
+
+.FFpesquisaSGE > input {
+    border-radius: 4px;
+    border: 1px solid #B0B3B8;
+}
+/*   Não funfou, Testar de novo
+.FFpesquisaSGE > input:focus {
+    border: 1px solid #3A3B3C !important;
+}*/
+
+/* Para melhor a aparência, talves terá de desabilitar*/
+/*[valign="bottom"]*/
+td {
+    vertical-align: middle !important;
+}
+
+.dxrpControl .dxrpHeader {
+    background-image: none !important;;
+    background-color: #dde0ef !important;;
+}
+
+.dxnbLite_Edu .dxnb-header, .dxnbLite_Edu .dxnb-headerCollapsed, .dxgvHeader_Edu, .dxeButtonEditButton {
+    background-image: none !important;
+    background-color: #dde0ef;
+}
+
+/*Mudar fonte*/
+.dxnb-ghtext, .dx-vam{
+    font-family: Tahoma, Arial, Helvetica, sans-serif !important;
+}
+
+/*Menu de turmas arredondado*/
+.dxnb-header {
+    border-radius: 7px 7px 0px 0px;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+}
+.dxnb-headerCollapsed {
+    border-radius: 7px;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+}
+
+.dxnb-content{
+    border-radius: 0 0 7px 7px !important;
+}
+
+span.dx-vam{
+    line-height: normal !important;
+}
+
+/*Setas menu lateral COLOCAR POSIÇÂO LEFT*/
+
+.seta {
+    position: relative;
+    padding: 4px;
+    box-shadow: 1.4px -1.4px 0 0px #14608e inset;
+    border: solid transparent;
+    border-width: 0 0 1px 1px;
+    transform: scale(0.25);
+    transform: rotate(45deg);
+}
+
+img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_EXPAND.GIF"] ~ .seta{
+    transform: rotate(225deg);
+}
+
+/*Aba menu lateral*/
+.AccodionHeaderIconCell + td {
+    background-image: none !important;
+    background: #d5dcf0;
+}
+
+.AccodionHeaderIconCell > img {
+    display: none;
+}
+.AccodionHeaderIconCell::before {
+    content: "";
+    display: inline-block;
+    width: 0px;
+    height: 0px;
+    background: red;
+    border-right: 10px solid #d5dcf0;
+    border-bottom: 16px solid #FFF;
+}
+
+/* Estavam como JS antes de ter o CSS específico */
+#ctl24_EduTurmasProfRadioButtonWebForm1_ctl00_divContexto {
+    padding-top: 0px !important;
+}
+#ctl24_EduTurmasProfRadioButtonWebForm1_ctl00_xrpContextoEducacional_HC, #ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_HC{
+    height: 25px !important;
+    padding-left: 5px !important;
+}
+#HeaderTD {
+    background: #14608e !important;
+    background-image: none !important;
+    padding-bottom: 0px !important;
+}
+#HeaderTable{
+    height: 100% !important;
+}
+#btExit{
+    padding-top: 0px !important;
+}
+#AddressTD{
+    background: #d5dcf0 !important;
+    background-image: none !important;
+    padding: 5px 0 5px 4px !important;
+}
+#LeftMenuTable{
+    background-image: none !important;
+}
+#LeftMenuTable > tbody > :first-child > td{
+    height: 31px !important;
+    background-image: none !important;
+    background: #d5dcf0 !important;
+    border-right: 1px solid #ccc!important;
+    border-bottom: 1px solid #ccc!important;
+}
+#LeftMenuTable > tbody > :first-child > td > span > table > tbody > tr{
+    background: #d5dcf0 !important;
+}
+#cpLeft_Img{
+    display: none !important;
+}
+#LeftMenuTD{
+    background-image: none !important;
+}
+#tdLeftOptions{
+    background-image: none !important;
+}
+#tdLeftOptions > table > tbody > tr {
+    border-top: none !important;
+
+}
+#ctl09_ctl00_accordionMenuAccordionItems0_Header > table {
+    border-top: none !important;
+}
+
+#tbPrincipal > tbody > :nth-child(2) > :first-child {
+    vertical-align: top !important;
+}
+
+.clHeaderTD {
+    background-image: none;
+    background: #d5dcf0 !important;
+}
+
+/* Tabela de frequencias */
+/* tr.primeira_aula{
+    background: #d5dcf0 !important;
+} */
+#ctl24_xgvPlanoAula_DXMainTable > tbody > tr:nth-child(5n + 2){
+    background: #d5dcf0 !important;
+}
+#ctl24_xgvPlanoAula_DXMainTable > tbody > tr.dxgvSelectedRow_Edu{
+    background: #cccccc !important;
+    color: black;
+}
+
+#rmscaptcha input {
+    margin-top: 10px;
+}
+
+#rmscaptcha input#RMSCaptcha_btnTryNewWords {
+    padding-top: 1px;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>SGE Ágil</title>
+    <link rel="stylesheet" type="text/css" href="pop_up.css" media="screen" />
+</head>
+<body>
+    <div>
+        <div class="title">
+            <a href="google.com" target="_blank">
+                <div class="logo"> </div>
+            </a>
+            <div class="title-icons">
+                <input type="image" src="./icon-config.svg" width="15" height="15">
+                <input type="image" src="./icon-help.svg" width="15" height="15">
+            </div>
+        </div>
+    </div>
+    <div class="menu menu-principal">
+        <div class="menu sub-menu">
+            <h3>Ativar SGE.Ágil</h3>
+            <label class="switch">
+                <input type="checkbox" id="SGE_on">
+                <span class="slider round grande" id="SGE_on_swt"></span>        
+            </label>
+        </div>
+    </div>
+    <div class="menu-func" id="sub-menu">
+        <div class="menu sub-menu">
+            <p>Pesquisa de turmas</p>
+            <label class="switch">
+                <input type="checkbox" id="Pes_on">
+                <span class="slider round" id="Pes_on_swt"></span>        
+            </label>
+        </div>
+        <div class="menu sub-menu">
+            <p>Modo escuro</p>
+            <label class="switch">
+                <input type="checkbox" id="Dark_on">
+                <span class="slider round" id="Dark_on_swt"></span>        
+            </label>
+        </div>
+        <div class="menu sub-menu">
+            <p>Plano de aula assistido</p>
+            <label class="switch">
+                <input type="checkbox" id="Plan_aula_on">
+                <span class="slider round" id="Plan_aula_on_swt"></span>        
+            </label>
+        </div>
+    </div>
+    
+    <script src="functions.js"></script>
+</body>
+</html>

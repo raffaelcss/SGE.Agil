@@ -1,0 +1,207 @@
+:root{
+    --preto: #18191A;
+    --cinza: #242526;
+    --cinza-claro: #3A3B3C;
+    --branco: #E4E6EB;
+    --branco-escuro: #B0B3B8;
+    --alerta: #ff8484;
+}
+
+#HeaderTD, .dxpc-headerContent{
+    background: var(--cinza) !important;
+}
+#AddressTD, .AccodionHeaderIconCell + td {
+    background: var(--cinza-claro) !important;
+}
+body, .dxtc-content, #ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina, .dxgPEFTW, .dxpc-mainDiv, TD.clContentTD{
+    background: var(--preto) !important;
+    color: var(--branco) !important;
+}
+.AccodionHeaderIconCell::before{
+    border-right: 10px solid var(--cinza-claro);
+    border-bottom: 16px solid var(--preto) !important;
+}
+
+.FFpesquisaSGE > input {
+    background: var(--branco-escuro) !important;
+    border: none !important;
+    height: 19px !important;
+}
+.FFpesquisaSGE > input::placeholder, li > .dx-vam  {
+    color: var(--cinza-claro) !important;
+}
+.dxeDisabled{
+    color: #72787d !important;
+}
+
+.EduGridHeader{
+    background: var(--cinza) !important;
+}
+.EduGridMain > tbody {
+    background: var(--cinza-claro) !important;
+}
+.EduGridMain > tbody > .EduGridAlternateRow {
+    background: var(--branco-escuro) !important;
+    color: var(--cinza);
+}
+
+/* inverter imagens */
+.AjaxTreeViewIdentationCell{
+    filter: invert(1);
+}
+.AddressBarItemImage > img {
+    filter: invert(1) grayscale(1);
+}
+img[src="source/Edu-Educacional/images/relogio.gif"]{
+    filter: invert(1) grayscale(1);
+}
+/*Textos brancos*/
+.AddressBarItemText, .AddressBarItemSelectedText, .QNajvd, .login-text, .LoginMessage, .title, .link{
+    color: var(--branco) !important;
+}
+TD.AjaxTreeViewCaptionCellWithLink a {
+    color: var(--branco) !important;
+}
+.dx-vam, .dxgv > span, .GroupSeparator > .EduLabel {
+    color: var(--branco) !important;
+}
+
+.AccodionHeaderCaptionCell, .LoginAnnonServiceCaption, .login-label-produto, .description, #ctl24_xgvAvaliacao_DXPEForm_ef0_EduCamposObrigatoriosAlertWebForm1_lbCamposObrigatorios, legend > span.EduLabel{
+    color: var(--branco-escuro) !important;
+}
+
+#ctl24_xgvAvaliacao_DXPEForm_ef0_EduCamposObrigatoriosAlertWebForm1_RMWImage1{
+    filter: invert(0.9) grayscale(1);
+}
+div.dxnb-header, div.dxnb-headerCollapsed, #ctl24_EduTurmasProfRadioButtonWebForm1_ctl00_xrpContextoEducacional_HC, .dxm-hovered{
+    background-color: var(--branco-escuro) !important;
+}
+#ctl24_EduTurmasProfRadioButtonWebForm1_ctl00_xrpContextoEducacional_RPC, .dxnb-content{
+    background: #c4c7d6 !important;
+}
+
+.dxnb-ghtext, .dxrpHT, .dx-borderBox, .dxm-hovered > a > span{
+    color: var(--cinza) !important;
+}
+/*
+#ctl24_EduToolBarFuncProf1_Tr1 > td > div{
+    background: #3A3B3C !important;
+}
+*/
+.dxbButton_Edu, .dxm-horizontal, .dxh1h, .dxm-gutter{
+    background: var(--cinza-claro) !important;
+}
+
+/*Para imagens de lupa*/
+a.dxbButton_Edu{
+    background: none !important;
+}
+.hlpMainTable:hover{
+    background-image: none !important;
+    background: var(--cinza-claro) !important;
+    border-radius: 7px !important;
+}
+
+#LeftMenuTable > tbody > :first-child > td, #LeftMenuTable > tbody > :first-child > td > span > table > tbody > tr {
+    background: var(--cinza-claro) !important;
+}
+
+#LeftMenuTable > tbody > :first-child > td {
+    border-right: 1px solid #2c2e2f!important;
+    border-bottom: 1px solid #2c2e2f!important;
+}
+
+.seta{
+    box-shadow: 1.4px -1.4px 0 0px var(--branco-escuro) inset;
+}
+
+.dxgvTable_Edu, .dxgvEmptyDataRow_Edu, .EduTableFreqMain{
+    background: var(--cinza-claro) !important;
+    color: var(--branco) !important;
+}
+
+.dxgvControl_Edu{
+    background: none;
+    border: none;
+}
+
+.EduTextoAviso, .EduLabel > label > strong, #ctl24_EduTurmasProfFiltroSelecionado1_EduTempoSessaoWebForm1_lbSessao, #ctl24_EduTurmasProfFiltroSelecionado1_EduTempoSessaoWebForm1_lbMin, #ctl24_xgvAvaliacao_DXPEForm_efnew_EduCamposObrigatoriosAlertWebForm1_lbCamposObrigatorios{
+    color: var(--alerta) !important;
+}
+
+TABLE.DropDownMenuItemCssClass, .DropDownMenuCell {
+    background: var(--cinza-claro) !important;
+}
+
+.clHeaderTD, SPAN.clHeaderSPAN{
+    background: var(--cinza-claro) !important;
+    background-image: none !important;
+    color: var(--branco) !important;
+}
+
+.form-control:focus{
+    border-color: var(--branco) !important;
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%), 0 0 8px #b0b3b88a
+}
+
+#RMWLabel1 {
+    color: var(--branco-escuro);
+}
+
+#ctl24_xgvAvaliacao_DXPEForm_tcefnew img[src="/Corpore.Net/DXR.axd?r=1_88-aw4Im"]{
+    filter: brightness(2.5);
+}
+
+#ctl24_xgvAvaliacao_DXPEForm_efnew_EduCamposObrigatoriosAlertWebForm1_RMWImage1{
+    content:url('/Corpore.Net/DXR.axd?r=1_88-aw4Im');
+    filter: brightness(2.5);
+
+    display: block !important;
+    margin: auto;
+    background-position: -252px -95px;
+    width: 14px;
+    height: 14px;
+    background-image: url('https://www2.fiemg.com.br/Corpore.Net/DXR.axd?r=1_149-aw4Im');
+    background-repeat: no-repeat;
+    background-color: transparent;
+    
+    margin-right: 4px;
+    max-width: none;
+    border-width: 0;
+}
+
+.EduGroupSeparator{
+    background: var(--cinza-claro) !important;
+    color: var(--branco) !important
+}
+
+/* Tabela de frequencias */
+
+/* Foi substituido por uma função JS que add uma class pois alguma UC pode não possuir 5 aulas */
+/* O problema do JS é que sempre que lanço um plano de aula e saio as tr perdem a classe */
+/* Testando com essa pseudoclasse */
+#ctl24_xgvPlanoAula_DXMainTable > tbody > tr:nth-child(5n + 2){
+    background: var(--cinza) !important;
+}
+/* tr.primeira_aula{
+    background: var(--cinza) !important;
+} */
+
+/* Seleciona todos os impares, apenas teste (even) mostra os pares*/
+/* (5n + 2) Seleciona de 5 em 5 a partir da segunda linha */
+/* #ctl24_xgvPlanoAula_DXMainTable > tbody tr:nth-child(odd){
+    background-color: red !important;
+} */
+
+.dxWeb_mHorizontalPopOut{
+    filter: invert(1);
+}
+
+#ctl24_xgvPlanoAula_DXMainTable > tbody > tr.dxgvSelectedRow_Edu, .EduTableFreqAlternateRow, .EduTableFreqHeader{
+    background: var(--branco-escuro) !important;
+    color: var(--cinza) !important;
+}
+
+#rmscaptcha input {
+    color: var(--cinza);
+}
