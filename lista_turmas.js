@@ -165,67 +165,66 @@ console.log(ucs_novas);
 
 
 let alerta_turmas = "";
-let alerta_ucs = "";
-
-//Montando texto dos alertas
-turmas_novas.forEach(element => {
-    alerta_turmas += '* '
-    alerta_turmas += element.Nome;
-    alerta_turmas += '\n';
-})
-
 let qtd_ucs_novas_total = 0;
 
-ucs_novas.forEach(element => {
-    let inicio_text = 0;
-    let Nome_curto = element.Nome.substring(inicio_text+1);
-    const INIT_POS_TURMA = 3;
-    for (var i = 0; i < INIT_POS_TURMA; i++){
-        inicio_text = Nome_curto.indexOf('-');
-        Nome_curto = Nome_curto.substring(inicio_text+1);
-    }
-    if (Nome_curto.length > 45){
-        Nome_curto = Nome_curto.replace('&nbsp;','').substring(0,45);
-        Nome_curto += '..';
-    }
-    
-    alerta_ucs += '▼ '
-    alerta_ucs += Nome_curto;
-    alerta_ucs += '\n';
-    let qtd_ucs_add = element.Ucs.length;
-    element.Ucs.forEach(element2 => {
-        alerta_ucs += qtd_ucs_add <= 1 ? '└→ ' : '├→ ';
-        qtd_ucs_add--;
-        qtd_ucs_novas_total++;
-        let nome_curto_uc = element2.Nome;
-        if (nome_curto_uc.length > 45){
-            nome_curto_uc = nome_curto_uc.substring(0,45);
-            nome_curto_uc += '..';
+function texto_alert_novos(obj, nova){
+    let saida = '';
+    let qtd_ucs_total = 0;
+    obj.forEach(element => {
+        let inicio_text = 0;
+        let Nome_curto = element.Nome.substring(inicio_text+1);
+        const INIT_POS_TURMA = 3;
+        for (var i = 0; i < INIT_POS_TURMA; i++){
+            inicio_text = Nome_curto.indexOf('-');
+            Nome_curto = Nome_curto.substring(inicio_text+1);
         }
-        alerta_ucs += nome_curto_uc;
-        alerta_ucs += '\n';
+        if (Nome_curto.length > 45){
+            Nome_curto = Nome_curto.replace('&nbsp;','').substring(0,45);
+            Nome_curto += '..';
+        }
+        
+        saida += nova ? '☀ ' : '▼ ';
+        saida += Nome_curto;
+        saida += '\n';
+        let qtd_ucs_add = element.Ucs.length;
+        element.Ucs.forEach(element2 => {
+            saida += qtd_ucs_add <= 1 ? '└─→ ' : '├─→ ';
+            qtd_ucs_add--;
+            qtd_ucs_total++;
+            let nome_curto_uc = element2.Nome;
+            if (nome_curto_uc.length > 45){
+                nome_curto_uc = nome_curto_uc.substring(0,45);
+                nome_curto_uc += '..';
+            }
+            saida += nome_curto_uc;
+            saida += '\n';
+        })
     })
-})
 
-
-//mensagens
-if (turmas_novas.length > 0) {
-    if (confirm(`Você possui ${turmas_novas.length} turma${turmas_novas.length > 1 ? "s" : ""} nova${turmas_novas.length > 1 ? "s" : ""}.
-
-${alerta_turmas}`)){
-        //Caso a pessoa clique em OK salva as turmas novas, caso contrário continuará mostrando
-        //localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
-    }
+    return saida;
 }
 
+alerta_turmas += texto_alert_novos(turmas_novas, true);
+alerta_turmas += '\n';
+alerta_turmas += texto_alert_novos(ucs_novas, false);
 
-
+//mensagens sobre turmas e ucs novas
+let msg_confirm = 'Você possui ';
+if (turmas_novas.length >0){
+    msg_confirm += `${turmas_novas.length} turma${turmas_novas.length > 1 ? "s" : ""} nova${turmas_novas.length > 1 ? "s" : ""}`;
+}
+if (turmas_novas.length >0 && ucs_novas.length >0){
+    msg_confirm += ' e ';    
+}
 if (ucs_novas.length > 0) {
-    if (confirm(`Você possui ${qtd_ucs_novas_total} Unidade${qtd_ucs_novas_total > 1 ? "s" : ""} Curricular${qtd_ucs_novas_total > 1 ? "es" : ""} nova${qtd_ucs_novas_total > 1 ? "s" : ""}.
-
-${alerta_ucs}`)){
-        //Caso a pessoa clique em OK salva as turmas novas, caso contrário continuará mostrando
-        //localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
-    }
+    msg_confirm += `${qtd_ucs_novas_total} unidade${qtd_ucs_novas_total > 1 ? "s" : ""} curricular${qtd_ucs_novas_total > 1 ? "es" : ""} nova${qtd_ucs_novas_total > 1 ? "s" : ""}`;
 }
 
+msg_confirm += '\n\n';
+msg_confirm += alerta_turmas;
+
+if (turmas_novas.length >0 && ucs_novas.length >0){
+    if (confirm(msg_confirm)){
+        //Salva as novas turmas no Local Storage
+    }
+}
