@@ -92,7 +92,7 @@ function Cria_pes() {
     Texto.style.letterSpacing = ".25px";
 
     pes.type = 'text';
-    pes.placeholder = 'Busque por: Turma.. UC.. Horário.. Ano..'
+    pes.placeholder = ' Busque por: Turma.. UC.. Horário.. Ano..'
     pes.value = getCookie("PesquisaSGE");
     pes.style.margin = 'auto';
     //pes.style.border = 'none';

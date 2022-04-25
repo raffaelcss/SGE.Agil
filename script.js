@@ -39,6 +39,9 @@ function Ligar_Auto(){
     if (document.getElementsByClassName("login-logo").length > 0){
         document.getElementsByClassName("login-logo")[0].src = chrome.runtime.getURL('icons/sesi-senai.png');
     }
+    if (document.getElementsByClassName("grey").length > 0){
+        document.getElementsByClassName("grey")[0].src = chrome.runtime.getURL('icons/sesi-senai.png');
+    }
     //Imagem promocional
     if (document.querySelectorAll("img").length > 0){
         //console.log("teste tem");
@@ -72,6 +75,9 @@ function Desligar_Auto(){
     //mudar logo sesi-senai
     if (document.getElementsByClassName("login-logo").length > 0){
         document.getElementsByClassName("login-logo")[0].src = "Nova_Tela_Login/img/logo.png";
+    }
+    if (document.getElementsByClassName("grey").length > 0){
+        document.getElementsByClassName("grey")[0].src = "Nova_Tela_Login/img/logo.png";
     }
     //Mudar raios
     if (document.getElementById("ctl24_ximgCopSugEtapa")){
