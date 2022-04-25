@@ -96,6 +96,48 @@ function UCs_novas(json1, json2){
     return novas;
 }
 
+//Reorganizar o Json das Ucs novas para separalos por turmas
+function reorg_ucs_novas(json){
+    var obj = json;
+
+    var turmas = {
+        Nome: "Ucs novas"
+    };
+    //Pegando as turmas
+    obj.forEach(uc => {
+        var igual = false;
+        var turma_temp = {
+            Nome: uc.Turma,
+            Ucs: {
+                Nome: "Ucs"
+            }
+        };
+        try {
+            turmas.Turmas.forEach(tur => {
+                if (uc.Turma === tur)
+                    igual = true;
+            })
+        }
+        catch (e){
+            turmas.Turmas.push(turma_temp);
+        }
+        if (!igual){
+            turmas.Turmas.push(turma_temp);
+        }
+    })
+
+    //Separando por turmas
+    console.log(turmas);
+    // turmas.Turmas.forEach(tur_ => {
+    //     obj.forEach(uc_=> {
+    //         if (uc_.Turma === tur_.Nome)
+    //             tur_.Ucs.push(uc_);
+    //     })
+    // })
+
+    return turmas;
+}
+
 
 function objToJSON(obj){
     return JSON.stringify(obj);
@@ -158,11 +200,37 @@ let ucs_novas    = UCs_novas(turmas_antigas, turmas_atuais);
 console.log(turmas_novas);
 console.log(ucs_novas);
 
+console.log("UCs reorganizadas:");
+console.log(reorg_ucs_novas(ucs_novas));
+
+let alerta_turmas = "";
+let alerta_ucs = "";
+
+turmas_novas.forEach(element => {
+    alerta_turmas += '* '
+    alerta_turmas += element.Nome;
+    alerta_turmas += '\n';
+})
+
+ucs_novas.forEach(element => {
+    alerta_ucs += '* '
+    alerta_ucs += element.Nome;
+    alerta_ucs += '\n';
+})
+
+
 //mensagens
 if (turmas_novas.length > 0) {
     alert(`Você possui ${turmas_novas.length} turma${turmas_novas.length > 1 ? "s" : ""} nova${turmas_novas.length > 1 ? "s" : ""}.
-Teste.
-    `)
+
+${alerta_turmas}`)
 }
+
+if (ucs_novas.length > 0) {
+    alert(`Você possui ${ucs_novas.length} turma${ucs_novas.length > 1 ? "s" : ""} nova${ucs_novas.length > 1 ? "s" : ""}.
+
+${alerta_ucs}`)
+}
+
 
 //localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
