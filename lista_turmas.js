@@ -69,6 +69,13 @@ function Turmas_novas(json1, json2){
     return novas;
 }
 
+function removerPela(data, xxx){
+    meuJSON = meuJSON.filter(function(jsonObject) {
+        return jsonObject[data] != xxx;
+    });
+    return meuJSON
+}
+
 function UCs_novas(json1, json2){
     //JSON1 Salvo no LocalStorage
     //JSON2 Atual    
@@ -76,9 +83,10 @@ function UCs_novas(json1, json2){
     var obj2 = JSONToobj(json2);
     
     var novas = [];
-    obj2.Turmas.forEach(t_ant => {
-        obj1.Turmas.forEach(t_nova => {
+    obj2.Turmas.forEach(t_nova => {     
+        obj1.Turmas.forEach(t_ant => {  
             if ((t_ant.Nome === t_nova.Nome) && (t_ant.Qtd_ucs !== t_nova.Qtd_ucs)) {
+                novas.push(t_ant);
                 t_nova.Ucs.forEach(uc_nova => {
                     var igual = false;
                     t_ant.Ucs.forEach(uc_ant => {
@@ -86,9 +94,12 @@ function UCs_novas(json1, json2){
                             igual = true;
                     })
                     if (!igual){
-                        novas.push(uc_nova);
+                        //console.log("Add");
+                        novas[novas.length - 1].Ucs.push(uc_nova);
                     }
                 })
+                console.log(t_ant.Qtd_ucs);
+                novas[novas.length - 1].Ucs.splice(0,t_ant.Qtd_ucs); 
             }
         }) 
     })
@@ -198,10 +209,12 @@ let turmas_novas = Turmas_novas(turmas_antigas, turmas_atuais);
 let ucs_novas    = UCs_novas(turmas_antigas, turmas_atuais);
 
 console.log(turmas_novas);
+
+console.log("Novas:");
 console.log(ucs_novas);
 
 console.log("UCs reorganizadas:");
-console.log(reorg_ucs_novas(ucs_novas));
+//console.log(reorg_ucs_novas(ucs_novas));
 
 let alerta_turmas = "";
 let alerta_ucs = "";
