@@ -69,13 +69,6 @@ function Turmas_novas(json1, json2){
     return novas;
 }
 
-function removerPela(data, xxx){
-    meuJSON = meuJSON.filter(function(jsonObject) {
-        return jsonObject[data] != xxx;
-    });
-    return meuJSON
-}
-
 function UCs_novas(json1, json2){
     //JSON1 Salvo no LocalStorage
     //JSON2 Atual    
@@ -106,49 +99,6 @@ function UCs_novas(json1, json2){
 
     return novas;
 }
-
-//Reorganizar o Json das Ucs novas para separalos por turmas
-function reorg_ucs_novas(json){
-    var obj = json;
-
-    var turmas = {
-        Nome: "Ucs novas"
-    };
-    //Pegando as turmas
-    obj.forEach(uc => {
-        var igual = false;
-        var turma_temp = {
-            Nome: uc.Turma,
-            Ucs: {
-                Nome: "Ucs"
-            }
-        };
-        try {
-            turmas.Turmas.forEach(tur => {
-                if (uc.Turma === tur)
-                    igual = true;
-            })
-        }
-        catch (e){
-            turmas.Turmas.push(turma_temp);
-        }
-        if (!igual){
-            turmas.Turmas.push(turma_temp);
-        }
-    })
-
-    //Separando por turmas
-    console.log(turmas);
-    // turmas.Turmas.forEach(tur_ => {
-    //     obj.forEach(uc_=> {
-    //         if (uc_.Turma === tur_.Nome)
-    //             tur_.Ucs.push(uc_);
-    //     })
-    // })
-
-    return turmas;
-}
-
 
 function objToJSON(obj){
     return JSON.stringify(obj);
@@ -213,37 +163,69 @@ console.log(turmas_novas);
 console.log("Novas:");
 console.log(ucs_novas);
 
-console.log("UCs reorganizadas:");
-//console.log(reorg_ucs_novas(ucs_novas));
 
 let alerta_turmas = "";
 let alerta_ucs = "";
 
+//Montando texto dos alertas
 turmas_novas.forEach(element => {
     alerta_turmas += '* '
     alerta_turmas += element.Nome;
     alerta_turmas += '\n';
 })
 
+let qtd_ucs_novas_total = 0;
+
 ucs_novas.forEach(element => {
-    alerta_ucs += '* '
-    alerta_ucs += element.Nome;
+    let inicio_text = 0;
+    let Nome_curto = element.Nome.substring(inicio_text+1);
+    const INIT_POS_TURMA = 3;
+    for (var i = 0; i < INIT_POS_TURMA; i++){
+        inicio_text = Nome_curto.indexOf('-');
+        Nome_curto = Nome_curto.substring(inicio_text+1);
+    }
+    if (Nome_curto.length > 45){
+        Nome_curto = Nome_curto.replace('&nbsp;','').substring(0,45);
+        Nome_curto += '..';
+    }
+    
+    alerta_ucs += '▼ '
+    alerta_ucs += Nome_curto;
     alerta_ucs += '\n';
+    let qtd_ucs_add = element.Ucs.length;
+    element.Ucs.forEach(element2 => {
+        alerta_ucs += qtd_ucs_add <= 1 ? '└→ ' : '├→ ';
+        qtd_ucs_add--;
+        qtd_ucs_novas_total++;
+        let nome_curto_uc = element2.Nome;
+        if (nome_curto_uc.length > 45){
+            nome_curto_uc = nome_curto_uc.substring(0,45);
+            nome_curto_uc += '..';
+        }
+        alerta_ucs += nome_curto_uc;
+        alerta_ucs += '\n';
+    })
 })
 
 
 //mensagens
 if (turmas_novas.length > 0) {
-    alert(`Você possui ${turmas_novas.length} turma${turmas_novas.length > 1 ? "s" : ""} nova${turmas_novas.length > 1 ? "s" : ""}.
+    if (confirm(`Você possui ${turmas_novas.length} turma${turmas_novas.length > 1 ? "s" : ""} nova${turmas_novas.length > 1 ? "s" : ""}.
 
-${alerta_turmas}`)
+${alerta_turmas}`)){
+        //Caso a pessoa clique em OK salva as turmas novas, caso contrário continuará mostrando
+        //localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
+    }
 }
+
+
 
 if (ucs_novas.length > 0) {
-    alert(`Você possui ${ucs_novas.length} turma${ucs_novas.length > 1 ? "s" : ""} nova${ucs_novas.length > 1 ? "s" : ""}.
+    if (confirm(`Você possui ${qtd_ucs_novas_total} Unidade${qtd_ucs_novas_total > 1 ? "s" : ""} Curricular${qtd_ucs_novas_total > 1 ? "es" : ""} nova${qtd_ucs_novas_total > 1 ? "s" : ""}.
 
-${alerta_ucs}`)
+${alerta_ucs}`)){
+        //Caso a pessoa clique em OK salva as turmas novas, caso contrário continuará mostrando
+        //localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
+    }
 }
 
-
-//localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
