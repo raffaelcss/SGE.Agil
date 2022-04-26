@@ -93,9 +93,10 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     height: 25px !important;
     padding-left: 5px !important;
 }
-#ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos{
+/* Momentaneamente desativado pois foi inserido uma div para conter um botão o que fez com que a interface respeitasse a margin do span */
+/* #ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos{
     margin-top: 10px !important;
-}
+} */
 #HeaderTD {
     background: #14608e !important;
     background-image: none !important;
