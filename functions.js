@@ -4,6 +4,7 @@ var ckbox_on = document.getElementById('SGE_on');
 var ckbox_pes = document.getElementById('Pes_on');
 var ckbox_dark = document.getElementById('Dark_on');
 var ckbox_plan_aula = document.getElementById('Plan_aula_on');
+var ckbox_aviso_new = document.getElementById('Aviso_new_on');
 
 
 ///////////////////////////////    Eventos   ////////////////////////////////
@@ -107,12 +108,33 @@ ckbox_plan_aula.onchange = () => {
   localStorage['SGE-Ágil-Plan-aula'] = ckbox_plan_aula.checked;
 }
 
+//Switch de aviso de novas Ucs e Turmas
+ckbox_aviso_new.onchange = () => {
+  //Saindo do escopo da extensão e indo para o da página
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //Executando script SetCookie
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: setCookie,
+      args: ["SGE.Agil_Aviso_new", ckbox_aviso_new.checked ? true : false ,8760],
+    });
+    //Executando script para ativar ou desativar tudo automaticamente
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: ckbox_aviso_new.checked ? Ligar_aviso_new_send : Desligar_aviso_new_send,
+    });
+  });
+  //Salvando opção na memória. Não pode usar cookies pois é extenção
+  localStorage['SGE-Ágil-Aviso-new'] = ckbox_aviso_new.checked;
+}
+
 
 /////////////////////    Retornando valores originais     ////////////////////////////
 
 ckbox_pes.checked = (localStorage['SGE-Ágil-Pes']==='true') ? true : false;
 ckbox_dark.checked = (localStorage['SGE-Ágil-Dark']==='true') ? true : false;
 ckbox_plan_aula.checked = (localStorage['SGE-Ágil-Plan-aula']==='true') ? true : false;
+ckbox_aviso_new.checked = (localStorage['SGE-Ágil-Aviso-new']==='true') ? true : false;
 
 ckbox_on.checked = (localStorage['SGE-Ágil-ON']==='true') ? true : false;
 ckbox_on.onchange(); //Aplicar alterações assim que abrir a página
@@ -176,4 +198,11 @@ function Ligar_plan_aula_send(){
 }
 function Desligar_plan_aula_send(){
   Desligar_planAula();
+}
+
+function Ligar_aviso_new_send(){
+  Ligar_aviso_new();
+}
+function Desligar_aviso_new_send(){
+  Desligar_aviso_new();
 }

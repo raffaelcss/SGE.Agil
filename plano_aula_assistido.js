@@ -189,7 +189,7 @@ function Aulas_seq_assistida(){
         //Chamar a função
         espera_lista_aulas();  
     } else {
-        console.log("Debug: Não há aulas a serem copiadas de forma assistida!");
+        //console.log("Debug: Não há aulas a serem copiadas de forma assistida!");
     }
 }
 
