@@ -7,7 +7,7 @@ function setCookie(name,value,hours) {
         expires = "; expires=" + date.toUTCString();
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    console.log("Debug:cookie criado");
+    //console.log("Debug:cookie criado");
 }
 function getCookie(name) {
     var nameEQ = name + "=";

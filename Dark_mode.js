@@ -9,7 +9,7 @@ function Ligar_darkMode(){
         css_style.rel = "stylesheet";
 
         document.querySelector("head").appendChild(css_style);
-        console.log("CSS Dark adicionado");
+        //console.log("CSS Dark adicionado");
     }
 }
   

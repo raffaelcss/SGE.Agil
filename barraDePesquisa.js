@@ -112,7 +112,7 @@ function Ligar_pesquisa() {
     condicao_criar_pes = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1") !== null;
     if (FF_pes.length === 0 && condicao_criar_pes) {
         Cria_pes();
-        console.log('Criando barra de pesquisa para turmas ');
+        //console.log('Criando barra de pesquisa para turmas ');
         //Seta intervalo para repetir a função
         Interval_pesquisa = setInterval(()=> {
             FF_pes = document.querySelectorAll('.FFpesquisaSGE');
