@@ -17,7 +17,7 @@ function Ligar_Auto(){
         css_basico.href = chrome.runtime.getURL('SGE_Agil_basic.css');
         css_basico.rel = "stylesheet";
         document.querySelector("head").appendChild(css_basico);
-        console.log("CSS Dark adicionado");
+        //console.log("CSS Básico adicionado");
     }
 
     //Funções
@@ -97,6 +97,7 @@ var SGE_Agil_ON_Aviso_new;
 /////////////////     Código a ser executado no início da página, acesso aos cookies     ////////////////////
 receber_cookies();
 
+console.clear();
 console.log("Debug:SGE.Ágil 0.0.2 run!");
 console.log(SGE_Agil_ON ? "SGE.Ágil 0.0.2 ON!" : "SGE.Ágil 0.0.2 OFF!");
 
