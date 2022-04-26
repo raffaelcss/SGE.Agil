@@ -56,8 +56,16 @@ for (var i = div_turmas_n_arquivadas.children.length - 1; i >= 0; i--){
 //Adicionando botão Turmas Arquivadas
 const div_head_turmas = document.createElement("div");
 div_head_turmas.id = "div_head_turmas";
+div_head_turmas.style.display = 'flex';
+
+const div_bnt_arq = document.createElement("div");
+div_bnt_arq.innerHTML = "TESTE";
+div_bnt_arq.style.marginLeft = 'auto';
+div_bnt_arq.style.paddingRight = '60px';
+
 
 div_head_turmas.appendChild(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1"));
+div_head_turmas.appendChild(div_bnt_arq);
 
 insertAfter(div_head_turmas, document.getElementById("MainContainer").children[1]);
 
