@@ -126,7 +126,7 @@ function Ligar_pesquisa() {
 }
 function Desligar_pesquisa() {
     clearInterval(Interval_pesquisa);
-    console.log('Debug:Removendo barra de pesquisa para turmas ');
+    //console.log('Debug:Removendo barra de pesquisa para turmas ');
     FF_pes = document.querySelectorAll('.FFpesquisaSGE');
     if (FF_pes.length > 0) {
         document.getElementById("AddressMainRow").removeChild(FF_pes[0]);
