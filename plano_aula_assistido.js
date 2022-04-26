@@ -176,7 +176,7 @@ function Aulas_seq_assistida(){
                 } else {
                     //Recursividade para poder tentar encontrar a lista até achar
                     if (++cont < limite_cont){
-                        console.log("Debug: Buscando aulas: " + cont*2 + "ms corridos")
+                        console.log("Debug: Buscando aulas: " + cont*2 + "ms corridos");
                         espera_lista_aulas();
                     } else {
                         //Salva uma lista vazia no cookie pois provavelmente a função deu problema ou passou o tempo limite
