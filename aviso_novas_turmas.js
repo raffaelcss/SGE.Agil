@@ -38,20 +38,12 @@ function get_texto_alert_novos(obj, is_new){
 function Ligar_aviso_new(){
     //console.log("Aviso ligado!");
     if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
-        let turmas_antigas = localStorage['SGE-Ágil-Turmas_atuais'];
-        let turmas_atuais = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
-        let turmas_novas = Turmas_novas(turmas_antigas, turmas_atuais);
-        let ucs_novas    = UCs_novas(turmas_antigas, turmas_atuais);
 
-        //mensagens sobre turmas e ucs novas
+         //mensagens sobre turmas e ucs novas
         let str_turm_nova = get_texto_alert_novos(turmas_novas, true);
         let str_uc_nova = get_texto_alert_novos(ucs_novas, false);
         let qtd_ucs_novas_total = str_turm_nova[1] + str_uc_nova[1];
-
-        // console.log(turmas_novas);
-        // console.log(ucs_novas);
         
-
         let msg_confirm = 'Você possui ';
         if (turmas_novas.length >0){
             msg_confirm += `${turmas_novas.length} turma${turmas_novas.length > 1 ? "s" : ""} nova${turmas_novas.length > 1 ? "s" : ""}`;
@@ -69,7 +61,7 @@ function Ligar_aviso_new(){
         msg_confirm += str_uc_nova[0];
 
         if (turmas_novas.length >0 || ucs_novas.length >0){
-            var cont = 1000;
+            let cont = 1000;
             function espera_SgeAgil(){
                 setTimeout(() => {
                     if (document.getElementById("css_basico") || cont <= 0){         //Verifica se o css básico do SGE.Ágil já foi lançado, sinal que a página está carregada

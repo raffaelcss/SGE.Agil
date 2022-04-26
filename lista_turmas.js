@@ -71,7 +71,7 @@ function Json_UC(uc, turma){
 function Json_Turmas(turma){
     var subObj = { 
         Nome: turma.children[0].children[1].innerHTML,
-        Qtd_ucs: turma.children[2].children.length,    
+        Qtd_ucs: turma.children[2].children.length,
     };
 
     if (!subObj.Ucs) { 
@@ -99,4 +99,15 @@ function Json_Principal(ul_pai){
     })
 
     return objToJSON(subObj);
+}
+
+//Deve ser executado para montar a lista de turmas independete de usar as features de aviso e de arquivar
+if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
+    let turmas_antigas = localStorage['SGE-Ágil-Turmas_atuais'];
+    let turmas_atuais = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
+    var turmas_novas = Turmas_novas(turmas_antigas, turmas_atuais);
+    var ucs_novas    = UCs_novas(turmas_antigas, turmas_atuais);
+
+    // console.log(turmas_novas);
+    // console.log(ucs_novas);
 }

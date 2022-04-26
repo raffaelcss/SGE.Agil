@@ -97,7 +97,7 @@ var SGE_Agil_ON_Aviso_new;
 /////////////////     Código a ser executado no início da página, acesso aos cookies     ////////////////////
 receber_cookies();
 
-console.clear();
+//console.clear();
 console.log("Debug:SGE.Ágil 0.0.2 run!");
 console.log(SGE_Agil_ON ? "SGE.Ágil 0.0.2 ON!" : "SGE.Ágil 0.0.2 OFF!");
 
