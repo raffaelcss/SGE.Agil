@@ -1,3 +1,25 @@
+function Change_menu_apare(){
+  if (ckbox_on.checked){
+    //Deixar sub-menu normal
+    document.getElementById("sub-menu").classList.remove("disable");
+    //Reabilitar clique
+    document.querySelectorAll("input").forEach((element) => {
+      if (element.type == "checkbox") {
+          element.disabled = false;
+      }
+    })
+  } else {
+    //Deixar sub-menu cinza
+    document.getElementById("sub-menu").classList.add("disable");
+    //Impedir clique
+    document.querySelectorAll("input").forEach((element) => {
+        if (element.type == "checkbox" && element.id != "SGE_on") {
+            element.disabled = true;
+        }
+    })
+  } 
+}
+
 //////////////////////////      Variaveis      ///////////////////////////
 var ckbox_on = document.getElementById('SGE_on');
 
@@ -5,6 +27,20 @@ var ckbox_pes = document.getElementById('Pes_on');
 var ckbox_dark = document.getElementById('Dark_on');
 var ckbox_plan_aula = document.getElementById('Plan_aula_on');
 var ckbox_aviso_new = document.getElementById('Aviso_new_on');
+
+
+/////////////////////    Retornando valores originais     ////////////////////////////
+//Antes tinha deixado após os eventos onchange
+
+ckbox_pes.checked = (localStorage['SGE-Ágil-Pes']==='true') ? true : false;
+ckbox_dark.checked = (localStorage['SGE-Ágil-Dark']==='true') ? true : false;
+ckbox_plan_aula.checked = (localStorage['SGE-Ágil-Plan-aula']==='true') ? true : false;
+ckbox_aviso_new.checked = (localStorage['SGE-Ágil-Aviso-new']==='true') ? true : false;
+
+ckbox_on.checked = (localStorage['SGE-Ágil-ON']==='true') ? true : false;
+
+//Alterando aparẽncia do menu (Antes estava somente no onchange do SGE_On mas exigia que os eventos viessem antes do load dos valores fazendo com que a cada clique no icone da extenção executasse todas as funções novamente)
+Change_menu_apare();
 
 
 ///////////////////////////////    Eventos   ////////////////////////////////
@@ -27,26 +63,8 @@ ckbox_on.onchange = () => {
   });
   //Salvando opção na memória. Não pode usar cookies pois é extenção
   localStorage['SGE-Ágil-ON'] = ckbox_on.checked;
-  //Alterando aparência do menu
-  if (ckbox_on.checked){
-    //Deixar sub-menu normal
-    document.getElementById("sub-menu").classList.remove("disable");
-    //Reabilitar clique
-    document.querySelectorAll("input").forEach((element) => {
-      if (element.type == "checkbox") {
-          element.disabled = false;
-      }
-    })
-  } else {
-    //Deixar sub-menu cinza
-    document.getElementById("sub-menu").classList.add("disable");
-    //Impedir clique
-    document.querySelectorAll("input").forEach((element) => {
-        if (element.type == "checkbox" && element.id != "SGE_on") {
-            element.disabled = true;
-        }
-    })
-  }  
+  //Mudando aparẽncia do menu
+  Change_menu_apare();
 }
 //Switch de pesquisa
 ckbox_pes.onchange = () => {
@@ -129,22 +147,7 @@ ckbox_aviso_new.onchange = () => {
 }
 
 
-/////////////////////    Retornando valores originais     ////////////////////////////
-
-ckbox_pes.checked = (localStorage['SGE-Ágil-Pes']==='true') ? true : false;
-ckbox_dark.checked = (localStorage['SGE-Ágil-Dark']==='true') ? true : false;
-ckbox_plan_aula.checked = (localStorage['SGE-Ágil-Plan-aula']==='true') ? true : false;
-ckbox_aviso_new.checked = (localStorage['SGE-Ágil-Aviso-new']==='true') ? true : false;
-
-ckbox_on.checked = (localStorage['SGE-Ágil-ON']==='true') ? true : false;
-ckbox_on.onchange(); //Aplicar alterações assim que abrir a página
-
-
-
-
-
-
-
+//ckbox_on.onchange(); //Aplicar alterações assim que abrir a página
 
 ///////////////// Funções a serem executadas no escopo da página ///////////////////
 function setCookie(name,value,hours) {
@@ -172,18 +175,18 @@ function eraseCookie(name) {
 }
 
 // Funçoes Send
-function Ligar_pesquisa_send() {
-  Ligar_pesquisa();
-}
-function Desligar_pesquisa_send() {
-  Desligar_pesquisa();
-}
-
 function Ligar_Auto_send() {
   Ligar_Auto();
 }
 function Desligar_Auto_send() {
   Desligar_Auto();
+}
+
+function Ligar_pesquisa_send() {
+  Ligar_pesquisa();
+}
+function Desligar_pesquisa_send() {
+  Desligar_pesquisa();
 }
 
 function Ligar_dark_send(){
