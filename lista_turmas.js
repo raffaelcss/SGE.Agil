@@ -151,6 +151,10 @@ function Ligar_aviso_new(){
         let str_uc_nova = get_texto_alert_novos(ucs_novas, false);
         let qtd_ucs_novas_total = str_turm_nova[1] + str_uc_nova[1];
 
+        // console.log(turmas_novas);
+        // console.log(ucs_novas);
+        
+
         let msg_confirm = 'Você possui ';
         if (turmas_novas.length >0){
             msg_confirm += `${turmas_novas.length} turma${turmas_novas.length > 1 ? "s" : ""} nova${turmas_novas.length > 1 ? "s" : ""}`;
@@ -167,11 +171,27 @@ function Ligar_aviso_new(){
         msg_confirm += '\n';
         msg_confirm += str_uc_nova[0];
 
-        if (turmas_novas.length >0 && ucs_novas.length >0){
-            if (confirm(msg_confirm)){
-                //Salva as novas turmas no Local Storage
-                localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
-            }
+        if (turmas_novas.length >0 || ucs_novas.length >0){
+            var cont = 1000;
+            function espera_SgeAgil(){
+                setTimeout(() => {
+                    if (document.getElementById("css_basico") || cont <= 0){         //Verifica se o css básico do SGE.Ágil já foi lançado, sinal que a página está carregada
+                        setTimeout(() => {          //Tempo para o CSS carregar e a página abrir tbm
+                            if (confirm(msg_confirm)){
+                                //Salva as novas turmas no Local Storage
+                                localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
+                            }
+                        }, 800);
+                        
+                    } else {
+                        cont--;
+                        console.log("Debug: Esperando página carregar: " + (1000 - cont)*2 + "ms corridos")
+                        espera_SgeAgil();
+                    }
+                }, 2);   
+            }        
+            //Recursividade boba, nem sei se precisaria, mais para o caso de internet lenta demorar carregar os css's da extenção
+            espera_SgeAgil(); 
         }
     }
 }
