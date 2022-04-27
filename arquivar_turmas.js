@@ -39,7 +39,7 @@ for (var i = div_turmas_arquivadas.children.length - 1; i >= 0; i--){
         //Garantindo que as turmas arquivadas fiquem colapsadas, pois não podem ser abertas enquanto estão arquivadas.
         div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-header")[0].style.display = 'none';
         div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-headerCollapsed")[0].style.display = 'block';
-        div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-header")[0].style.display = 'none';
+        div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-content")[0].style.display = 'none';
     }
 }
 
