@@ -67,6 +67,9 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
 }
 
 /*Aba menu lateral*/
+.AccodionHeaderIconCell{
+    height: 16.516px;
+}
 .AccodionHeaderIconCell + td {
     background-image: none !important;
     background: #d5dcf0;
@@ -170,4 +173,10 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
 
 #rmscaptcha input#RMSCaptcha_btnTryNewWords {
     padding-top: 1px;
+}
+
+/* Janela chata que aparece no inicio */
+#dxpc-header {
+    background: #14608e !important;
+    background-image: none !important;
 }
