@@ -204,6 +204,7 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     position: absolute;
     height: 400%;
     width: 280%;
+    pointer-events: none;
 }
 
 #ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_C0 {
