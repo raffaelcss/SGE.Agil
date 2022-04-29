@@ -25,6 +25,7 @@ for (turm of li_turmas.children){
 var container_arquivadas = container_turmas.cloneNode(true);       //true para clonar os filhos
 container_arquivadas.id = "container_arquivadas";
 container_arquivadas.style.display = 'none';
+container_arquivadas.style.position = 'relative';
 container_arquivadas.children[0].id = "div_arquivadas";
 container_arquivadas.children[1].id = "div_arquivadas_hide";
 
@@ -57,6 +58,11 @@ for (var i = div_turmas_n_arquivadas.children.length - 1; i >= 0; i--){
         div_turmas_n_arquivadas.children[i].remove();
     }
 }
+
+//Adicionar div de listras nas turmas arquivadas
+const div_grid = document.createElement("div");
+div_grid.classList.add("grid");
+div_turmas_arquivadas.appendChild(div_grid);
 
 //Depois transferir todo estilo para o CSS basic
 
