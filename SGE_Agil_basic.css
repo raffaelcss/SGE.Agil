@@ -277,3 +277,15 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
   .disable {
     filter: opacity(0.5) grayscale(1) blur(0.5px);
   }
+
+  /* Colocando turmas como display flex para adicionar botão de arquivar */
+  /* Não pode colocar !important pois o 'none' que o proprio SGE coloca é prioridade */
+  .dxnb-gr > div.dxnb-headerCollapsed {
+      display: flex;
+      align-items: center;
+  }
+
+  .dxnb-gr > div.dxnb-header{
+    display: flex;
+    align-items: center;
+}
