@@ -135,3 +135,31 @@ chk_bnt_arq.addEventListener('change', () => {
     container_turmas.style.display = chk_bnt_arq.checked ? 'none' : 'block';
     container_arquivadas.style.display = chk_bnt_arq.checked ? 'block' : 'none';
 });
+
+
+//Adicionando botão de arquivar em cada turma
+
+const div_bnt_archive = document.createElement("div");
+div_bnt_archive.style.marginLeft = 'auto';
+
+const div_turma1 = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina_GHC1");
+
+div_turma1.style.display = 'flex';
+div_turma1.style.alignItems = 'center';
+div_turma1.appendChild(div_bnt_archive);
+
+const svg_archived = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
+svg_archived.classList.add("svg_archived");
+svg_archived.setAttribute('focusable', "false");
+svg_archived.setAttribute('width', '24');
+svg_archived.setAttribute('height', '24');
+// svg_archived.viewBox = '0 0 24 24';
+svg_archived.setAttribute("viewBox", '0 0 24 24');
+
+div_bnt_archive.appendChild(svg_archived);
+
+const path_archived = document.createElementNS('http://www.w3.org/2000/svg', "path");
+path_archived.classList.add("path_archived");
+path_archived.setAttribute('d', 'M20.54 5.23l-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM6.24 5h11.52l.83 1H5.42l.82-1zM5 19V8h14v11H5zm11-5.5l-4 4-4-4 1.41-1.41L11 13.67V10h2v3.67l1.59-1.59L16 13.5z');
+svg_archived.appendChild(path_archived);
+

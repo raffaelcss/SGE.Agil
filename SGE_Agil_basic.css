@@ -211,9 +211,10 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     position: relative;
 }
 
-
-
-
+/* Archived icon */
+.svg_archived {
+    color: #313131;
+}
 
 
 
