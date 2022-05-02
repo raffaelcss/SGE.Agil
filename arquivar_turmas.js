@@ -140,13 +140,25 @@ chk_bnt_arq.addEventListener('change', () => {
 //Adicionando botão de arquivar em cada turma
 
 const div_bnt_archive = document.createElement("div");
-div_bnt_archive.style.marginLeft = 'auto';
+div_bnt_archive.style.display = 'block';
+div_bnt_archive.style.position = 'absolute';
+div_bnt_archive.style.left = 'calc(100% - 20px - 7px)';
+div_bnt_archive.style.top = '4px';
 
-const div_turma1 = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina_GHC1");
 
-// div_turma1.style.display = 'flex';
-// div_turma1.style.alignItems = 'center';
-div_turma1.appendChild(div_bnt_archive);
+
+
+
+
+//////////////////   Momentaneamente fazendo com uma turma    ///////////////////
+
+
+
+const li_turma1 = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina_GR1");
+li_turma1.appendChild(div_bnt_archive);
+
+
+
 
 const svg_archived = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
 svg_archived.id = "botao_arquivar";
@@ -170,30 +182,8 @@ path_archived.setAttribute('d', 'M 21.325 5.187 L 12.065 5.187 L 9.749 2.863 L 2
 svg_archived.appendChild(path_archived);
 
 //Adicionando função de clique
-document.getElementById("botao_arquivar").addEventListener('click', () => {
-    alert("Teste");
-})
-
-// // função corrige display flex turmas
-// function turmas_flex() {
-//     Array.from(li_turmas.children).forEach(element => {
-//         Array.from(element.children).forEach(element2 => {
-//             console.log(element2.style.display);
-//             if (element2.tagName == 'DIV' && element2.style.display != 'none') {
-//                 element2.style.display = 'flex';
-//                 element2.style.alignItems = 'center';
-//             }
-//         })
-//     })
-//     console.log("Corrigindo");
-// }
-
-// Array.from(li_turmas.children).forEach(element => {
-//     element.addEventListener('click', () => {
-//         setTimeout(() => {
-//             turmas_flex();
-//         },300);
-//     });
-// });
-
-// turmas_flex();
+document.getElementById("botao_arquivar").addEventListener('click', function(e) {
+    event.stopPropagation();
+    console.log(e.eventPhase);
+    alert('TESTE');    
+},true)
