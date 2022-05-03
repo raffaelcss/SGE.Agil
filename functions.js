@@ -27,6 +27,7 @@ var ckbox_pes = document.getElementById('Pes_on');
 var ckbox_dark = document.getElementById('Dark_on');
 var ckbox_plan_aula = document.getElementById('Plan_aula_on');
 var ckbox_aviso_new = document.getElementById('Aviso_new_on');
+var ckbox_arq_turma = document.getElementById('Arq_turma_on');
 
 
 /////////////////////    Retornando valores originais     ////////////////////////////
@@ -36,6 +37,7 @@ ckbox_pes.checked = (localStorage['SGE-Ágil-Pes']==='true') ? true : false;
 ckbox_dark.checked = (localStorage['SGE-Ágil-Dark']==='true') ? true : false;
 ckbox_plan_aula.checked = (localStorage['SGE-Ágil-Plan-aula']==='true') ? true : false;
 ckbox_aviso_new.checked = (localStorage['SGE-Ágil-Aviso-new']==='true') ? true : false;
+ckbox_arq_turma.checked = (localStorage['SGE-Ágil-Arq-turma']==='true') ? true : false;
 
 ckbox_on.checked = (localStorage['SGE-Ágil-ON']==='true') ? true : false;
 
@@ -146,6 +148,26 @@ ckbox_aviso_new.onchange = () => {
   localStorage['SGE-Ágil-Aviso-new'] = ckbox_aviso_new.checked;
 }
 
+//Switch ligar opção arquivar turmas
+ckbox_arq_turma.onchange = () => {
+  //Saindo do escopo da extensão e indo para o da página
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //Executando script SetCookie
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: setCookie,
+      args: ["SGE.Agil_Arq_turma", ckbox_arq_turma.checked ? true : false ,8760],
+    });
+    //Executando script para ativar ou desativar tudo automaticamente
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: ckbox_arq_turma.checked ? Ligar_arq_turma_send : Desligar_arq_turma_send,
+    });
+  });
+  //Salvando opção na memória. Não pode usar cookies pois é extenção
+  localStorage['SGE-Ágil-Arq-turma'] = ckbox_arq_turma.checked;
+}
+
 
 //ckbox_on.onchange(); //Aplicar alterações assim que abrir a página
 
@@ -208,4 +230,11 @@ function Ligar_aviso_new_send(){
 }
 function Desligar_aviso_new_send(){
   Desligar_aviso_new();
+}
+
+function Ligar_arq_turma_send(){
+  Ligar_arq_turma();
+}
+function Desligar_arq_turma_send(){
+  Desligar_arq_turma();
 }

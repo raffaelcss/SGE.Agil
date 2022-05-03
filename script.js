@@ -4,6 +4,7 @@ function receber_cookies(){
     SGE_Agil_ON_Dark = getCookie("SGE.Agil_Dark");
     SGE_Agil_ON_Plan_aula = getCookie("SGE.Agil_Plan_aula");
     SGE_Agil_ON_Aviso_new = getCookie("SGE.Agil_Aviso_new");
+    SGE_Agil_ON_Arq_turma = getCookie("SGE.Agil_Arq_turma");
 }
 
 function Ligar_Auto(){
@@ -30,6 +31,7 @@ function Ligar_Auto(){
         Aulas_seq_assistida();
     }
     if (SGE_Agil_ON_Aviso_new) {Ligar_aviso_new()};     //Aviso novas Turmas e novas UCs
+    if (SGE_Agil_ON_Arq_turma) {Ligar_arq_turma()};     //Opção de arquivar turmas
 
 
     //mudar icon professor
@@ -68,7 +70,8 @@ function Desligar_Auto(){
     Desligar_darkMode();                                //Dark Mode
     Desligar_planAula();                                //Plano de aula assistido
     //Desligar_Freq())};                                  //Freq assistida
-    Desligar_aviso_new();                                  //Plano de aula assistido
+    Desligar_aviso_new();                               //Aviso novas turmas e Ucs
+    Desligar_arq_turma();                               //Arquivar turmas
 
     //mudar icon professor
     if (document.getElementById("ctl09_ctl00_accordionMenuAccordionItems0_Header_RMWImage1")){
@@ -93,6 +96,7 @@ var SGE_Agil_ON_Pes;
 var SGE_Agil_ON_Dark;
 var SGE_Agil_ON_Plan_aula;
 var SGE_Agil_ON_Aviso_new;
+var SGE_Agil_ON_Arq_turma;
 
 /////////////////     Código a ser executado no início da página, acesso aos cookies     ////////////////////
 receber_cookies();
