@@ -259,12 +259,27 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
 
 .dxnb-ghtext {
     margin-right: 30px !important;
+    display: block !important;
 }
 
 .svg_bnt {
     cursor: pointer;
 }
 
+.dxtc-content .path_to_unarchive{
+    display: none;
+}
+
+.dxtc-content.container_arquivadas .path_to_archive{
+    display: none;
+}
+.dxtc-content.container_arquivadas .path_to_unarchive{
+    display: block;
+}
+
+#ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_CC .archived {
+    display: none;
+}
 
 
 
