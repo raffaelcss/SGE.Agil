@@ -146,123 +146,128 @@ function refresh_scroll_mainContainer() {
 ///////////////////////////////    Script   //////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
-//Adicionando classe archived às turmas com base no JSON salvo em localstorage
-let turm_local_str = JSONToobj(turmas_antigas);
-console.log(turm_local_str);
+function Ligar_arq_turma(){
+    //Adicionando classe archived às turmas com base no JSON salvo em localstorage
+    if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
+        var turm_local_str = JSONToobj(turmas_antigas);
 
-
-try{
-    for (turm of li_turmas.children){
-        turm_local_str.Turmas.forEach(element => {
-            try {
-                if (element.Nome === turm.children[0].children[1].innerHTML){
-                    if (element.Is_archived){
-                        turm.classList.add("archived");
+        try{
+            for (turm of li_turmas.children){
+                turm_local_str.Turmas.forEach(element => {
+                    try {
+                        if (element.Nome === turm.children[0].children[1].innerHTML){
+                            if (element.Is_archived){
+                                turm.classList.add("archived");
+                            }
+                        }
                     }
-                }
+                    catch (e) {
+
+                    }
+                });
+            }
+        }
+        catch (e){
+
+        }
+
+
+        //Adicionando Switch para exibir Turmas Arquivadas
+        const div_head_turmas = document.createElement("div");
+        div_head_turmas.id = "div_head_turmas";
+        div_head_turmas.classList.add("div_head_turmas");
+
+        const texto_swt_arq = document.createElement("span");
+        texto_swt_arq.innerHTML = "Turmas arquivadas";
+        texto_swt_arq.id = "texto_swt_arq";
+        texto_swt_arq.classList.add("texto_swt_arq");
+
+        const div_bnt_arq = document.createElement("div");
+        div_bnt_arq.classList.add("div_bnt_arq");
+
+        const label_bnt_arq = document.createElement("label");
+        label_bnt_arq.classList.add("switch");
+
+        const chk_bnt_arq = document.createElement("input");
+        chk_bnt_arq.type = "checkbox";
+        chk_bnt_arq.id = "checkbox_archived";
+
+        const span_bnt_arq = document.createElement("span");
+        span_bnt_arq.classList.add("slider");
+        span_bnt_arq.classList.add("round");
+        span_bnt_arq.id = "swt_archived";
+
+
+        //Função do Switch de exibir turmas arquivadas
+        chk_bnt_arq.addEventListener('change', () => {
+            container_turmas.classList.toggle("container_hidden");
+            container_arquivadas.classList.toggle("container_hidden");
+        });
+        chk_bnt_arq.addEventListener('change', refresh_scroll_mainContainer);
+
+        //Afiliando cada componente
+        div_head_turmas.appendChild(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1"));
+        div_head_turmas.appendChild(div_bnt_arq);
+            div_bnt_arq.appendChild(texto_swt_arq);
+            div_bnt_arq.appendChild(label_bnt_arq);
+                label_bnt_arq.appendChild(chk_bnt_arq);
+                label_bnt_arq.appendChild(span_bnt_arq);
+
+
+        //Inserindo no menu princpal
+        try {
+            insertAfter(div_head_turmas, document.getElementById("MainContainer").children[1]);
+        }
+        catch (e) {
+
+        }
+
+        //Removendo espaços extras (<BR>)
+        Array.from(document.getElementById("MainContainer").getElementsByTagName("br")).forEach((element) => {
+            element.remove();
+        });
+
+
+
+        //////////////////////////////////////////////////////////////////////////
+        /////////////    Adicionando botão de arquivar em cada turma   ///////////
+        //////////////////////////////////////////////////////////////////////////
+
+        const div_bnt_archive = document.createElement("div");
+        div_bnt_archive.classList.add("div_bnt_archive");
+
+
+        const svg_to_archive = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
+        svg_to_archive.classList.add("svg_bnt");
+        svg_to_archive.classList.add("svg_to_archive");
+        svg_to_archive.setAttribute('focusable', "false");
+        svg_to_archive.setAttribute('width', '20');
+        svg_to_archive.setAttribute('height', '20');
+        // svg_archived.viewBox = '0 0 24 24';
+        svg_to_archive.setAttribute("viewBox", '0 0 24 24');
+
+        div_bnt_archive.appendChild(svg_to_archive);
+        svg_to_archive.appendChild(path_to_archive);
+        svg_to_archive.appendChild(path_to_unarchive);
+
+        Array.from(li_turmas.children).forEach(li => {
+            let div_temp = div_bnt_archive.cloneNode(true);
+            try {
+                div_temp.getElementsByClassName('svg_bnt')[0].id = 'bntToArchive_' + li.id;
+                li.appendChild(div_temp);
+                div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', quest_bnt_arquivar);
+                div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);        
             }
             catch (e) {
 
             }
         });
+
+        //Realiza a separação das turmas arquivadas
+        atualizar_status_turmas();
     }
 }
-catch (e){
 
+function Desligar_arq_turma(){
+    alert("Programar desligar arquivar turma");
 }
-
-
-//Adicionando Switch para exibir Turmas Arquivadas
-const div_head_turmas = document.createElement("div");
-div_head_turmas.id = "div_head_turmas";
-div_head_turmas.classList.add("div_head_turmas");
-
-const texto_swt_arq = document.createElement("span");
-texto_swt_arq.innerHTML = "Turmas arquivadas";
-texto_swt_arq.id = "texto_swt_arq";
-texto_swt_arq.classList.add("texto_swt_arq");
-
-const div_bnt_arq = document.createElement("div");
-div_bnt_arq.classList.add("div_bnt_arq");
-
-const label_bnt_arq = document.createElement("label");
-label_bnt_arq.classList.add("switch");
-
-const chk_bnt_arq = document.createElement("input");
-chk_bnt_arq.type = "checkbox";
-chk_bnt_arq.id = "checkbox_archived";
-
-const span_bnt_arq = document.createElement("span");
-span_bnt_arq.classList.add("slider");
-span_bnt_arq.classList.add("round");
-span_bnt_arq.id = "swt_archived";
-
-
-//Função do Switch de exibir turmas arquivadas
-chk_bnt_arq.addEventListener('change', () => {
-    container_turmas.classList.toggle("container_hidden");
-    container_arquivadas.classList.toggle("container_hidden");
-});
-chk_bnt_arq.addEventListener('change', refresh_scroll_mainContainer);
-
-//Afiliando cada componente
-div_head_turmas.appendChild(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1"));
-div_head_turmas.appendChild(div_bnt_arq);
-    div_bnt_arq.appendChild(texto_swt_arq);
-    div_bnt_arq.appendChild(label_bnt_arq);
-        label_bnt_arq.appendChild(chk_bnt_arq);
-        label_bnt_arq.appendChild(span_bnt_arq);
-
-
-//Inserindo no menu princpal
-try {
-    insertAfter(div_head_turmas, document.getElementById("MainContainer").children[1]);
-}
-catch (e) {
-
-}
-
-//Removendo espaços extras (<BR>)
-Array.from(document.getElementById("MainContainer").getElementsByTagName("br")).forEach((element) => {
-    element.remove();
-});
-
-
-
-//////////////////////////////////////////////////////////////////////////
-/////////////    Adicionando botão de arquivar em cada turma   ///////////
-//////////////////////////////////////////////////////////////////////////
-
-const div_bnt_archive = document.createElement("div");
-div_bnt_archive.classList.add("div_bnt_archive");
-
-
-const svg_to_archive = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
-svg_to_archive.classList.add("svg_bnt");
-svg_to_archive.classList.add("svg_to_archive");
-svg_to_archive.setAttribute('focusable', "false");
-svg_to_archive.setAttribute('width', '20');
-svg_to_archive.setAttribute('height', '20');
-// svg_archived.viewBox = '0 0 24 24';
-svg_to_archive.setAttribute("viewBox", '0 0 24 24');
-
-div_bnt_archive.appendChild(svg_to_archive);
-svg_to_archive.appendChild(path_to_archive);
-svg_to_archive.appendChild(path_to_unarchive);
-
-Array.from(li_turmas.children).forEach(li => {
-    let div_temp = div_bnt_archive.cloneNode(true);
-    try {
-        div_temp.getElementsByClassName('svg_bnt')[0].id = 'bntToArchive_' + li.id;
-        li.appendChild(div_temp);
-        div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', quest_bnt_arquivar);
-        div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);        
-    }
-    catch (e) {
-
-    }
-});
-
-
-//Realiza a separação das turmas arquivadas
-atualizar_status_turmas();
