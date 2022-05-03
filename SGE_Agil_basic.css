@@ -216,6 +216,63 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     color: #313131;
 }
 
+.container_arquivadas{
+    position: relative;
+}
+.container_hidden{
+    display: none;
+}
+
+.div_head_turmas{
+    display: flex;
+    align-items: center;
+    padding: 0px 5px 5px;
+    height: 29px;
+}
+.texto_swt_arq{
+    padding-right: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.div_bnt_arq{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    border: solid 1px #8b8b8b;
+    margin-right: 8px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+.div_bnt_archive{
+    display: block;
+    position: absolute;
+    left: calc(100% - 20px - 7px);
+    top: 4px;
+}
+
+
+.dxnb-gr {
+    position: relative;
+}
+
+.dxnb-ghtext {
+    margin-right: 30px !important;
+}
+
+.svg_bnt {
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -277,15 +334,3 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
   .disable {
     filter: opacity(0.5) grayscale(1) blur(0.5px);
   }
-
-.dxnb-gr {
-    position: relative;
-}
-
-.dxnb-ghtext {
-    margin-right: 30px !important;
-}
-
-.svg_bnt {
-    cursor: pointer;
-}
