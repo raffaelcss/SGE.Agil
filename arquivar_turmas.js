@@ -28,13 +28,13 @@ function insertAfter(newElement, reference) {
 }
 
 function arq_obj(nome){
-    //console.log("Buscado: "+nome);
     Array.from(turm_local_str["Turmas"]).forEach(element => {
         if (element["Nome"] == nome){
             element["Is_archived"] = !element["Is_archived"];
         }
     })
-    console.log(turm_local_str);
+    //Salvando novo status das turmas
+    localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(turm_local_str);
 }
 
 function bnt_arquivar(dono) {
