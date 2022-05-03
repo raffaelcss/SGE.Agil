@@ -274,6 +274,16 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     display: none;
 }
 
+/* Garantindo que as turmas arquivadas sempre fiquem colapsadas */
+.container_arquivadas .dxnb-header, .container_arquivadas .dxnb-content{
+    display: none !important;
+}
+.container_arquivadas .dxnb-headerCollapsed{
+    display: block !important;
+    cursor: auto;
+}
+
+
 
 
 

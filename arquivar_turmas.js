@@ -27,9 +27,28 @@ function insertAfter(newElement, reference) {
     reference.parentNode.insertBefore(newElement, reference.nextSibling);
 }
 
-function bnt_arquivar() {
-    let inicio_id = this.id.indexOf('_');
-    document.getElementById(this.id.substring(inicio_id+1)).classList.toggle("archived");
+function arq_obj(nome){
+    //console.log("Buscado: "+nome);
+    Array.from(turm_local_str["Turmas"]).forEach(element => {
+        if (element["Nome"] == nome){
+            element["Is_archived"] = !element["Is_archived"];
+        }
+    })
+    console.log(turm_local_str);
+}
+
+function bnt_arquivar(dono) {
+    let inicio_id = dono.id.indexOf('_');
+    let tmp = document.getElementById(dono.id.substring(inicio_id+1));
+    tmp.classList.toggle("archived");
+    arq_obj(tmp.getElementsByClassName("dxnb-ghtext")[0].innerHTML);
+}
+
+function quest_bnt_arquivar() {
+    if (confirm('Deseja realmente arquivar essa turma?\nEla poderá ser restaurada a qualquer momento.')){
+        bnt_arquivar(this);
+        atualizar_status_turmas();
+    }
 }
 
 function atualizar_status_turmas() {
@@ -43,7 +62,6 @@ function atualizar_status_turmas() {
     container_arquivadas.classList.add("container_arquivadas");
     container_arquivadas.classList.remove("container_hidden");
     if (document.getElementById("checkbox_archived")){
-        console.log(document.getElementById("checkbox_archived").checked);
         if (document.getElementById("checkbox_archived").checked == false){
             container_arquivadas.classList.add("container_hidden");
         }
@@ -76,18 +94,11 @@ function atualizar_status_turmas() {
                     //Turmas não arquivadas
                     div_turmas_arquivadas.children[i].remove();
                 } else {
-                    //Turmas arquivadas
-                    //Garantindo que as turmas arquivadas fiquem colapsadas, pois não podem ser abertas enquanto estão arquivadas.
-                    div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-header")[0].style.display = 'none';
-                    div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-headerCollapsed")[0].style.display = 'block';
-                    div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-headerCollapsed")[0].style.cursor = 'auto';
-                    div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-content")[0].style.display = 'none';
                     //Mudando icone de arquivar para desarquivar
                     div_turmas_arquivadas.children[i].getElementsByClassName("svg_to_archive")[0].classList.add("svg_to_unarchived");
                     div_turmas_arquivadas.children[i].getElementsByClassName("svg_to_archive")[0].classList.remove("svg_to_archive");
                     //Adicionando função de botão
-                    div_turmas_arquivadas.children[i].getElementsByClassName('svg_bnt')[0].addEventListener('click', bnt_arquivar);
-                    div_turmas_arquivadas.children[i].getElementsByClassName('svg_bnt')[0].addEventListener('click', atualizar_status_turmas);
+                    div_turmas_arquivadas.children[i].getElementsByClassName('svg_bnt')[0].addEventListener('click', quest_bnt_arquivar);
                     div_turmas_arquivadas.children[i].getElementsByClassName('svg_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);
                 }
             }
@@ -137,7 +148,8 @@ function refresh_scroll_mainContainer() {
 
 //Adicionando classe archived às turmas com base no JSON salvo em localstorage
 let turm_local_str = JSONToobj(turmas_antigas);
-// console.log(turm_local_str);
+console.log(turm_local_str);
+
 
 try{
     for (turm of li_turmas.children){
@@ -243,8 +255,7 @@ Array.from(li_turmas.children).forEach(li => {
     try {
         div_temp.getElementsByClassName('svg_bnt')[0].id = 'bntToArchive_' + li.id;
         li.appendChild(div_temp);
-        div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', bnt_arquivar);
-        div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', atualizar_status_turmas);
+        div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', quest_bnt_arquivar);
         div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);        
     }
     catch (e) {
