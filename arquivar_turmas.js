@@ -146,11 +146,34 @@ function refresh_scroll_mainContainer() {
 ///////////////////////////////    Script   //////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
+//Adicionando Switch para exibir Turmas Arquivadas
+const div_head_turmas = document.createElement("div");
+div_head_turmas.id = "div_head_turmas";
+div_head_turmas.classList.add("div_head_turmas");
+//Afiliando cada componente
+div_head_turmas.appendChild(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1"));
+
+//Inserindo no menu princpal
+try {
+    insertAfter(div_head_turmas, document.getElementById("MainContainer").children[1]);
+}
+catch (e) {
+
+}
+
+//Removendo espaços extras (<BR>)
+Array.from(document.getElementById("MainContainer").getElementsByTagName("br")).forEach((element) => {
+    element.remove();
+});
+
+
+var turm_local_str = JSONToobj(turmas_antigas);
+
+
 function Ligar_arq_turma(){
     //Adicionando classe archived às turmas com base no JSON salvo em localstorage
     if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
-        var turm_local_str = JSONToobj(turmas_antigas);
-
+        
         try{
             for (turm of li_turmas.children){
                 turm_local_str.Turmas.forEach(element => {
@@ -171,11 +194,7 @@ function Ligar_arq_turma(){
 
         }
 
-
         //Adicionando Switch para exibir Turmas Arquivadas
-        const div_head_turmas = document.createElement("div");
-        div_head_turmas.id = "div_head_turmas";
-        div_head_turmas.classList.add("div_head_turmas");
 
         const texto_swt_arq = document.createElement("span");
         texto_swt_arq.innerHTML = "Turmas arquivadas";
@@ -206,26 +225,11 @@ function Ligar_arq_turma(){
         chk_bnt_arq.addEventListener('change', refresh_scroll_mainContainer);
 
         //Afiliando cada componente
-        div_head_turmas.appendChild(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1"));
         div_head_turmas.appendChild(div_bnt_arq);
             div_bnt_arq.appendChild(texto_swt_arq);
             div_bnt_arq.appendChild(label_bnt_arq);
                 label_bnt_arq.appendChild(chk_bnt_arq);
                 label_bnt_arq.appendChild(span_bnt_arq);
-
-
-        //Inserindo no menu princpal
-        try {
-            insertAfter(div_head_turmas, document.getElementById("MainContainer").children[1]);
-        }
-        catch (e) {
-
-        }
-
-        //Removendo espaços extras (<BR>)
-        Array.from(document.getElementById("MainContainer").getElementsByTagName("br")).forEach((element) => {
-            element.remove();
-        });
 
 
 
@@ -269,5 +273,22 @@ function Ligar_arq_turma(){
 }
 
 function Desligar_arq_turma(){
-    alert("Programar desligar arquivar turma");
+    //Reabilita visualização das classes caso esteja oculta
+    if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_CC")){
+        document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_CC").classList.remove("container_hidden");
+    }
+    //Remover componentes visuais
+    Array.from(document.getElementsByClassName("div_bnt_arq")).forEach(element => {
+        element.remove();
+    });
+    Array.from(document.getElementsByClassName("div_bnt_archive")).forEach(element => {
+        element.remove();
+    });
+
+    //Remover classes archived
+    Array.from(document.getElementsByClassName("archived")).forEach(element => {
+        element.classList.remove("archived");
+    });
+
+    refresh_scroll_mainContainer();
 }
