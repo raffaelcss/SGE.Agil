@@ -172,5 +172,12 @@ Array.from(li_turmas.children).forEach(li => {
     let div_temp = div_bnt_archive.cloneNode(true);
     div_temp.getElementsByClassName('svg_bnt')[0].id = 'bntToArchive_' + li.id;
     li.appendChild(div_temp);
+    div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', bnt_arquivar);
 });
+
+
+function bnt_arquivar() {
+    let inicio_id = this.id.indexOf('_');
+    document.getElementById(this.id.substring(inicio_id+1)).classList.add("archived");
+}
 
