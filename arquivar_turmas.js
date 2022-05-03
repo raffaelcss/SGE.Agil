@@ -29,7 +29,7 @@ function insertAfter(newElement, reference) {
 
 function bnt_arquivar() {
     let inicio_id = this.id.indexOf('_');
-    document.getElementById(this.id.substring(inicio_id+1)).classList.add("archived");
+    document.getElementById(this.id.substring(inicio_id+1)).classList.toggle("archived");
 }
 
 function atualizar_status_turmas() {
@@ -41,7 +41,13 @@ function atualizar_status_turmas() {
     container_arquivadas = container_turmas.cloneNode(true);       //true para clonar os filhos
     container_arquivadas.id = "container_arquivadas";
     container_arquivadas.classList.add("container_arquivadas");
-    container_arquivadas.classList.add("container_hidden");
+    container_arquivadas.classList.remove("container_hidden");
+    if (document.getElementById("checkbox_archived")){
+        console.log(document.getElementById("checkbox_archived").checked);
+        if (document.getElementById("checkbox_archived").checked == false){
+            container_arquivadas.classList.add("container_hidden");
+        }
+    }
 
     if (container_arquivadas.children.length > 0) {
         try {
@@ -79,6 +85,10 @@ function atualizar_status_turmas() {
                     //Mudando icone de arquivar para desarquivar
                     div_turmas_arquivadas.children[i].getElementsByClassName("svg_to_archive")[0].classList.add("svg_to_unarchived");
                     div_turmas_arquivadas.children[i].getElementsByClassName("svg_to_archive")[0].classList.remove("svg_to_archive");
+                    //Adicionando função de botão
+                    div_turmas_arquivadas.children[i].getElementsByClassName('svg_bnt')[0].addEventListener('click', bnt_arquivar);
+                    div_turmas_arquivadas.children[i].getElementsByClassName('svg_bnt')[0].addEventListener('click', atualizar_status_turmas);
+                    div_turmas_arquivadas.children[i].getElementsByClassName('svg_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);
                 }
             }
             catch (e) {
@@ -97,32 +107,6 @@ function atualizar_status_turmas() {
 
     }
 
-    //OCULTANDO turmas arquivadas da sessão das não arquivadas
-    //Não pode remover pois preciso delas para copiar a div depois
-    // let div_turmas_n_arquivadas;
-    // try {
-    //     div_turmas_n_arquivadas = container_turmas.children[0].children[0].children[0];
-    // }
-    // catch (e) {
-
-    // }
-    // try {
-    //     for (var i = div_turmas_n_arquivadas.children.length - 1; i >= 0; i--){
-    //         try {
-    //             if (div_turmas_n_arquivadas.children[i].classList.contains("archived")){
-    //                 //Turmas não arquivadas
-    //                 // div_turmas_n_arquivadas.children[i].remove();
-    //             }
-    //         }
-    //         catch (e) {
-    
-    //         }
-    //     }
-    // }
-    // catch (e) {
-    
-    // }
-
     //Adicionar div de listras nas turmas arquivadas
     const div_grid = document.createElement("div");
     div_grid.classList.add("grid");
@@ -134,6 +118,15 @@ function atualizar_status_turmas() {
     }
     catch (e) {
     
+    }
+}
+
+//função para adicionar margin laterl no menu principal para quando não houver scroll
+function refresh_scroll_mainContainer() {
+    if (document.getElementById("MainContainer").clientHeight == document.getElementById("MainContainer").scrollHeight){
+        document.getElementById("MainContainer").classList.add("sem-scroll");
+    } else {
+        document.getElementById("MainContainer").classList.remove("sem-scroll");
     }
 }
 
@@ -192,6 +185,14 @@ span_bnt_arq.classList.add("slider");
 span_bnt_arq.classList.add("round");
 span_bnt_arq.id = "swt_archived";
 
+
+//Função do Switch de exibir turmas arquivadas
+chk_bnt_arq.addEventListener('change', () => {
+    container_turmas.classList.toggle("container_hidden");
+    container_arquivadas.classList.toggle("container_hidden");
+});
+chk_bnt_arq.addEventListener('change', refresh_scroll_mainContainer);
+
 //Afiliando cada componente
 div_head_turmas.appendChild(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1"));
 div_head_turmas.appendChild(div_bnt_arq);
@@ -214,20 +215,7 @@ Array.from(document.getElementById("MainContainer").getElementsByTagName("br")).
     element.remove();
 });
 
-//função para adicionar margin laterl no menu principal para quando não houver scroll
-chk_bnt_arq.addEventListener('click', () => {
-    if (document.getElementById("MainContainer").clientHeight < document.getElementById("MainContainer").scrollHeight){
-        document.getElementById("MainContainer").classList.add("sem-scroll");
-    } else {
-        document.getElementById("MainContainer").classList.remove("sem-scroll");
-    }
-})
 
-//Função do Switch de exibir turmas arquivadas
-chk_bnt_arq.addEventListener('change', () => {
-    container_turmas.classList.toggle("container_hidden");
-    container_arquivadas.classList.toggle("container_hidden");
-});
 
 //////////////////////////////////////////////////////////////////////////
 /////////////    Adicionando botão de arquivar em cada turma   ///////////
@@ -257,6 +245,7 @@ Array.from(li_turmas.children).forEach(li => {
         li.appendChild(div_temp);
         div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', bnt_arquivar);
         div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', atualizar_status_turmas);
+        div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);        
     }
     catch (e) {
 
