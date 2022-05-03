@@ -16,6 +16,9 @@ var main_container = document.getElementById("ctl24_EduTurmasProfRadioButtonWebF
 var container_turmas = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_CC");
 var li_turmas = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina");
 
+var div_turmas_arquivadas;
+var container_arquivadas;
+
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////    Funções    /////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -29,6 +32,99 @@ function bnt_arquivar() {
     document.getElementById(this.id.substring(inicio_id+1)).classList.add("archived");
 }
 
+function atualizar_status_turmas() {
+    container_arquivadas = container_turmas.cloneNode(true);       //true para clonar os filhos
+    container_arquivadas.id = "container_arquivadas";
+    container_arquivadas.classList.add("container_arquivadas");
+    container_arquivadas.classList.add("container_hidden");
+
+    if (container_arquivadas.children.length > 0) {
+        try {
+            container_arquivadas.children[0].id = "div_arquivadas";
+            container_arquivadas.children[0].classList.add("div_arquivadas");
+            
+            container_arquivadas.children[1].id = "div_arquivadas_hide";
+            container_arquivadas.children[1].classList.add("div_arquivadas_hide");
+        }
+        catch (e) {
+            console.log("Erro 1");
+        }
+    }
+
+    //Removendo turmas não arquivadas da sessão de arquivadas
+    try{
+        div_turmas_arquivadas = container_arquivadas.getElementsByClassName("div_arquivadas")[0].children[0].children[0];
+    }
+    catch (e){
+        console.log("Erro 2");
+    }
+    try {
+        for (var i = div_turmas_arquivadas.children.length - 1; i >= 0; i--){
+            try{
+                if (!div_turmas_arquivadas.children[i].classList.contains("archived")){
+                    //Turmas não arquivadas
+                    div_turmas_arquivadas.children[i].remove();
+                } else {
+                    //Turmas arquivadas
+                    //Garantindo que as turmas arquivadas fiquem colapsadas, pois não podem ser abertas enquanto estão arquivadas.
+                    div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-header")[0].style.display = 'none';
+                    div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-headerCollapsed")[0].style.display = 'block';
+                    div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-headerCollapsed")[0].style.cursor = 'auto';
+                    div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-content")[0].style.display = 'none';
+                }
+            }
+            catch (e) {
+                console.log("Erro 3");
+            }
+        }
+    }
+    catch (e) {
+        console.log("Erro 4");
+    }
+    //Removendo margin bottom errado que fica na ultima turma das arquivadas
+    try {
+        div_turmas_arquivadas.children[div_turmas_arquivadas.children.length - 1].classList.add("dxnb-last");
+    }
+    catch (e) {
+
+    }
+    //Removendo turmas arquivadas da sessão das não arquivadas
+    let div_turmas_n_arquivadas;
+    try {
+        div_turmas_n_arquivadas = container_turmas.children[0].children[0].children[0];
+    }
+    catch (e) {
+
+    }
+    try {
+        for (var i = div_turmas_n_arquivadas.children.length - 1; i >= 0; i--){
+            try {
+                if (div_turmas_n_arquivadas.children[i].classList.contains("archived")){
+                    //Turmas não arquivadas
+                    div_turmas_n_arquivadas.children[i].remove();
+                }
+            }
+            catch (e) {
+    
+            }
+        }
+    }
+    catch (e) {
+    
+    }
+    //Adicionar div de listras nas turmas arquivadas
+    const div_grid = document.createElement("div");
+    div_grid.classList.add("grid");
+    div_turmas_arquivadas.appendChild(div_grid);
+
+    //Adicionando Div das arquivadas ao main menu
+    try {
+        main_container.appendChild(container_arquivadas);
+    }
+    catch (e) {
+    
+    }
+}
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -37,108 +133,27 @@ function bnt_arquivar() {
 
 //Adicionando classe archived às turmas com base no JSON salvo em localstorage
 let turm_local_str = JSONToobj(turmas_antigas);
-console.log(turm_local_str);
+// console.log(turm_local_str);
 
-for (turm of li_turmas.children){
-    turm_local_str.Turmas.forEach(element => {
-        if (element.Nome === turm.children[0].children[1].innerHTML){
-            //console.log(element.Is_archived);
-            if (element.Is_archived){
-                turm.classList.add("archived");
-            }
-        }
-    });
-}
-
-var container_arquivadas = container_turmas.cloneNode(true);       //true para clonar os filhos
-container_arquivadas.id = "container_arquivadas";
-container_arquivadas.classList.add("container_arquivadas");
-container_arquivadas.classList.toggle("container_hidden");
-
-if (container_arquivadas.children.length > 0) {
-    try {
-        container_arquivadas.children[0].id = "div_arquivadas";
-        container_arquivadas.children[0].classList.add("div_arquivadas");
-        
-        container_arquivadas.children[1].id = "div_arquivadas_hide";
-        container_arquivadas.children[1].classList.add("div_arquivadas_hide");
-    }
-    catch (e) {
-        console.log("Erro 1");
-    }
-}
-
-//Removendo turmas não arquivadas da sessão de arquivadas
-let div_turmas_arquivadas;
 try{
-    div_turmas_arquivadas = container_arquivadas.getElementsByClassName("div_arquivadas")[0].children[0].children[0];
+    for (turm of li_turmas.children){
+        turm_local_str.Turmas.forEach(element => {
+            try {
+                if (element.Nome === turm.children[0].children[1].innerHTML){
+                    if (element.Is_archived){
+                        turm.classList.add("archived");
+                    }
+                }
+            }
+            catch (e) {
+
+            }
+        });
+    }
 }
 catch (e){
-    console.log("Erro 2");
-}
-
-try {
-    for (var i = div_turmas_arquivadas.children.length - 1; i >= 0; i--){
-        try{
-            if (!div_turmas_arquivadas.children[i].classList.contains("archived")){
-                //Turmas não arquivadas
-                div_turmas_arquivadas.children[i].remove();
-            } else {
-                //Turmas arquivadas
-                //Garantindo que as turmas arquivadas fiquem colapsadas, pois não podem ser abertas enquanto estão arquivadas.
-                div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-header")[0].style.display = 'none';
-                div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-headerCollapsed")[0].style.display = 'block';
-                div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-headerCollapsed")[0].style.cursor = 'auto';
-                div_turmas_arquivadas.children[i].getElementsByClassName("dxnb-content")[0].style.display = 'none';
-            }
-        }
-        catch (e) {
-
-        }
-    }
-}
-catch (e) {
 
 }
-
-//Removendo margin bottom errado que fica na ultima turma das arquivadas
-try {
-    div_turmas_arquivadas.children[div_turmas_arquivadas.children.length - 1].classList.add("dxnb-last");
-}
-catch (e) {
-
-}
-
-//Removendo turmas arquivadas da sessão das não arquivadas
-let div_turmas_n_arquivadas;
-try {
-    div_turmas_n_arquivadas = container_turmas.children[0].children[0].children[0];
-}
-catch (e) {
-
-}
-
-try {
-    for (var i = div_turmas_n_arquivadas.children.length - 1; i >= 0; i--){
-        try {
-            if (div_turmas_n_arquivadas.children[i].classList.contains("archived")){
-                //Turmas não arquivadas
-                div_turmas_n_arquivadas.children[i].remove();
-            }
-        }
-        catch (e) {
-
-        }
-    }
-}
-catch (e) {
-
-}
-
-//Adicionar div de listras nas turmas arquivadas
-const div_grid = document.createElement("div");
-div_grid.classList.add("grid");
-div_turmas_arquivadas.appendChild(div_grid);
 
 
 //Adicionando Switch para exibir Turmas Arquivadas
@@ -197,18 +212,15 @@ chk_bnt_arq.addEventListener('click', () => {
     }
 })
 
-try {
-    main_container.appendChild(container_arquivadas);
-}
-catch (e) {
-
-}
-
 //Função do Switch de exibir turmas arquivadas
 chk_bnt_arq.addEventListener('change', () => {
     container_turmas.classList.toggle("container_hidden");
     container_arquivadas.classList.toggle("container_hidden");
 });
+
+
+//Realiza a separação das turmas arquivadas
+atualizar_status_turmas();
 
 
 
