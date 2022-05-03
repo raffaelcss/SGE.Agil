@@ -1,5 +1,5 @@
 const path_archived = document.createElementNS('http://www.w3.org/2000/svg', "path");
-path_to_archive.classList.add("path_archived");
+path_archived.classList.add("path_archived");
 const path_to_archive = document.createElementNS('http://www.w3.org/2000/svg', "path");
 path_to_archive.classList.add("path_to_archive");
 //Desarquivar
@@ -155,20 +155,18 @@ div_bnt_archive.style.position = 'absolute';
 div_bnt_archive.style.left = 'calc(100% - 20px - 7px)';
 div_bnt_archive.style.top = '4px';
 
-const svg_archived = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
-svg_archived.classList.add("svg_bnt");
-svg_archived.classList.add("svg_to_archive");
-svg_archived.setAttribute('focusable', "false");
-svg_archived.setAttribute('width', '20');
-svg_archived.setAttribute('height', '20');
+const svg_to_archive = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
+svg_to_archive.classList.add("svg_bnt");
+svg_to_archive.classList.add("svg_to_archive");
+svg_to_archive.setAttribute('focusable', "false");
+svg_to_archive.setAttribute('width', '20');
+svg_to_archive.setAttribute('height', '20');
 // svg_archived.viewBox = '0 0 24 24';
-svg_archived.setAttribute("viewBox", '0 0 24 24');
+svg_to_archive.setAttribute("viewBox", '0 0 24 24');
 
-div_bnt_archive.appendChild(svg_archived);
+div_bnt_archive.appendChild(svg_to_archive);
 
-
-
-svg_archived.appendChild(path_to_archive);
+svg_to_archive.appendChild(path_to_archive);
 
 Array.from(li_turmas.children).forEach(li => {
     let div_temp = div_bnt_archive.cloneNode(true);
@@ -176,7 +174,3 @@ Array.from(li_turmas.children).forEach(li => {
     li.appendChild(div_temp);
 });
 
-//Adicionando função de clique
-// document.getElementById("botao_arquivar").addEventListener('click', () => {
-//     alert('TESTE');    
-// },true)
