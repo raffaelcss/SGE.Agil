@@ -1,3 +1,13 @@
+const path_archived = document.createElementNS('http://www.w3.org/2000/svg', "path");
+path_to_archive.classList.add("path_archived");
+const path_to_archive = document.createElementNS('http://www.w3.org/2000/svg', "path");
+path_to_archive.classList.add("path_to_archive");
+//Desarquivar
+path_archived.setAttribute('d', 'M 23.28 3.055 L 21.444 0.834 C 21.088 0.384 20.546 0.107 19.926 0.107 L 4.074 0.107 C 3.454 0.107 2.912 0.384 2.542 0.834 L 0.72 3.055 C 0.336 3.503 0.112 4.098 0.112 4.731 L 0.112 21.251 C 0.112 22.703 1.3 23.893 2.754 23.893 L 21.246 23.893 C 22.7 23.893 23.888 22.703 23.888 21.251 L 23.888 4.731 C 23.888 4.098 23.664 3.503 23.28 3.055 Z M 4.392 2.749 L 19.608 2.749 L 20.704 4.071 L 3.308 4.071 L 4.392 2.749 Z M 2.754 21.251 L 2.754 6.714 L 21.246 6.714 L 21.246 21.251 L 2.754 21.251 Z M 17.284 13.982 L 12 19.269 L 6.716 13.982 L 8.578 12.119 L 10.679 14.207 L 10.679 9.357 L 13.32 9.357 L 13.32 14.207 L 15.421 12.106 L 17.284 13.982 Z');
+//Arquivar
+path_to_archive.setAttribute('d', 'M 21.325 5.187 L 12.065 5.187 L 9.749 2.863 L 2.806 2.863 C 1.531 2.863 0.501 3.909 0.501 5.187 L 0.49 19.132 C 0.49 20.412 1.531 21.458 2.806 21.458 L 21.325 21.458 C 22.598 21.458 23.64 20.412 23.64 19.132 L 23.64 7.512 C 23.64 6.233 22.598 5.187 21.325 5.187 Z M 21.325 19.132 L 2.806 19.132 L 2.806 7.512 L 21.325 7.512 L 21.325 19.132 Z');
+
+
 function insertAfter(newElement, reference) {
     reference.parentNode.insertBefore(newElement, reference.nextSibling);
 }
@@ -145,24 +155,9 @@ div_bnt_archive.style.position = 'absolute';
 div_bnt_archive.style.left = 'calc(100% - 20px - 7px)';
 div_bnt_archive.style.top = '4px';
 
-
-
-
-
-
-//////////////////   Momentaneamente fazendo com uma turma    ///////////////////
-
-
-
-const li_turma1 = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina_GR1");
-li_turma1.appendChild(div_bnt_archive);
-
-
-
-
 const svg_archived = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
-svg_archived.id = "botao_arquivar";
-svg_archived.classList.add("svg_archived");
+svg_archived.classList.add("svg_bnt");
+svg_archived.classList.add("svg_to_archive");
 svg_archived.setAttribute('focusable', "false");
 svg_archived.setAttribute('width', '20');
 svg_archived.setAttribute('height', '20');
@@ -171,19 +166,17 @@ svg_archived.setAttribute("viewBox", '0 0 24 24');
 
 div_bnt_archive.appendChild(svg_archived);
 
-const path_archived = document.createElementNS('http://www.w3.org/2000/svg', "path");
-path_archived.classList.add("path_archived");
-//Desarquivar
-// path_archived.setAttribute('d', 'M 23.28 3.055 L 21.444 0.834 C 21.088 0.384 20.546 0.107 19.926 0.107 L 4.074 0.107 C 3.454 0.107 2.912 0.384 2.542 0.834 L 0.72 3.055 C 0.336 3.503 0.112 4.098 0.112 4.731 L 0.112 21.251 C 0.112 22.703 1.3 23.893 2.754 23.893 L 21.246 23.893 C 22.7 23.893 23.888 22.703 23.888 21.251 L 23.888 4.731 C 23.888 4.098 23.664 3.503 23.28 3.055 Z M 4.392 2.749 L 19.608 2.749 L 20.704 4.071 L 3.308 4.071 L 4.392 2.749 Z M 2.754 21.251 L 2.754 6.714 L 21.246 6.714 L 21.246 21.251 L 2.754 21.251 Z M 17.284 13.982 L 12 19.269 L 6.716 13.982 L 8.578 12.119 L 10.679 14.207 L 10.679 9.357 L 13.32 9.357 L 13.32 14.207 L 15.421 12.106 L 17.284 13.982 Z');
 
-//Arquivar
-path_archived.setAttribute('d', 'M 21.325 5.187 L 12.065 5.187 L 9.749 2.863 L 2.806 2.863 C 1.531 2.863 0.501 3.909 0.501 5.187 L 0.49 19.132 C 0.49 20.412 1.531 21.458 2.806 21.458 L 21.325 21.458 C 22.598 21.458 23.64 20.412 23.64 19.132 L 23.64 7.512 C 23.64 6.233 22.598 5.187 21.325 5.187 Z M 21.325 19.132 L 2.806 19.132 L 2.806 7.512 L 21.325 7.512 L 21.325 19.132 Z');
 
-svg_archived.appendChild(path_archived);
+svg_archived.appendChild(path_to_archive);
+
+Array.from(li_turmas.children).forEach(li => {
+    let div_temp = div_bnt_archive.cloneNode(true);
+    div_temp.getElementsByClassName('svg_bnt')[0].id = 'bntToArchive_' + li.id;
+    li.appendChild(div_temp);
+});
 
 //Adicionando função de clique
-document.getElementById("botao_arquivar").addEventListener('click', function(e) {
-    event.stopPropagation();
-    console.log(e.eventPhase);
-    alert('TESTE');    
-},true)
+// document.getElementById("botao_arquivar").addEventListener('click', () => {
+//     alert('TESTE');    
+// },true)

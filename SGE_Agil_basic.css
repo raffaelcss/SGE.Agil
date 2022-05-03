@@ -278,19 +278,14 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     filter: opacity(0.5) grayscale(1) blur(0.5px);
   }
 
-  /* Colocando turmas como display flex para adicionar botão de arquivar */
-  /* Não pode colocar !important pois o 'none' que o proprio SGE coloca é prioridade */
-  /* Acho que não precisa mais pois coloquei o botão fora da div (PS: pq ñ fiz isso antes?) */
-  /* .dxnb-gr > div.dxnb-headerCollapsed {
-      display: flex;
-      align-items: center;
-  }
-
-  .dxnb-gr > div.dxnb-header{
-    display: flex;
-    align-items: center;
-} */
-
 .dxnb-gr {
     position: relative;
+}
+
+.dxnb-ghtext {
+    margin-right: 30px !important;
+}
+
+.svg_bnt {
+    cursor: pointer;
 }
