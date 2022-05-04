@@ -45,7 +45,9 @@ function bnt_arquivar(dono) {
 }
 
 function quest_bnt_arquivar() {
-    if (confirm('Deseja realmente arquivar essa turma?\nEla poderá ser restaurada a qualquer momento.')){
+    let to_arc = this.classList.contains("svg_to_archive");
+    console.log(this);
+    if (confirm(`Deseja realmente ${to_arc ? "" : "des"}arquivar essa turma?\nEla poderá ser ${to_arc ? "restaurada" : "arquivada"} a qualquer momento.`)){
         bnt_arquivar(this);
         atualizar_status_turmas();
     }
@@ -151,8 +153,12 @@ const div_head_turmas = document.createElement("div");
 div_head_turmas.id = "div_head_turmas";
 div_head_turmas.classList.add("div_head_turmas");
 //Afiliando cada componente
-div_head_turmas.appendChild(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1"));
+try {
+    div_head_turmas.appendChild(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1"));
+}
+catch (e){
 
+}
 //Inserindo no menu princpal
 try {
     insertAfter(div_head_turmas, document.getElementById("MainContainer").children[1]);
@@ -225,11 +231,16 @@ function Ligar_arq_turma(){
         chk_bnt_arq.addEventListener('change', refresh_scroll_mainContainer);
 
         //Afiliando cada componente
+        try {
         div_head_turmas.appendChild(div_bnt_arq);
             div_bnt_arq.appendChild(texto_swt_arq);
             div_bnt_arq.appendChild(label_bnt_arq);
                 label_bnt_arq.appendChild(chk_bnt_arq);
                 label_bnt_arq.appendChild(span_bnt_arq);
+        }
+        catch (e){
+
+        }
 
 
 
