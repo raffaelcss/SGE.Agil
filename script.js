@@ -30,8 +30,8 @@ function Ligar_Auto(){
         //Verifica se tem aula a lançar
         Aulas_seq_assistida();
     }
+    if (SGE_Agil_ON_Arq_turma) {Ligar_arq_turma()};     //Opção de arquivar turmas //Tem de ser antes do aviso por conta da propiedade IsArchived
     if (SGE_Agil_ON_Aviso_new) {Ligar_aviso_new()};     //Aviso novas Turmas e novas UCs
-    if (SGE_Agil_ON_Arq_turma) {Ligar_arq_turma()};     //Opção de arquivar turmas
 
 
     //mudar icon professor

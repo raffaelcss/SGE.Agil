@@ -96,7 +96,8 @@ function Json_Principal(ul_pai){
     }
 
     Array.from(ul_pai.children).forEach(element => {
-        let is_archived = element.classList.contains("arquivada");
+        let is_archived = element.classList.contains("archived");
+        console.log(is_archived);
         subObj.Turmas.push(Json_Turmas(element, is_archived));
     })
 
@@ -106,9 +107,9 @@ function Json_Principal(ul_pai){
 //Deve ser executado para montar a lista de turmas independete de usar as features de aviso e de arquivar
 if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
     var turmas_antigas = localStorage['SGE-Ágil-Turmas_atuais'];
-    var turmas_atuais = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
-    var turmas_novas = Turmas_novas(turmas_antigas, turmas_atuais);
-    var ucs_novas    = UCs_novas(turmas_antigas, turmas_atuais);
+    // var turmas_atuais = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
+    // var turmas_novas = Turmas_novas(turmas_antigas, turmas_atuais);
+    // var ucs_novas    = UCs_novas(turmas_antigas, turmas_atuais);
 
     // console.log(turmas_novas);
     // console.log(ucs_novas);
