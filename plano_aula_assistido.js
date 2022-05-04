@@ -192,34 +192,3 @@ function Aulas_seq_assistida(){
         //console.log("Debug: Não há aulas a serem copiadas de forma assistida!");
     }
 }
-
-
-// function Aulas_seq_assistida(){
-//     var ids = JSON.parse(getCookie("Plano_aula_seguinte"));
-//     if (ids == null){
-//         ids = [];
-//         setCookie("Plano_aula_seguinte",JSON.stringify([]),1400);
-//     }
-//     if (ids.length > 0){
-//         setTimeout(() => {
-//             console.log("Debug: Copiando aula em sequência de forma assistida!");
-//             let id_atual = ids.shift();
-//             //Marca na primeira aula da lista e a elimina da lista
-//             if (document.getElementById(id_atual)) {
-//                 document.getElementById(id_atual).click();
-//                 //Salva a nova lista no cookie
-//                 setCookie("Plano_aula_seguinte",JSON.stringify(ids),1400);
-//                 //Copia para as próximas aulas
-//                 if (document.getElementById("ctl24_xmnuOpcao_DXI0i1_")){
-//                     document.getElementById("ctl24_xmnuOpcao_DXI0i1_").click();
-//                 }
-//             } else {
-//                 //Salva uma lista vazia no cookie pois provavelmente a função deu problema
-//                 setCookie("Plano_aula_seguinte",JSON.stringify([]),1400);
-//                 console.log("Erro, não encontrou a lista")
-//             }
-//         }, 1);      
-//     } else {
-//         console.log("Debug: Não há aulas a serem copiadas de forma assistida!");
-//     }
-// }

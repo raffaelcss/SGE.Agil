@@ -1,9 +1,9 @@
 function receber_cookies(){
-    SGE_Agil_ON = getCookie("SGE.Agil_ON");
-    SGE_Agil_ON_Pes = getCookie("SGE.Agil_Pes");
-    SGE_Agil_ON_Dark = getCookie("SGE.Agil_Dark");
-    SGE_Agil_ON_Plan_aula = getCookie("SGE.Agil_Plan_aula");
-    SGE_Agil_ON_Aviso_new = getCookie("SGE.Agil_Aviso_new");
+    SGE_Agil_ON = getCookie("SGE.Agil_ON") || '';
+    SGE_Agil_ON_Pes = getCookie("SGE.Agil_Pes") || '';
+    SGE_Agil_ON_Dark = getCookie("SGE.Agil_Dark") || '';
+    SGE_Agil_ON_Plan_aula = getCookie("SGE.Agil_Plan_aula") || '';
+    SGE_Agil_ON_Aviso_new = getCookie("SGE.Agil_Aviso_new") || '';
 }
 
 function Ligar_Auto(){
