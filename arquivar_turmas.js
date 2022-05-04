@@ -46,7 +46,6 @@ function bnt_arquivar(dono) {
 
 function quest_bnt_arquivar() {
     let to_arc = this.classList.contains("svg_to_archive");
-    console.log(this);
     if (confirm(`Deseja realmente ${to_arc ? "" : "des"}arquivar essa turma?\nEla poderá ser ${to_arc ? "restaurada" : "arquivada"} a qualquer momento.`)){
         bnt_arquivar(this);
         atualizar_status_turmas();
