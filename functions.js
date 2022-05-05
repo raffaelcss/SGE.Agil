@@ -33,17 +33,7 @@ var ckbox_aviso_new = document.getElementById('Aviso_new_on');
 //Antes tinha deixado após os eventos onchange
 
 //Primeiro acesso. Definindo padrões quando a pessoa baixar
-if (!localStorage['SGE-Ágil-Pes'])
-      localStorage['SGE-Ágil-Pes']        = 'true';         //Pesquisa ON
-if (!localStorage['SGE-Ágil-Dark'])
-      localStorage['SGE-Ágil-Dark']       = 'false';        //Dark OFF
-if (!localStorage['SGE-Ágil-Plan-aula'])
-      localStorage['SGE-Ágil-Plan-aula']  = 'true';         //Plano de aula ON
-if (!localStorage['SGE-Ágil-Aviso-new'])
-      localStorage['SGE-Ágil-Aviso-new']  = 'true';         //Aviso nova turma ON
-
-if (!localStorage['SGE-Ágil-ON'])
-      localStorage['SGE-Ágil-ON']         = 'true';         //SGE Agil ON
+valores_iniciais();
 
 
 ckbox_pes.checked = (localStorage['SGE-Ágil-Pes']==='true') ? true : false;
@@ -164,6 +154,33 @@ ckbox_aviso_new.onchange = () => {
 //ckbox_on.onchange(); //Aplicar alterações assim que abrir a página
 
 ///////////////// Funções a serem executadas no escopo da página ///////////////////
+function valores_iniciais() {
+  //Valores iniciais
+  let init_pes      = true;
+  let init_dark     = false;
+  let init_plan     = true;
+  let init_aviso    = true;
+
+  let init_SGE      = true;
+
+
+  if (!localStorage['SGE-Ágil-Pes']){
+      localStorage['SGE-Ágil-Pes']        = init_pes ? 'true' : 'false';
+  }
+  if (!localStorage['SGE-Ágil-Dark']){
+    localStorage['SGE-Ágil-Dark']        = init_dark ? 'true' : 'false';
+  }
+  if (!localStorage['SGE-Ágil-Plan-aula']){
+    localStorage['SGE-Ágil-Plan-aula']        = init_plan ? 'true' : 'false';
+  }
+  if (!localStorage['SGE-Ágil-Aviso-new']){
+    localStorage['SGE-Ágil-Aviso-new']        = init_aviso ? 'true' : 'false';
+  }
+
+  if (!localStorage['SGE-Ágil-ON']){
+    localStorage['SGE-Ágil-ON']        = init_SGE ? 'true' : 'false';
+  }
+}
 function setCookie(name,value,hours) {
   var expires = "";
   if (hours) {
@@ -171,7 +188,7 @@ function setCookie(name,value,hours) {
       date.setTime(date.getTime() + (hours*60*60*1000));
       expires = "; expires=" + date.toUTCString();
   }
-  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  document.cookie = name + "=" + (value || "false") + expires + "; path=/";
   //console.log("cookie criado");
 }
 function getCookie(name) {
