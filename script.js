@@ -94,12 +94,27 @@ var SGE_Agil_ON_Dark;
 var SGE_Agil_ON_Plan_aula;
 var SGE_Agil_ON_Aviso_new;
 
+var oldversion;
+var newversion;
+var newsubversion;
+
 /////////////////     Código a ser executado no início da página, acesso aos cookies     ////////////////////
 receber_cookies();
 
+oldversion = getCookie("SGE.Agil_version") || 0;
+newversion = 1;
+newsubversion = 0;
+
+if (newversion > oldversion) {
+    setTimeout(() => {          //Tempo para o CSS carregar e a página abrir tbm
+        alert(`Nova versão do SGE.Ágil instalada!\nVersão atual: 0.${newversion}.${newsubversion}`);
+        setCookie("SGE.Agil_version", newversion);
+    }, 800);
+}
+
 console.clear();
-console.log("Debug:SGE.Ágil 0.0.2 run!");
-console.log(SGE_Agil_ON ? "SGE.Ágil 0.0.2 ON!" : "SGE.Ágil 0.0.2 OFF!");
+console.log(`Debug:SGE.Ágil 0.${newversion}.${newsubversion} run!`);
+console.log(SGE_Agil_ON ? `SGE.Ágil 0.${newversion}.${newsubversion} ON!` : `SGE.Ágil 0.${newversion}.${newsubversion} OFF!`);
 
 /////////////////////           Ligando e desligando Funções             /////////////////////
 if (SGE_Agil_ON){
