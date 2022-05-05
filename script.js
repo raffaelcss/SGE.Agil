@@ -102,8 +102,8 @@ var SGE_Agil_ON_Arq_turma;
 receber_cookies();
 
 //console.clear();
-console.log("Debug:SGE.Ágil 0.0.2 run!");
-console.log(SGE_Agil_ON ? "SGE.Ágil 0.0.2 ON!" : "SGE.Ágil 0.0.2 OFF!");
+// console.log("Debug:SGE.Ágil 0.1.0 run!");
+console.log(SGE_Agil_ON ? "SGE.Ágil 0.1.0 ON!" : "SGE.Ágil 0.1.0 OFF!");
 
 /////////////////////           Ligando e desligando Funções             /////////////////////
 if (SGE_Agil_ON){
