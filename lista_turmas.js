@@ -49,7 +49,7 @@ function UCs_novas(json1, json2){
                         novas[novas.length - 1].Ucs.push(uc_nova);
                     }
                 })
-                console.log(t_ant.Qtd_ucs);
+                // console.log(t_ant.Qtd_ucs);
                 novas[novas.length - 1].Ucs.splice(0,t_ant.Qtd_ucs); 
             }
         }) 
@@ -97,7 +97,7 @@ function Json_Principal(ul_pai){
 
     Array.from(ul_pai.children).forEach(element => {
         let is_archived = element.classList.contains("archived");
-        console.log(is_archived);
+        // console.log(is_archived);
         subObj.Turmas.push(Json_Turmas(element, is_archived));
     })
 
