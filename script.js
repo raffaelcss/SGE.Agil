@@ -1,3 +1,16 @@
+////////////////////////////////////////////////////////////////////
+///////////////////////    Versionamento    ////////////////////////
+////////////////////////////////////////////////////////////////////
+
+var newMversion     = 0;
+var newversion      = 1;
+var newsubversion   = 1;
+
+
+
+var oldMVersion;
+var oldversion;
+
 function receber_cookies(){
      //Valores iniciais
     let init_pes      = true;
@@ -102,11 +115,7 @@ var SGE_Agil_ON_Dark;
 var SGE_Agil_ON_Plan_aula;
 var SGE_Agil_ON_Aviso_new;
 
-var oldMVersion;
-var oldversion;
-var newMversion;
-var newversion;
-var newsubversion;
+
 
 var newMver_hide = document.createElement("span");
 newMver_hide.id = "Mver_hide";
@@ -129,9 +138,7 @@ receber_cookies();
 oldMversion = getCookie("SGE.Agil_Mversion") || 0;
 oldversion  = getCookie("SGE.Agil_version") || 0;
 
-newMversion = 0;
-newversion = 1;
-newsubversion = 0;
+
 
 document.getElementById("Mver_hide").innerHTML = newMversion;
 document.getElementById("ver_hide").innerHTML = newversion;
