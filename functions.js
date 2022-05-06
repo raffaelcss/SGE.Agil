@@ -80,7 +80,7 @@ ckbox_on.onchange = () => {
     chrome.scripting.executeScript({
       target: {tabId: tabs[0].id},
       function: setCookie,
-      args: ["SGE.Agil_ON", ckbox_on.checked ? true : false,8760],
+      args: ["SGE.Agil_ON", ckbox_on.checked ? true : false,43800],
     });
     //Executando script para ativar ou desativar tudo automaticamente
     chrome.scripting.executeScript({
@@ -101,7 +101,7 @@ ckbox_pes.onchange = () => {
     chrome.scripting.executeScript({
       target: {tabId: tabs[0].id},
       function: setCookie,
-      args: ["SGE.Agil_Pes", ckbox_pes.checked ? true : false ,8760],
+      args: ["SGE.Agil_Pes", ckbox_pes.checked ? true : false ,43800],
     });
     //Executando script para ativar ou desativar tudo automaticamente
     chrome.scripting.executeScript({
@@ -121,7 +121,7 @@ ckbox_dark.onchange = () => {
     chrome.scripting.executeScript({
       target: {tabId: tabs[0].id},
       function: setCookie,
-      args: ["SGE.Agil_Dark", ckbox_dark.checked ? true : false ,8760],
+      args: ["SGE.Agil_Dark", ckbox_dark.checked ? true : false ,43800],
     });
     //Executando script para ativar ou desativar tudo automaticamente
     chrome.scripting.executeScript({
@@ -141,7 +141,7 @@ ckbox_plan_aula.onchange = () => {
     chrome.scripting.executeScript({
       target: {tabId: tabs[0].id},
       function: setCookie,
-      args: ["SGE.Agil_Plan_aula", ckbox_plan_aula.checked ? true : false ,8760],
+      args: ["SGE.Agil_Plan_aula", ckbox_plan_aula.checked ? true : false ,43800],
     });
     //Executando script para ativar ou desativar tudo automaticamente
     chrome.scripting.executeScript({
@@ -161,7 +161,7 @@ ckbox_aviso_new.onchange = () => {
     chrome.scripting.executeScript({
       target: {tabId: tabs[0].id},
       function: setCookie,
-      args: ["SGE.Agil_Aviso_new", ckbox_aviso_new.checked ? true : false ,8760],
+      args: ["SGE.Agil_Aviso_new", ckbox_aviso_new.checked ? true : false ,43800],
     });
     //Executando script para ativar ou desativar tudo automaticamente
     chrome.scripting.executeScript({
@@ -181,7 +181,7 @@ ckbox_arq_turma.onchange = () => {
     chrome.scripting.executeScript({
       target: {tabId: tabs[0].id},
       function: setCookie,
-      args: ["SGE.Agil_Arq_turma", ckbox_arq_turma.checked ? true : false ,8760],
+      args: ["SGE.Agil_Arq_turma", ckbox_arq_turma.checked ? true : false ,43800],
     });
     //Executando script para ativar ou desativar tudo automaticamente
     chrome.scripting.executeScript({
@@ -203,6 +203,7 @@ function valores_iniciais() {
   let init_dark     = false;
   let init_plan     = true;
   let init_aviso    = true;
+  let init_arq      = true;
 
   let init_SGE      = true;
 
@@ -218,6 +219,9 @@ function valores_iniciais() {
   }
   if (!localStorage['SGE-Ágil-Aviso-new']){
     localStorage['SGE-Ágil-Aviso-new']        = init_aviso ? 'true' : 'false';
+  }
+  if (!localStorage['SGE-Ágil-Arq-turma']){
+    localStorage['SGE-Ágil-Arq-turma']        = init_arq ? 'true' : 'false';
   }
 
   if (!localStorage['SGE-Ágil-ON']){

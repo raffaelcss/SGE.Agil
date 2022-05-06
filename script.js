@@ -17,7 +17,7 @@ function receber_cookies(){
     let init_dark     = false;
     let init_plan     = true;
     let init_aviso    = true;
-    let init_arq    = true;
+    let init_arq      = true;
 
     let init_SGE      = true;
 
@@ -153,8 +153,8 @@ document.getElementById("subver_hide").innerHTML = newsubversion;
 if (newversion > oldversion) {
     setTimeout(() => {          //Tempo para o CSS carregar e a página abrir tbm
         alert(`Nova versão do SGE.Ágil instalada!\nVersão atual: ${newMversion}.${newversion}.${newsubversion}`);
-        setCookie("SGE.Agil_Mversion", newMversion);
-        setCookie("SGE.Agil_version", newversion);
+        setCookie("SGE.Agil_Mversion", newMversion, 43800);
+        setCookie("SGE.Agil_version", newversion, 43800);
     }, 800);
 }
 

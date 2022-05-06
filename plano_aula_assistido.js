@@ -142,7 +142,7 @@ function Setar_Aulas_seq_assistida(){
             element.click();
         })
 
-        setCookie("Plano_aula_seguinte",JSON.stringify(id_aulas),1400);
+        setCookie("Plano_aula_seguinte",JSON.stringify(id_aulas),24);
         //Lança a primeira aula
         Aulas_seq_assistida();
     } else {
@@ -152,10 +152,16 @@ function Setar_Aulas_seq_assistida(){
 
 // Executar assim que abrir a página pois so vai existir esse cookie quando clicar no botão do SGE_Agil_ON.Agil
 function Aulas_seq_assistida(){
-    var ids = JSON.parse(getCookie("Plano_aula_seguinte"));
+    var ids;
+    try {
+        ids = JSON.parse(getCookie("Plano_aula_seguinte"));
+    }
+    catch (e){
+
+    }
     if (ids == null){
         ids = [];
-        setCookie("Plano_aula_seguinte",JSON.stringify([]),1400);
+        setCookie("Plano_aula_seguinte",JSON.stringify([]),24);
     }
     if (ids.length > 0){
         var cont = 0; //cont * 2 = Tempo corrido em ms
@@ -168,7 +174,7 @@ function Aulas_seq_assistida(){
                     let id_atual = ids.shift();
                     document.getElementById(id_atual).click();
                     //Salva a nova lista no cookie
-                    setCookie("Plano_aula_seguinte",JSON.stringify(ids),1400);
+                    setCookie("Plano_aula_seguinte",JSON.stringify(ids),24);
                     //Copia para as próximas aulas
                     if (document.getElementById("ctl24_xmnuOpcao_DXI0i1_")){
                         document.getElementById("ctl24_xmnuOpcao_DXI0i1_").click();
@@ -180,7 +186,7 @@ function Aulas_seq_assistida(){
                         espera_lista_aulas();
                     } else {
                         //Salva uma lista vazia no cookie pois provavelmente a função deu problema ou passou o tempo limite
-                        setCookie("Plano_aula_seguinte",JSON.stringify([]),1400);
+                        setCookie("Plano_aula_seguinte",JSON.stringify([]),24);
                         console.log("Erro, não encontrou a lista, tempo limite esgotado.");
                     }
                 }
