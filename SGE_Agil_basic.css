@@ -67,6 +67,9 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
 }
 
 /*Aba menu lateral*/
+.AccodionHeaderIconCell{
+    height: 16.516px;
+}
 .AccodionHeaderIconCell + td {
     background-image: none !important;
     background: #d5dcf0;
@@ -93,9 +96,10 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     height: 25px !important;
     padding-left: 5px !important;
 }
-#ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos{
+/* Momentaneamente desativado pois foi inserido uma div para conter um botão o que fez com que a interface respeitasse a margin do span */
+/* #ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos{
     margin-top: 10px !important;
-}
+} */
 #HeaderTD {
     background: #14608e !important;
     background-image: none !important;
@@ -170,3 +174,181 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
 #rmscaptcha input#RMSCaptcha_btnTryNewWords {
     padding-top: 1px;
 }
+
+#ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1 {
+    padding: 0px !important;
+    padding-left: 5px !important;
+}
+
+/* Janela chata que aparece no inicio */
+#dxpc-header {
+    background: #14608e !important;
+    background-image: none !important;
+}
+
+/* Dando espaço para o lugar da scrollbar no mainmenu */
+.sem-scroll {
+    width: calc(100% - 15px) !important;
+}
+
+/* Grade para turmas arquivadas */
+.grid {
+    display: block;
+    background-image: repeating-linear-gradient(-135deg,transparent,transparent .5625rem,rgba(213,220,240,0.8) .5625rem,rgba(213,220,240,0.8) .625rem);
+    background-size: .8838834765rem .8838834765rem;
+    transform: rotateZ(15deg);
+    bottom: -100%;
+    /* left: -50%;
+    right: -50%; */
+    /* top: -50%; */
+    position: absolute;
+    height: 800%;
+    width: 800%;
+    pointer-events: none;
+}
+
+#ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_C0 {
+    position: relative;
+}
+
+/* Archived icon */
+.svg_archived {
+    color: #313131;
+}
+
+.container_arquivadas{
+    position: relative;
+}
+.container_hidden{
+    display: none;
+}
+
+.div_head_turmas{
+    display: flex;
+    align-items: center;
+    padding: 0px 5px 5px;
+    height: 29px;
+}
+.texto_swt_arq{
+    padding-right: 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.div_bnt_arq{
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    border: solid 1px #8b8b8b;
+    margin-right: 8px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+.div_bnt_archive{
+    display: block;
+    position: absolute;
+    left: calc(100% - 20px - 7px);
+    top: 4px;
+}
+
+
+.dxnb-gr {
+    position: relative;
+}
+
+.dxnb-ghtext {
+    margin-right: 30px !important;
+    display: block !important;
+}
+
+.svg_bnt {
+    cursor: pointer;
+}
+
+.svg_to_unarchived .path_to_archive, .svg_to_archive .path_to_unarchive{
+    display: none;
+}
+
+#ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_CC .archived {
+    display: none;
+}
+
+/* Garantindo que as turmas arquivadas sempre fiquem colapsadas */
+.container_arquivadas .dxnb-header, .container_arquivadas .dxnb-content{
+    display: none !important;
+}
+.container_arquivadas .dxnb-headerCollapsed{
+    display: block !important;
+    cursor: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+    margin-left: auto;
+  }
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  input:checked + .slider:before {
+    -webkit-transform: translateX(13px);
+    -ms-transform: translateX(13px);
+    transform: translateX(13px);
+  }
+  .slider.round {
+    border-radius: 17px;
+  }
+  .slider.round:before {
+    border-radius: 50%;
+  }
+  .slider.grande{
+    transform: scale(1.2);
+  }
+  .disable {
+    filter: opacity(0.5) grayscale(1) blur(0.5px);
+  }

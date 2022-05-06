@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////////////////////////
 
 var newMversion     = 0;
-var newversion      = 1;
-var newsubversion   = 1;
+var newversion      = 2;
+var newsubversion   = 0;
 
 
 
@@ -17,6 +17,7 @@ function receber_cookies(){
     let init_dark     = false;
     let init_plan     = true;
     let init_aviso    = true;
+    let init_arq    = true;
 
     let init_SGE      = true;
 
@@ -25,6 +26,7 @@ function receber_cookies(){
     SGE_Agil_ON_Dark = getCookie("SGE.Agil_Dark") || init_dark;
     SGE_Agil_ON_Plan_aula = getCookie("SGE.Agil_Plan_aula") || init_plan;
     SGE_Agil_ON_Aviso_new = getCookie("SGE.Agil_Aviso_new") || init_aviso;
+    SGE_Agil_ON_Arq_turma = getCookie("SGE.Agil_Arq_turma") || init_arq; 
 }
 
 function Ligar_Auto(){
@@ -50,6 +52,7 @@ function Ligar_Auto(){
         //Verifica se tem aula a lançar
         Aulas_seq_assistida();
     }
+    if (SGE_Agil_ON_Arq_turma) {Ligar_arq_turma()};     //Opção de arquivar turmas //Tem de ser antes do aviso por conta da propiedade IsArchived
     if (SGE_Agil_ON_Aviso_new) {Ligar_aviso_new()};     //Aviso novas Turmas e novas UCs
 
 
@@ -89,7 +92,8 @@ function Desligar_Auto(){
     Desligar_darkMode();                                //Dark Mode
     Desligar_planAula();                                //Plano de aula assistido
     //Desligar_Freq())};                                  //Freq assistida
-    Desligar_aviso_new();                                  //Plano de aula assistido
+    Desligar_aviso_new();                               //Aviso novas turmas e Ucs
+    Desligar_arq_turma();                               //Arquivar turmas
 
     //mudar icon professor
     if (document.getElementById("ctl09_ctl00_accordionMenuAccordionItems0_Header_RMWImage1")){
@@ -114,6 +118,7 @@ var SGE_Agil_ON_Pes;
 var SGE_Agil_ON_Dark;
 var SGE_Agil_ON_Plan_aula;
 var SGE_Agil_ON_Aviso_new;
+var SGE_Agil_ON_Arq_turma;
 
 
 
