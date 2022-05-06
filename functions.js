@@ -58,7 +58,10 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       func: getVersion,
     },
     (injectionResults) => {
-      document.getElementById("version_info").innerHTML = "version: " + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
+      if (injectionResults.length > 0) {
+        document.getElementById("version_info").innerHTML = "version: " + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
+      }
+      
     });
 });
 

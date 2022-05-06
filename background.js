@@ -1,7 +1,7 @@
 //Impede que o menu da extenção apareceça em outros sites quando você clicar
 
 //Descomentar para ativar função ↴
-//chrome.action.disable();
+chrome.action.disable();
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status == 'complete'){
     console.log(tab.url);
@@ -12,7 +12,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     }
     else{
       console.log('SGE.Ágil Disable!');
-      //chrome.action.disable(tabId);
+      chrome.action.disable(tabId);
     }
   }
 });
