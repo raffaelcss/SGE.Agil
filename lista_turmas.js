@@ -141,7 +141,20 @@ function get_texto_alert_novos(obj, is_new){
 function Ligar_aviso_new(){
     //console.log("Aviso ligado!");
     if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
-        let turmas_antigas = localStorage['SGE-Ágil-Turmas_atuais'];
+        var turmas_antigas;
+        if (localStorage['SGE-Ágil-Turmas_atuais']){
+            turmas_antigas = localStorage['SGE-Ágil-Turmas_atuais'];
+        } else {
+            // turmas_antigas = `{
+            //     "Nome":"Turmas",
+            //     "Qtd_turmas":0,
+            //     "Turmas":[]
+            //   }`
+
+            turmas_antigas = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
+            localStorage['SGE-Ágil-Turmas_atuais'] = turmas_antigas;
+        }
+        
         let turmas_atuais = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
         let turmas_novas = Turmas_novas(turmas_antigas, turmas_atuais);
         let ucs_novas    = UCs_novas(turmas_antigas, turmas_atuais);

@@ -1,9 +1,17 @@
 function receber_cookies(){
-    SGE_Agil_ON = getCookie("SGE.Agil_ON");
-    SGE_Agil_ON_Pes = getCookie("SGE.Agil_Pes");
-    SGE_Agil_ON_Dark = getCookie("SGE.Agil_Dark");
-    SGE_Agil_ON_Plan_aula = getCookie("SGE.Agil_Plan_aula");
-    SGE_Agil_ON_Aviso_new = getCookie("SGE.Agil_Aviso_new");
+     //Valores iniciais
+    let init_pes      = true;
+    let init_dark     = false;
+    let init_plan     = true;
+    let init_aviso    = true;
+
+    let init_SGE      = true;
+
+    SGE_Agil_ON = getCookie("SGE.Agil_ON") || init_SGE;
+    SGE_Agil_ON_Pes = getCookie("SGE.Agil_Pes") || init_pes;
+    SGE_Agil_ON_Dark = getCookie("SGE.Agil_Dark") || init_dark;
+    SGE_Agil_ON_Plan_aula = getCookie("SGE.Agil_Plan_aula") || init_plan;
+    SGE_Agil_ON_Aviso_new = getCookie("SGE.Agil_Aviso_new") || init_aviso;
 }
 
 function Ligar_Auto(){

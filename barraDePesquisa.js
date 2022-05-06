@@ -93,7 +93,7 @@ function Cria_pes() {
 
     pes.type = 'text';
     pes.placeholder = ' Busque por: Turma.. UC.. Horário.. Ano..'
-    pes.value = getCookie("PesquisaSGE");
+    pes.value = getCookie("PesquisaSGE") || '';
     pes.style.margin = 'auto';
     //pes.style.border = 'none';
     pes.style.width = "300px";
