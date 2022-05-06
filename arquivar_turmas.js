@@ -232,6 +232,9 @@ function Ligar_arq_turma(){
         chk_bnt_arq.addEventListener('change', () => {
             container_turmas.classList.toggle("container_hidden");
             container_arquivadas.classList.toggle("container_hidden");
+            if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1")){
+                document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_RMWLabel1").innerText = chk_bnt_arq.checked ? "Desarquive uma turma para acessa-la:" : "Selecione uma turma/disciplina:";
+            }
         });
         chk_bnt_arq.addEventListener('change', refresh_scroll_mainContainer);
 
