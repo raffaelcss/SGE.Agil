@@ -45,6 +45,24 @@ Change_menu_apare();
 
 ///////////////////////////////    Eventos   ////////////////////////////////
 
+//Buscar versao atraves de um componente oculto na página
+var version_text;
+function getVersion(){
+  if (document.getElementById("ver_hide") && document.getElementById("subver_hide"))
+    return [document.getElementById("Mver_hide").innerHTML,document.getElementById("ver_hide").innerHTML, document.getElementById("subver_hide").innerHTML];
+}
+chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  chrome.scripting.executeScript(
+    {
+      target: {tabId: tabs[0].id, allFrames: true},
+      func: getVersion,
+    },
+    (injectionResults) => {
+      document.getElementById("version_info").innerHTML = "version: " + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
+    });
+});
+
+
 //SGE ON
 ckbox_on.onchange = () => {
   //Saindo do escopo da extensão e indo para o da página

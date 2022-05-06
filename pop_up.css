@@ -125,3 +125,13 @@ input:checked + .slider:before {
 .disable {
   filter: opacity(0.5) grayscale(1) blur(0.5px);
 }
+
+.div_version{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+}
+#version_info {
+  padding: 3px;
+}

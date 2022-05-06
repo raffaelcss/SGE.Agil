@@ -94,25 +94,51 @@ var SGE_Agil_ON_Dark;
 var SGE_Agil_ON_Plan_aula;
 var SGE_Agil_ON_Aviso_new;
 
+var oldMVersion;
 var oldversion;
+var newMversion;
 var newversion;
 var newsubversion;
+
+var newMver_hide = document.createElement("span");
+newMver_hide.id = "Mver_hide";
+newMver_hide.style.display = 'none';
+var newver_hide = document.createElement("span");
+newver_hide.id = "ver_hide";
+newver_hide.style.display = 'none';
+var newsubver_hide = document.createElement("span");
+newsubver_hide.id = "subver_hide";
+newsubver_hide.style.display = 'none';
+
+document.getElementsByTagName("body")[0].appendChild(newMver_hide);
+document.getElementsByTagName("body")[0].appendChild(newver_hide);
+document.getElementsByTagName("body")[0].appendChild(newsubver_hide);
+
 
 /////////////////     Código a ser executado no início da página, acesso aos cookies     ////////////////////
 receber_cookies();
 
-oldversion = getCookie("SGE.Agil_version") || 0;
+oldMversion = getCookie("SGE.Agil_Mversion") || 0;
+oldversion  = getCookie("SGE.Agil_version") || 0;
+
+newMversion = 0;
 newversion = 1;
 newsubversion = 0;
 
+document.getElementById("Mver_hide").innerHTML = newMversion;
+document.getElementById("ver_hide").innerHTML = newversion;
+document.getElementById("subver_hide").innerHTML = newsubversion;
+
+
 if (newversion > oldversion) {
     setTimeout(() => {          //Tempo para o CSS carregar e a página abrir tbm
-        alert(`Nova versão do SGE.Ágil instalada!\nVersão atual: 0.${newversion}.${newsubversion}`);
+        alert(`Nova versão do SGE.Ágil instalada!\nVersão atual: ${newMversion}.${newversion}.${newsubversion}`);
+        setCookie("SGE.Agil_Mversion", newMversion);
         setCookie("SGE.Agil_version", newversion);
     }, 800);
 }
 
-console.clear();
+// console.clear();
 console.log(`Debug:SGE.Ágil 0.${newversion}.${newsubversion} run!`);
 console.log(SGE_Agil_ON ? `SGE.Ágil 0.${newversion}.${newsubversion} ON!` : `SGE.Ágil 0.${newversion}.${newsubversion} OFF!`);
 
