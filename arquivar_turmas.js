@@ -95,6 +95,9 @@ function atualizar_status_turmas() {
                     //Turmas não arquivadas
                     div_turmas_arquivadas.children[i].remove();
                 } else {
+                    //Mudando hint do botão
+                    //Mudando icone de arquivar para desarquivar
+                    div_turmas_arquivadas.children[i].getElementsByClassName("div_bnt_archive")[0].title = "Desarquivar";
                     //Mudando icone de arquivar para desarquivar
                     div_turmas_arquivadas.children[i].getElementsByClassName("svg_to_archive")[0].classList.add("svg_to_unarchived");
                     div_turmas_arquivadas.children[i].getElementsByClassName("svg_to_archive")[0].classList.remove("svg_to_archive");
@@ -259,6 +262,7 @@ function Ligar_arq_turma(){
 
         const div_bnt_archive = document.createElement("div");
         div_bnt_archive.classList.add("div_bnt_archive");
+        div_bnt_archive.title = "Arquivar";
 
 
         const svg_to_archive = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
