@@ -21,12 +21,20 @@ function receber_cookies(){
 
     let init_SGE      = true;
 
-    SGE_Agil_ON = getCookie("SGE.Agil_ON") || init_SGE;
-    SGE_Agil_ON_Pes = getCookie("SGE.Agil_Pes") || init_pes;
-    SGE_Agil_ON_Dark = getCookie("SGE.Agil_Dark") || init_dark;
-    SGE_Agil_ON_Plan_aula = getCookie("SGE.Agil_Plan_aula") || init_plan;
-    SGE_Agil_ON_Aviso_new = getCookie("SGE.Agil_Aviso_new") || init_aviso;
-    SGE_Agil_ON_Arq_turma = getCookie("SGE.Agil_Arq_turma") || init_arq; 
+    SGE_Agil_ON = (getCookie("SGE.Agil_ON") == "true") || init_SGE;
+    SGE_Agil_ON_Pes = (getCookie("SGE.Agil_Pes") == "true") || init_pes;
+    SGE_Agil_ON_Dark = (getCookie("SGE.Agil_Dark") == "true") || init_dark;
+    SGE_Agil_ON_Plan_aula = (getCookie("SGE.Agil_Plan_aula") =="true") || init_plan;
+    SGE_Agil_ON_Aviso_new = (getCookie("SGE.Agil_Aviso_new") =="true") || init_aviso;
+    SGE_Agil_ON_Arq_turma = (getCookie("SGE.Agil_Arq_turma") =="true") || init_arq; 
+
+    // console.log("SGE AGIL = " + SGE_Agil_ON);
+    // console.log("SGE Pes = " + SGE_Agil_ON_Pes);
+    // console.log("SGE Dark = " + SGE_Agil_ON_Dark);
+    // console.log("SGE Plano = " + SGE_Agil_ON_Plan_aula);
+    // console.log("SGE Aviso = " + SGE_Agil_ON_Aviso_new);
+    // console.log("SGE Arq. = " + SGE_Agil_ON_Arq_turma);
+    
 }
 
 function Ligar_Auto(){
