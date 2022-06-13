@@ -210,7 +210,7 @@ hr {
     border-color: var(--cinza-claro);
 }
 
-/* Alternar lista alunos */
-.dxgvDataRowAlt_Edu{
+/* Alternar lista alunos Lançamento de notas*/
+#ctl24_xgvNotas_DXMainTable  .dxgvDataRowAlt_Edu{
     color: var(--cinza);
 }
