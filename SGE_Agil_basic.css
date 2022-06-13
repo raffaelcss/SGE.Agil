@@ -283,8 +283,13 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     cursor: auto;
 }
 
-
-
+/* Alternar lista de alunos */
+/* #ctl24_xgvNotas_DXMainTable tr:nth-child(odd){
+    background: #ccc !important;
+} */
+.dxgvDataRowAlt_Edu{
+    background: #d5dcf0 !important;
+}
 
 
 

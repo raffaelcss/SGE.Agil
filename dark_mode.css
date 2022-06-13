@@ -209,3 +209,8 @@ TABLE.DropDownMenuItemCssClass, .DropDownMenuCell {
 hr {
     border-color: var(--cinza-claro);
 }
+
+/* Alternar lista alunos */
+.dxgvDataRowAlt_Edu{
+    color: var(--cinza);
+}
