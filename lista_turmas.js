@@ -106,5 +106,14 @@ function Json_Principal(ul_pai){
 
 //Deve ser executado para montar a lista de turmas independete de usar as features de aviso e de arquivar
 if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
-    var turmas_antigas = localStorage['SGE-Ágil-Turmas_atuais'];
+
+    //Busca turmas atuais
+    var turmas_atuais = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
+
+    //Buscar Json com turmas iniciais
+    if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
+        //Salva as novas turmas no Local Storage
+        localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
+    } 
+    var turmas_antigas = localStorage['SGE-Ágil-Turmas_atuais'] || turmas_atuais;
 }

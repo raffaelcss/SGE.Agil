@@ -92,8 +92,7 @@ function Desligar_aviso_new(){
 
 //Deve ser executado para montar a lista de turmas independete de usar as features de aviso e de arquivar
 if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
-
-    var turmas_atuais = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
+ 
     var turmas_novas = Turmas_novas(turmas_antigas, turmas_atuais);
     var ucs_novas    = UCs_novas(turmas_antigas, turmas_atuais);
 
