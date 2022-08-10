@@ -4,7 +4,7 @@
 
 var newMversion     = 0;
 var newversion      = 2;
-var newsubversion   = 0;
+var newsubversion   = 1;
 
 
 
@@ -28,13 +28,13 @@ function receber_cookies(){
     SGE_Agil_ON_Aviso_new = getBoolCookie("SGE.Agil_Aviso_new", init_aviso);
     SGE_Agil_ON_Arq_turma = getBoolCookie("SGE.Agil_Arq_turma", init_arq);
 
-    console.log("SGE AGIL = " + SGE_Agil_ON);
-    console.log("SGE Pes = " + SGE_Agil_ON_Pes);
-    console.log("SGE Dark = " + SGE_Agil_ON_Dark);
-    console.log("SGE Plano = " + SGE_Agil_ON_Plan_aula);
-    console.log("SGE Aviso = " + SGE_Agil_ON_Aviso_new);
-    console.log("SGE Arq. = " + SGE_Agil_ON_Arq_turma);
-    console.log (getCookie("SGE.Agil_Aviso_new"));
+    // console.log("SGE AGIL = " + SGE_Agil_ON);
+    // console.log("SGE Pes = " + SGE_Agil_ON_Pes);
+    // console.log("SGE Dark = " + SGE_Agil_ON_Dark);
+    // console.log("SGE Plano = " + SGE_Agil_ON_Plan_aula);
+    // console.log("SGE Aviso = " + SGE_Agil_ON_Aviso_new);
+    // console.log("SGE Arq. = " + SGE_Agil_ON_Arq_turma);
+    // console.log (getCookie("SGE.Agil_Aviso_new"));
     
 }
 
