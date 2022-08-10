@@ -83,6 +83,17 @@ div.dxnb-header, div.dxnb-headerCollapsed, #ctl24_EduTurmasProfRadioButtonWebFor
 .dxnb-ghtext, .dxrpHT, .dx-borderBox, .dxm-hovered > a > span{
     color: var(--cinza) !important;
 }
+
+#ctl24_xmnuOpcao_DXM0_ .dxm-hovered > div > span{
+    color: var(--cinza) !important;
+}
+
+#menu_plan_aula .dxm-item:hover {
+    background-color: var(--branco-escuro) !important;
+}
+#menu_plan_aula .dxm-item:hover span {
+    color: var(--cinza) !important;
+}
 /*
 #ctl24_EduToolBarFuncProf1_Tr1 > td > div{
     background: #3A3B3C !important;

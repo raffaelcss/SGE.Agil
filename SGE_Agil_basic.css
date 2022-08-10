@@ -1,3 +1,12 @@
+:root{
+    --preto: #18191A;
+    --cinza: #242526;
+    --cinza-claro: #3A3B3C;
+    --branco: #E4E6EB;
+    --branco-escuro: #B0B3B8;
+    --alerta: #ff8484;
+}
+
 .oculto{
     display: none;
 }
@@ -291,7 +300,12 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     background: #d5dcf0 !important;
 }
 
-
+#menu_plan_aula .dxm-item:hover {
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--branco-escuro);
+    background-color: var(--branco);
+}
 
 
 

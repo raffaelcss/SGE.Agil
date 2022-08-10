@@ -1,39 +1,97 @@
 function Ligar_planAula(){
     if (document.getElementById("ctl24_xmnuOpcao_DXI0_T")){
-        if (!document.getElementById("Div_plan_aula")){
-            if (document.getElementById("ctl24_xmnuOpcao_DXI0_T")){
-                document.getElementsByClassName("AccordionItemChildControlsDiv")[0].appendChild(Botao_plan_aula());        
+        if (!document.getElementById("div_menu")){
+            if (document.getElementsByClassName("dxmLite")[0]){
+                document.getElementsByClassName("dxmLite")[0].style.display = "flex";
+                Botao_plan_aula().forEach(element => {
+                    document.getElementsByClassName("dxmLite")[0].appendChild(element);
+                    //console.log(element);
+                });
             }
         }
     }
 }
 
 function Desligar_planAula(){
-    if (document.getElementById("Div_plan_aula")){
-        document.getElementById("Div_plan_aula").parentNode.removeChild(document.getElementById("Div_plan_aula"));
+    if (document.getElementById("div_menu")){
+        document.getElementById("div_menu").parentNode.removeChild(document.getElementById("div_menu"));
+    }
+    if (document.getElementById("menu_plan_aula")){
+        document.getElementById("menu_plan_aula").parentNode.removeChild(document.getElementById("menu_plan_aula"));
     }
 }
-
 function evento_botao_plan_aula_in(){
-    document.getElementById("menu_plan_aula").style.display = 'block';
+    
+    clearTimeout(getCookie("ocultaMenuTimeOut"));
+    let pos = 425 - document.getElementById("MainContainer").scrollTop;
+
+    if ((pos + document.getElementById("menu_plan_aula").clientHeight) > window.innerHeight){
+        pos -= document.getElementById("menu_plan_aula").clientHeight + 28;
+    }
+    document.getElementById("menu_plan_aula").style.top = pos + "px";
+
+    document.getElementById("menu_plan_aula").style.visibility = 'visible';
+    this.classList.add("hover");
 }
 function evento_botao_plan_aula_out(){
-    document.getElementById("menu_plan_aula").style.display = 'none';
+    this.classList.remove("hover");
+    var ocultaMenuTimeOut = setTimeout(() => {
+        if (!document.getElementById("div_menu").classList.contains("hover") && !document.getElementById("menu_plan_aula").classList.contains("hover")){
+            document.getElementById("menu_plan_aula").style.visibility = 'hidden';
+        }
+    }, 500); 
+    setCookie('ocultaMenuTimeOut',ocultaMenuTimeOut, 0.05);
+}
+function criaFuncaoBtnPlanAula(texto, pai, func = (() => {})){
+    //Numero função
+    let qtd = pai.getElementsByClassName("dxm-item").length;
+    
+    //Função
+    var li211 = document.createElement('li');
+    li211.id = "plan_aula_func_" + (qtd+1);
+    li211.classList.add("dxm-item");
+
+        var div2111 = document.createElement('div');
+        div2111.classList.add("dxm-content");
+        div2111.classList.add("dxm-hasText");
+        div2111.style.float = 'none';
+        li211.appendChild(div2111);
+            var span21111 = document.createElement('span');
+            span21111.classList.add("dx-vam");
+            span21111.classList.add("dxm-contentText");
+            span21111.innerHTML = texto;
+            div2111.appendChild(span21111);
+
+        var b2111 = document.createElement('b');
+        b2111.classList.add("dx-clear");
+        li211.appendChild(b2111);
+
+    //Add evento Click
+    li211.addEventListener("click", func, false);
+
+    //Espaço
+    var esp1 = document.createElement('li');
+    esp1.classList.add("dxm-spacing");
+    
+    pai.appendChild(li211);
+    pai.appendChild(esp1);
 }
 
 function Botao_plan_aula(){
-    var div1 = document.createElement('div');
-    div1.classList.add("dxmLite");
-    div1.classList.add("dxm-ltr");
-    div1.style.width = '139px';
-    div1.style.margin = 'auto';
-    div1.style.marginTop = '10px';
-    div1.id = "Div_plan_aula";
+    // var div1 = document.createElement('div');
+    // div1.classList.add("dxmLite");
+    // div1.classList.add("dxm-ltr");
+    // div1.style.width = '139px';
+    // div1.style.margin = 'auto';
+    // div1.style.marginTop = '10px';
+    // div1.id = "Div_plan_aula";
+
 
     var div11 = document.createElement('div');
+    div11.id = "div_menu";
+    div11.style.marginLeft = "10px";
     div11.classList.add("dxm-main");
     div11.classList.add("dxm-horizontal");
-    div1.appendChild(div11);
 
         var ul111 = document.createElement('ul');
         ul111.classList.add("dx");
@@ -50,16 +108,17 @@ function Botao_plan_aula(){
                     li1111.children[0].children[0].innerHTML = "Funções SGE.Ágil";
                 li1111.childNodes[1].id = "Img_btn_plan_aula";
 
-    var b11 = document.createElement('b');
-    b11.classList.add("dx-clear");
-    div1.appendChild(b11);
+    // var b11 = document.createElement('b');
+    // b11.classList.add("dx-clear");
+    // div1.appendChild(b11);
 
     var div12 = document.createElement('div');
     div12.style = document.getElementById("ctl24_xmnuOpcao_DXM0_").style;
-    div12.style.width = '139px';
-    div12.style.display = 'none';
+    div12.style.position = "absolute";
+    div12.style.left = "525px";
+    //div12.style.display = 'block';
+    div12.style.visibility = 'hidden';
     div12.id = 'menu_plan_aula';
-    div1.appendChild(div12);
 
         var div21 = document.createElement('div');
         div21.classList.add("dxm-shadow");
@@ -68,66 +127,28 @@ function Botao_plan_aula(){
         div12.appendChild(div21);
 
             var ul211 = document.createElement('ul');
+            ul211.id = "func_container";
             ul211.classList.add("dx");
             ul211.classList.add("dxm-noImages");
             ul211.classList.add("dxm-gutter");
             div21.appendChild(ul211);
 
-                //Funções do menu
+            //Funções do menu
                 //Função 1
-                var li211 = document.createElement('li');
-                li211.id = "plan_aula_func_1";
-                li211.classList.add("dxm-item");
-                ul211.appendChild(li211);
-                    var div2111 = document.createElement('div');
-                    div2111.classList.add("dxm-content");
-                    div2111.classList.add("dxm-hasText");
-                    div2111.style.float = 'none';
-                    li211.appendChild(div2111);
-                        var span21111 = document.createElement('span');
-                        span21111.classList.add("dx-vam");
-                        span21111.classList.add("dxm-contentText");
-                        span21111.innerHTML = "Copiar varios para próxima aula";
-                        div2111.appendChild(span21111);
-
-                    var b2111 = document.createElement('b');
-                    b2111.classList.add("dx-clear");
-                    li211.appendChild(b2111);
-
-                //Espaço
-                var esp1 = document.createElement('li');
-                esp1.classList.add("dxm-spacing");
-                ul211.appendChild(esp1);
-
+                criaFuncaoBtnPlanAula("Copiar conteúdo previsto para VÁRIAS aulas em sequência", ul211, Setar_Aulas_seq_assistida);
                 //Função 2
-                var li212 = document.createElement('li');
-                li212.id = "plan_aula_func_2";
-                li212.classList.add("dxm-item");
-                ul211.appendChild(li212);
-                    var div2121 = document.createElement('div');
-                    div2121.classList.add("dxm-content");
-                    div2121.classList.add("dxm-hasText");
-                    div2121.style.float = 'none';
-                    li212.appendChild(div2121);
-                        var span21211 = document.createElement('span');
-                        span21211.classList.add("dx-vam");
-                        span21211.classList.add("dxm-contentText");
-                        span21211.innerHTML = "Função 2";
-                        div2121.appendChild(span21211);
-
-                    var b2121 = document.createElement('b');
-                    b2121.classList.add("dx-clear");
-                    li212.appendChild(b2121);
+                //criaFuncaoBtnPlanAula("Teste de nova função", ul211);
+                
 
     //Adicionando eventos
     //Botão principal Mouseover
-    div1.addEventListener("mouseover", evento_botao_plan_aula_in, false);
-    div1.addEventListener("mouseout", evento_botao_plan_aula_out, false);
+    div11.addEventListener("mouseover", evento_botao_plan_aula_in, false);
+    div11.addEventListener("mouseout", evento_botao_plan_aula_out, false);
+    div12.addEventListener("mouseover", evento_botao_plan_aula_in, false);
+    div12.addEventListener("mouseout", evento_botao_plan_aula_out, false);
 
-    //Função 1
-    li211.addEventListener("click", Setar_Aulas_seq_assistida, false);
 
-    return div1;
+    return [div11,div12];
 }
 
 
@@ -146,7 +167,7 @@ function Setar_Aulas_seq_assistida(){
         //Lança a primeira aula
         Aulas_seq_assistida();
     } else {
-        alert('Você deve selecionar pelo menos uma aula!\nVocê pode marcar mais de um dia se quiser =)');
+        alert('Você deve selecionar pelo menos uma aula!\nVocê pode marcar mais de um dia se quiser ツ');
     }
 }
 
