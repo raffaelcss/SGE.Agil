@@ -11,6 +11,14 @@ path_to_unarchive.setAttribute('d', 'M 23.28 3.055 L 21.444 0.834 C 21.088 0.384
 //Arquivar
 path_to_archive.setAttribute('d', 'M 21.325 5.187 L 12.065 5.187 L 9.749 2.863 L 2.806 2.863 C 1.531 2.863 0.501 3.909 0.501 5.187 L 0.49 19.132 C 0.49 20.412 1.531 21.458 2.806 21.458 L 21.325 21.458 C 22.598 21.458 23.64 20.412 23.64 19.132 L 23.64 7.512 C 23.64 6.233 22.598 5.187 21.325 5.187 Z M 21.325 19.132 L 2.806 19.132 L 2.806 7.512 L 21.325 7.512 L 21.325 19.132 Z');
 
+//Desarquivar novo
+const path_to_new_archive = document.createElementNS('http://www.w3.org/2000/svg', "path");
+
+path_to_new_archive.setAttribute('d', 'M 23.28 3.055 L 21.444 0.834 C 21.088 0.384 20.546 0.107 19.926 0.107 L 4.074 0.107 C 3.454 0.107 2.912 0.384 2.542 0.834 L 0.72 3.055 C 0.336 3.503 0.112 4.098 0.112 4.731 L 0.112 21.251 C 0.112 22.703 1.3 23.893 2.754 23.893 L 21.246 23.893 C 22.7 23.893 23.888 22.703 23.888 21.251 L 23.888 4.731 C 23.888 4.098 23.664 3.503 23.28 3.055 Z M 4.392 2.749 L 19.608 2.749 L 20.704 4.071 L 3.308 4.071 L 4.392 2.749 Z M 2.754 21.251 L 2.754 6.714 L 21.246 6.714 L 21.246 21.251 L 2.754 21.251 Z');
+
+
+
+
 
 var main_container = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos");
 var container_turmas = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_CC");
@@ -193,7 +201,13 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
 
     }
 
-    var turm_local_str = JSONToobj(turmas_antigas);
+    var turm_local_str;
+    try {
+        turm_local_str = JSONToobj(turmas_antigas);
+    } catch (e) {
+        turm_local_str = {};
+    }
+    
 
     add_archived_class();
 
