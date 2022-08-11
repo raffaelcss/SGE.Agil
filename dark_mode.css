@@ -7,13 +7,13 @@
     --alerta: #ff8484;
 }
 
-#HeaderTD, .dxpc-headerContent{
+#HeaderTD{
     background: var(--cinza) !important;
 }
 #AddressTD, .AccodionHeaderIconCell + td {
     background: var(--cinza-claro) !important;
 }
-body, .dxtc-content, #ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina, .dxgPEFTW, .dxpc-mainDiv, TD.clContentTD{
+body, .dxtc-content, #ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina, .dxgPEFTW, .dxpc-footer, TD.clContentTD{
     background: var(--preto) !important;
     color: var(--branco) !important;
 }
@@ -224,4 +224,16 @@ hr {
 /* Alternar lista alunos Lançamento de notas*/
 #ctl24_xgvNotas_DXMainTable  .dxgvDataRowAlt_Edu{
     color: var(--cinza);
+}
+
+/* iframe quando abre o contexto */
+.dxpc-content iframe, .dxpc-contentWrapper{
+    background-color: var(--cinza);
+}
+
+.dxpc-header, .dxpc-footer{
+    background-image: none !important;
+    background-color: var(--preto) !important;
+    border-bottom: none !important;
+    border-top: none !important;
 }
