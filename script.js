@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////////////////////////
 
 var newMversion     = 0;
-var newversion      = 2;
-var newsubversion   = 1;
+var newversion      = 3;
+var newsubversion   = 0;
 
 
 
@@ -159,7 +159,7 @@ document.getElementById("ver_hide").innerHTML = newversion;
 document.getElementById("subver_hide").innerHTML = newsubversion;
 
 
-if (newversion > oldversion) {
+if ((newMversion > oldMversion) || (newversion > oldversion)) {
     setTimeout(() => {          //Tempo para o CSS carregar e a página abrir tbm
         alert(`Nova versão do SGE.Ágil instalada!\nVersão atual: ${newMversion}.${newversion}.${newsubversion}`);
         setCookie("SGE.Agil_Mversion", newMversion, 43800);
