@@ -16,6 +16,20 @@ const path_to_new_archive = document.createElementNS('http://www.w3.org/2000/svg
 
 path_to_new_archive.setAttribute('d', 'M 23.28 3.055 L 21.444 0.834 C 21.088 0.384 20.546 0.107 19.926 0.107 L 4.074 0.107 C 3.454 0.107 2.912 0.384 2.542 0.834 L 0.72 3.055 C 0.336 3.503 0.112 4.098 0.112 4.731 L 0.112 21.251 C 0.112 22.703 1.3 23.893 2.754 23.893 L 21.246 23.893 C 22.7 23.893 23.888 22.703 23.888 21.251 L 23.888 4.731 C 23.888 4.098 23.664 3.503 23.28 3.055 Z M 4.392 2.749 L 19.608 2.749 L 20.704 4.071 L 3.308 4.071 L 4.392 2.749 Z M 2.754 21.251 L 2.754 6.714 L 21.246 6.714 L 21.246 21.251 L 2.754 21.251 Z');
 
+const img_archive = document.createElement("img");
+img_archive.width = 24;
+img_archive.height = 24;
+img_archive.setAttribute('src', chrome.runtime.getURL('svg/archive-box-bold-svgrepo-com.svg'));
+img_archive.classList.add("img_bnt");
+img_archive.classList.add("img_to_archive");
+
+const img_unarchive = document.createElement("img");
+img_unarchive.width = 24;
+img_unarchive.height = 24;
+img_unarchive.setAttribute('src', chrome.runtime.getURL('svg/archive-out-svgrepo-com.svg'));
+img_unarchive.classList.add("img_bnt");
+img_unarchive.classList.add("img_to_unarchive");
+
 
 
 
@@ -270,6 +284,11 @@ function Ligar_arq_turma(){
         const div_bnt_archive = document.createElement("div");
         div_bnt_archive.classList.add("div_bnt_archive");
         div_bnt_archive.title = "Arquivar";
+
+        //Adicionando IMG Archive
+        //div_bnt_archive.appendChild(img_archive);
+        //Adicionando IMG Unarchive
+        //div_bnt_archive.appendChild(img_unarchive);
 
 
         const svg_to_archive = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
