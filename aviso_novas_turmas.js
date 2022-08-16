@@ -68,7 +68,7 @@ function Ligar_aviso_new(){
                         setTimeout(() => {          //Tempo para o CSS carregar e a página abrir tbm
                             if (confirm(msg_confirm)){
                                 //Salva as novas turmas no Local Storage
-                                localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
+                                localStorage['SGE-Ágil-Turmas_atuais'] = turmasAtuaisJSON;
                             }
                         }, 800);
                         
@@ -93,7 +93,7 @@ function Desligar_aviso_new(){
 //Deve ser executado para montar a lista de turmas independete de usar as features de aviso e de arquivar
 if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
  
-    var turmas_novas = Turmas_novas(turmas_antigas, turmas_atuais);
-    var ucs_novas    = UCs_novas(turmas_antigas, turmas_atuais);
+    var turmas_novas = Turmas_novas(turmasAntigasJSON, turmasAtuaisJSON);
+    var ucs_novas    = UCs_novas(turmasAntigasJSON, turmasAtuaisJSON);
 
 }

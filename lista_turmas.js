@@ -104,16 +104,43 @@ function Json_Principal(ul_pai){
     return objToJSON(subObj);
 }
 
+function atualizaArchivedStatus(turmAntObj, turmAtuaisObj){
+    turmAntObj.Turmas.forEach(element_antigo => {
+        turmAtuaisObj.Turmas.forEach(element_atual => {
+            if (element_antigo.Nome == element_atual.Nome){
+                element_atual.Is_archived = element_antigo.Is_archived;
+                //console.log(element_antigo.Is_archived);
+            }
+        });
+    });
+}
+
 //Deve ser executado para montar a lista de turmas independete de usar as features de aviso e de arquivar
 if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
 
     //Busca turmas atuais
-    var turmas_atuais = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
+    var turmasAtuaisJSON = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
+
+    //console.log(turmas_atuais);
 
     //Buscar Json com turmas iniciais
     if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
         //Salva as novas turmas no Local Storage
-        localStorage['SGE-Ágil-Turmas_atuais'] = turmas_atuais;
+        localStorage['SGE-Ágil-Turmas_atuais'] = turmasAtuaisJSON;
     } 
-    var turmas_antigas = localStorage['SGE-Ágil-Turmas_atuais'] || turmas_atuais;
+    var turmasAntigasJSON = localStorage['SGE-Ágil-Turmas_atuais'] || turmasAtuaisJSON;
+
+    var turmAntigasObj;
+    var turmAtuaisObj;
+    try {
+        turmAntigasObj = JSONToobj(turmasAntigasJSON);
+        turmAtuaisObj = JSONToobj(turmasAtuaisJSON);
+    } catch (e) {
+        turmAntigasObj = {};
+        turmAtuaisObj = {};
+    }
+    //Atualiza o status de Is_archived de cada turma no JSON
+    atualizaArchivedStatus(turmAntigasObj, turmAtuaisObj);
+    turmasAtuaisJSON = objToJSON(turmAtuaisObj);
+
 }

@@ -36,13 +36,13 @@ function insertAfter(newElement, reference) {
 }
 
 function arq_obj(nome){
-    Array.from(turm_local_str["Turmas"]).forEach(element => {
+    Array.from(turmAntigasObj["Turmas"]).forEach(element => {
         if (element["Nome"] == nome){
             element["Is_archived"] = !element["Is_archived"];
         }
     })
     //Salvando novo status das turmas
-    localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(turm_local_str);
+    localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(turmAntigasObj);
 }
 
 function bnt_arquivar(dono) {
@@ -157,7 +157,7 @@ function add_archived_class() {
     //Adicionando classe archived às turmas com base no JSON salvo em localstorage
     try{
         for (turm of li_turmas.children){
-            turm_local_str.Turmas.forEach(element => {
+            turmAntigasObj.Turmas.forEach(element => {
                 try {
                     if (element.Nome === turm.children[0].children[1].innerHTML){
                         if (element.Is_archived){
@@ -200,14 +200,7 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
     catch (e) {
 
     }
-
-    var turm_local_str;
-    try {
-        turm_local_str = JSONToobj(turmas_antigas);
-    } catch (e) {
-        turm_local_str = {};
-    }
-    
+  
 
     add_archived_class();
 
