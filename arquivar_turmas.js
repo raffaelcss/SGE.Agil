@@ -20,14 +20,12 @@ const img_archive = document.createElement("img");
 img_archive.width = 24;
 img_archive.height = 24;
 img_archive.setAttribute('src', chrome.runtime.getURL('svg/archive-box-bold-svgrepo-com.svg'));
-img_archive.classList.add("img_bnt");
 img_archive.classList.add("img_to_archive");
 
 const img_unarchive = document.createElement("img");
 img_unarchive.width = 24;
 img_unarchive.height = 24;
 img_unarchive.setAttribute('src', chrome.runtime.getURL('svg/archive-out-svgrepo-com.svg'));
-img_unarchive.classList.add("img_bnt");
 img_unarchive.classList.add("img_to_unarchive");
 
 
@@ -67,7 +65,7 @@ function bnt_arquivar(dono) {
 }
 
 function quest_bnt_arquivar() {
-    let to_arc = this.classList.contains("svg_to_archive");
+    let to_arc = this.classList.contains("img_to_archive");
     if (confirm(`Deseja realmente ${to_arc ? "" : "des"}arquivar essa turma?\nEla poderá ser ${to_arc ? "restaurada" : "arquivada"} a qualquer momento.`)){
         bnt_arquivar(this);
         atualizar_status_turmas();
@@ -121,11 +119,11 @@ function atualizar_status_turmas() {
                     //Mudando icone de arquivar para desarquivar
                     div_turmas_arquivadas.children[i].getElementsByClassName("div_bnt_archive")[0].title = "Desarquivar";
                     //Mudando icone de arquivar para desarquivar
-                    div_turmas_arquivadas.children[i].getElementsByClassName("svg_to_archive")[0].classList.add("svg_to_unarchived");
-                    div_turmas_arquivadas.children[i].getElementsByClassName("svg_to_archive")[0].classList.remove("svg_to_archive");
+                    div_turmas_arquivadas.children[i].getElementsByClassName("div_to_archive")[0].classList.add("div_to_unarchived");
+                    div_turmas_arquivadas.children[i].getElementsByClassName("div_to_archive")[0].classList.remove("div_to_archive");
                     //Adicionando função de botão
-                    div_turmas_arquivadas.children[i].getElementsByClassName('svg_bnt')[0].addEventListener('click', quest_bnt_arquivar);
-                    div_turmas_arquivadas.children[i].getElementsByClassName('svg_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);
+                    div_turmas_arquivadas.children[i].getElementsByClassName('div_bnt')[0].addEventListener('click', quest_bnt_arquivar);
+                    div_turmas_arquivadas.children[i].getElementsByClassName('div_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);
                 }
             }
             catch (e) {
@@ -285,32 +283,25 @@ function Ligar_arq_turma(){
         div_bnt_archive.classList.add("div_bnt_archive");
         div_bnt_archive.title = "Arquivar";
 
+        const div_to_archive = document.createElement("div");
+        div_to_archive.classList.add("div_to_archive");
+        div_to_archive.classList.add("div_bnt");
+
+        //DIV com as imagens
+        div_bnt_archive.appendChild(div_to_archive);
+
         //Adicionando IMG Archive
-        //div_bnt_archive.appendChild(img_archive);
+        div_to_archive.appendChild(img_archive);
         //Adicionando IMG Unarchive
-        //div_bnt_archive.appendChild(img_unarchive);
-
-
-        const svg_to_archive = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); //Necessário para diferenciar viewbox de viewBox
-        svg_to_archive.classList.add("svg_bnt");
-        svg_to_archive.classList.add("svg_to_archive");
-        svg_to_archive.setAttribute('focusable', "false");
-        svg_to_archive.setAttribute('width', '20');
-        svg_to_archive.setAttribute('height', '20');
-        // svg_archived.viewBox = '0 0 24 24';
-        svg_to_archive.setAttribute("viewBox", '0 0 24 24');
-
-        div_bnt_archive.appendChild(svg_to_archive);
-        svg_to_archive.appendChild(path_to_archive);
-        svg_to_archive.appendChild(path_to_unarchive);
+        div_to_archive.appendChild(img_unarchive);
 
         Array.from(li_turmas.children).forEach(li => {
             let div_temp = div_bnt_archive.cloneNode(true);
             try {
-                div_temp.getElementsByClassName('svg_bnt')[0].id = 'bntToArchive_' + li.id;
+                div_temp.getElementsByClassName('div_bnt')[0].id = 'bntToArchive_' + li.id;
                 li.appendChild(div_temp);
-                div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', quest_bnt_arquivar);
-                div_temp.getElementsByClassName('svg_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);        
+                div_temp.getElementsByClassName('div_bnt')[0].addEventListener('click', quest_bnt_arquivar);
+                div_temp.getElementsByClassName('div_bnt')[0].addEventListener('click', refresh_scroll_mainContainer);        
             }
             catch (e) {
 
