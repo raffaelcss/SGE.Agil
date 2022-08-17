@@ -237,3 +237,8 @@ hr {
     border-bottom: none !important;
     border-top: none !important;
 }
+
+.grid {
+
+    background-image: repeating-linear-gradient(-135deg,transparent,transparent .5625rem,rgba(213,220,240,0.1) .5625rem,rgba(213,220,240,0.1) .625rem) !important;
+}
