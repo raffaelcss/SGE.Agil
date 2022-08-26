@@ -58,7 +58,7 @@ function UCs_novas(json1, json2){
     return novas;
 }
 
-function Json_UC(uc, turma){
+function getObjUC(uc, turma){
     var inicio_text = uc.children[0].innerHTML.indexOf('>');
     var subObj = { 
         Nome: uc.children[0].innerHTML.substring(inicio_text+1),
@@ -68,7 +68,7 @@ function Json_UC(uc, turma){
     return subObj;
 }
 
-function Json_Turmas(turma, is_archived = false){
+function getObjTurma(turma, is_archived = false){
     var subObj = { 
         Nome: turma.children[0].children[1].innerHTML,
         Qtd_ucs: turma.children[2].children.length,
@@ -80,15 +80,18 @@ function Json_Turmas(turma, is_archived = false){
     }
 
     Array.from(turma.children[2].children).forEach(element => {
-        subObj.Ucs.push(Json_UC(element, subObj.Nome));
+        subObj.Ucs.push(getObjUC(element, subObj.Nome));
     })
 
     return subObj;
 }
 
-function Json_Principal(ul_pai){
+function getObjContextoEducacional(){
+    //Local onde encontra as turmas no html
+    let ul_pai = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina");
     var subObj = { 
-        Nome: "Turmas",
+        //Pega contexto educacional
+        Nome: document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText,
         Qtd_turmas: ul_pai.children.length,    
     };
     if (!subObj.Turmas) { 
@@ -98,10 +101,48 @@ function Json_Principal(ul_pai){
     Array.from(ul_pai.children).forEach(element => {
         let is_archived = element.classList.contains("archived");
         // console.log(is_archived);
-        subObj.Turmas.push(Json_Turmas(element, is_archived));
+        subObj.Turmas.push(getObjTurma(element, is_archived));
     })
 
-    return objToJSON(subObj);
+    return subObj;
+}
+
+function getJSONPrincipal(){
+    var objContextoPadrao = { 
+        Nome: "Contextos",
+        Qtd_contextos: 0,    
+    };
+    if (!objContextoPadrao.Contextos) { 
+        objContextoPadrao.Contextos = [];
+    }
+
+    //Busca contextos salvos, anteriormente chamados apenas de turmas
+    var objContextos;
+
+    if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
+        objContextos = objContextoPadrao;
+    } else {
+        objContextos = JSONToobj(localStorage['SGE-Ágil-Turmas_atuais']);
+    }
+
+    var possuiContextoAtual = false;
+    var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0];
+    //Verifica se já possui o contexto atual e atualiza
+    Array.from(objContextos.Contextos).forEach(contexto => {
+        if (contexto.Nome == contextoAtual){
+            possuiContextoAtual = true;
+            contexto = getObjContextoEducacional();
+        }
+    });
+    //Caso não haja o contexto atual, adiciona-o;
+    if(!possuiContextoAtual){
+        objContextos.Contextos.push(getObjContextoEducacional());
+    }
+
+    //Atualiza Qtd_contextos
+    objContextos.Qtd_contextos = objContextos.Contextos.length;
+
+    return objToJSON(objContextos);
 }
 
 function atualizaArchivedStatus(turmAntObj, turmAtuaisObj){
@@ -119,9 +160,10 @@ function atualizaArchivedStatus(turmAntObj, turmAtuaisObj){
 if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
 
     //Busca turmas atuais
-    var turmasAtuaisJSON = Json_Principal(document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina"));
+    var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
 
-    //console.log(turmas_atuais);
+    console.log("Contextos educacionais: ");
+    console.log(getJSONPrincipal());
 
     //Buscar Json com turmas iniciais
     if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
