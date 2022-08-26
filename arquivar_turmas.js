@@ -39,8 +39,24 @@ function arq_obj(nome){
             element["Is_archived"] = !element["Is_archived"];
         }
     })
-    //Salvando novo status das turmas
-    localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(turmAntigasObj);
+    //Salvando novo status das turmas (legado)
+    // localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(turmAntigasObj);
+
+    //Econtra o contexto atual e atualiza somente ele
+    Array.from(contextosExistentes.Contextos).forEach(contexto => {
+        console.log(contexto.Nome);
+        console.log(contextoAtual);
+        if (contexto.Nome == contextoAtual){
+            Array.from(contexto.Turmas).forEach(turma => {
+                if (turma.Nome == nome){
+                    turma["Is_archived"] = !turma["Is_archived"];
+                }
+            });
+        }
+    });
+    console.log(contextosExistentes);
+    //Salva na memória o JSON
+    localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
 }
 
 function bnt_arquivar(dono) {

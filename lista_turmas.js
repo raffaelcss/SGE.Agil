@@ -86,6 +86,20 @@ function getObjTurma(turma, is_archived = false){
     return subObj;
 }
 
+function getTurmasJSON(json, nomeContexto){
+    let objTemp = JSONToobj(json);
+
+    let objTurmTemp = {};
+
+    Array.from(objTemp.Contextos).forEach(contexto => {
+        if (contexto.Nome == nomeContexto){
+            objTurmTemp = contexto;
+        }
+    });
+
+    return objToJSON(objTurmTemp);
+}
+
 function getObjContextoEducacional(){
     //Local onde encontra as turmas no html
     let ul_pai = document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina");
@@ -107,7 +121,7 @@ function getObjContextoEducacional(){
     return subObj;
 }
 
-function getJSONPrincipal(){
+function getAllContextos(){
     var objContextoPadrao = { 
         Nome: "Contextos",
         Qtd_contextos: 0,    
@@ -126,7 +140,7 @@ function getJSONPrincipal(){
     }
 
     var possuiContextoAtual = false;
-    var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0];
+    var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
     //Verifica se já possui o contexto atual e atualiza
     Array.from(objContextos.Contextos).forEach(contexto => {
         if (contexto.Nome == contextoAtual){
@@ -135,14 +149,21 @@ function getJSONPrincipal(){
         }
     });
     //Caso não haja o contexto atual, adiciona-o;
+    let novosContextos = false;
     if(!possuiContextoAtual){
         objContextos.Contextos.push(getObjContextoEducacional());
+        novosContextos = true;
     }
 
     //Atualiza Qtd_contextos
     objContextos.Qtd_contextos = objContextos.Contextos.length;
 
-    return objToJSON(objContextos);
+    if (novosContextos) {
+        //Salva na memória
+        localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(objContextos);
+    }
+
+    return objContextos;
 }
 
 function atualizaArchivedStatus(turmAntObj, turmAtuaisObj){
@@ -159,18 +180,32 @@ function atualizaArchivedStatus(turmAntObj, turmAtuaisObj){
 //Deve ser executado para montar a lista de turmas independete de usar as features de aviso e de arquivar
 if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
 
-    //Busca turmas atuais
+    //Busca contextos atuais
+    var contextosExistentes = getAllContextos();
+    var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
+
+    //Busca turmas atuais (legado)
+    // var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
+
+    //Busca turmas atuais (novo) a partir do contexto
     var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
 
     console.log("Contextos educacionais: ");
-    console.log(getJSONPrincipal());
+    console.log(objToJSON(contextosExistentes));
 
     //Buscar Json com turmas iniciais
     if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
         //Salva as novas turmas no Local Storage
-        localStorage['SGE-Ágil-Turmas_atuais'] = turmasAtuaisJSON;
-    } 
-    var turmasAntigasJSON = localStorage['SGE-Ágil-Turmas_atuais'] || turmasAtuaisJSON;
+        localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
+    }
+
+    // retirado o (|| turmasAtuaisJSON) pois já é feito no if anterior
+    var contextosAntigosJSON = localStorage['SGE-Ágil-Turmas_atuais']; //|| turmasAtuaisJSON;
+
+    var turmasAntigasJSON = getTurmasJSON(contextosAntigosJSON, contextoAtual);
+
+    console.log("Turmas antigas: ");
+    console.log(turmasAntigasJSON);
 
     var turmAntigasObj;
     var turmAtuaisObj;
