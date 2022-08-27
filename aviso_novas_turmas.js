@@ -67,8 +67,17 @@ function Ligar_aviso_new(){
                     if (document.getElementById("css_basico") || cont <= 0){         //Verifica se o css básico do SGE.Ágil já foi lançado, sinal que a página está carregada
                         setTimeout(() => {          //Tempo para o CSS carregar e a página abrir tbm
                             if (confirm(msg_confirm)){
-                                //Salva as novas turmas no Local Storage
-                                localStorage['SGE-Ágil-Turmas_atuais'] = turmasAtuaisJSON;
+                                //Salva as novas turmas no Local Storage (legado)
+                                // localStorage['SGE-Ágil-Turmas_atuais'] = turmasAtuaisJSON;
+
+                                //Econtra o contexto atual e atualiza somente ele
+                                Array.from(contextosExistentes.Contextos).forEach(contexto => {
+                                    if (contexto.Nome == contextoAtual){
+                                        contexto["Turmas"] = JSONToobj(turmasAtuaisJSON).Turmas;
+                                    }
+                                });
+                                //Salva na memória o JSON
+                                localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
                             }
                         }, 800);
                         
