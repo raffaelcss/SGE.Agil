@@ -44,8 +44,8 @@ function arq_obj(nome){
 
     //Econtra o contexto atual e atualiza somente ele
     Array.from(contextosExistentes.Contextos).forEach(contexto => {
-        console.log(contexto.Nome);
-        console.log(contextoAtual);
+        // console.log(contexto.Nome);
+        // console.log(contextoAtual);
         if (contexto.Nome == contextoAtual){
             Array.from(contexto.Turmas).forEach(turma => {
                 if (turma.Nome == nome){
@@ -54,7 +54,7 @@ function arq_obj(nome){
             });
         }
     });
-    console.log(contextosExistentes);
+    //console.log(contextosExistentes);
     //Salva na memória o JSON
     localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
 }
