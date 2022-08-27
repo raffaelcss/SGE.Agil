@@ -74,6 +74,8 @@ function Ligar_aviso_new(){
                                 Array.from(contextosExistentes.Contextos).forEach(contexto => {
                                     if (contexto.Nome == contextoAtual){
                                         contexto["Turmas"] = JSONToobj(turmasAtuaisJSON).Turmas;
+                                        //Atualiza qtd turmas
+                                        contexto["Qtd_turmas"] = JSONToobj(turmasAtuaisJSON).Qtd_turmas;
                                     }
                                 });
                                 //Salva na memória o JSON
