@@ -139,6 +139,11 @@ function getAllContextos(){
         objContextos = JSONToobj(localStorage['SGE-Ágil-Turmas_atuais']);
     }
 
+    //Verifica se está com o JSON antigo e o atualiza para o novo 0.3.1
+    if(typeof objContextos.Contextos == "undefined"){
+        objContextos = objContextoPadrao;
+    }
+
     var possuiContextoAtual = false;
     var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
     //Verifica se já possui o contexto atual e atualiza
