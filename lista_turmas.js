@@ -190,8 +190,8 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
     //Busca turmas atuais (novo) a partir do contexto
     var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
 
-    console.log("Contextos educacionais: ");
-    console.log(objToJSON(contextosExistentes));
+    // console.log("Contextos educacionais: ");
+    // console.log(objToJSON(contextosExistentes));
 
     //Buscar Json com turmas iniciais
     if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
@@ -204,8 +204,8 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
 
     var turmasAntigasJSON = getTurmasJSON(contextosAntigosJSON, contextoAtual);
 
-    console.log("Turmas antigas: ");
-    console.log(turmasAntigasJSON);
+    // console.log("Turmas antigas: ");
+    // console.log(turmasAntigasJSON);
 
     var turmAntigasObj;
     var turmAtuaisObj;
