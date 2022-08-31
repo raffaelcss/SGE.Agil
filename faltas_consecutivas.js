@@ -156,22 +156,26 @@ function getObjMes(objTurmaAtual){
         if (typeof objMesAtual.Alunos.find(element => element.RA == raAtual) != "undefined"){
             possuiAlunoAtual = true;
             
-            objMesAtual.Alunos.find(element => element.RA == raAtual)["Dias"] = getObjAluno(tr)["Dias"];
+            objMesAtual.Alunos.find(element => element.RA == raAtual)["Datas"] = getObjAluno(objMesAtual, tr)["Datas"];
         }
         //Caso não exista adiciona
         if (!possuiAlunoAtual){
-            objMesAtual.Alunos.push(getObjAluno(tr));
+            objMesAtual.Alunos.push(getObjAluno(objMesAtual, tr));
         }
     });
 
     return objMesAtual;
 }
 
-function getObjAluno(tr){
+function getObjAluno(objMesAtual, tr){
+    var raAtual = tr.getElementsByTagName("td")[1].innerText;
+    //pega obj com aluno atual
+    var objAlunoAtual = objMesAtual.Alunos.find(element => element.RA == raAtual);
+
     var subObj = { 
-        RA: tr.children[1].innerText,
-        Nome: tr.children[2].innerText,
-        Situacao: tr.children[3].innerText,
+        RA: raAtual,
+        Nome: tr.getElementsByTagName("td")[2].innerText,
+        Situacao: tr.getElementsByTagName("td")[3].innerText,
         Qtd_dias_lancados: 0,
         Qtd_faltas: 0,
         Qtd_faltas_consecutivas: 0
@@ -181,17 +185,32 @@ function getObjAluno(tr){
         subObj.Datas = [];
     }
 
+    //Caso não tenha o aluno atual recebe o padrão
+    if (typeof objAlunoAtual == "undefined"){
+        objAlunoAtual = subObj;
+    }
+
     var tdArrayAllDatas = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[0].getElementsByTagName("td");
 
     //Adicionando todos os horários
     Array.from(tdArrayAllDatas).forEach(td => {
-        let encontrado = subObj.Datas.find(element => element.Data == td.innerText);
-        if (typeof encontrado == "undefined"){
-            subObj.Datas.push(getObjData(td));
+        //pega a data a ser comparada
+        var dataAtual = td.innerText;
+
+        var possuiDataAtual = false;
+        //Verifica se já existe a data atual e atualiza seus horarios
+        if (typeof objAlunoAtual.Datas.find(element => element.Data == dataAtual) != "undefined"){
+            possuiDataAtual = true;
+            
+            objAlunoAtual.Datas.find(element => element.Data == dataAtual)["Horarios"] = getObjData()["Horarios"];
+        }
+        //Caso não exista adiciona
+        if (!possuiDataAtual){
+            objAlunoAtual.Datas.push(getObjData());
         }
     });
 
-    return subObj
+    return objAlunoAtual;
 }
 
 function getObjData(td){
