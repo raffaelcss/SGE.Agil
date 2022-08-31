@@ -238,14 +238,14 @@ function getObjData(objAlunoAtual, td){
         var horarioAtual = td.innerText;
 
         //pega a ausencia do aluno no horario atual
-        var ausencia = false;
+        var ausencia = true;
 
         var possuiHorarioAtual = false;
-        //Verifica se já existe o horario atual e o substitui
+        //Verifica se já existe o horario atual e atualizar sua ausencia
         if (typeof objDataAtual.Horarios.find(element => element.Horario == horarioAtual) != "undefined"){
             possuiHorarioAtual = true;
             
-            objDataAtual.Horarios.find(element => element.Horario == horarioAtual) = getObjHorario(td, ausencia);
+            objDataAtual.Horarios.find(element => element.Horario == horarioAtual)["Ausencia"] = ausencia;
         }
         //Caso não exista adiciona
         if (!possuiHorarioAtual){
