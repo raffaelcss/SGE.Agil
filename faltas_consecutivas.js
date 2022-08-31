@@ -83,7 +83,6 @@ function getObjContextoFaltas(objAllContextosFaltas){
 function getObjUcTurma(objContextoAtual)
 {
     var ucTurmaAtual = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
-
     //pega obj com turma atual
     var objTurmaAtual = objContextoAtual.UcsTurmas.find(element => element.Nome == ucTurmaAtual);
 
@@ -107,18 +106,22 @@ function getObjUcTurma(objContextoAtual)
     if (typeof objTurmaAtual.Meses.find(element => element.Nome == mesAtual) != "undefined"){
         possuiMesAtual = true;
         
-        objTurmaAtual.Meses.find(element => element.Nome == mesAtual)["Alunos"] = getObjMes(mesAtual)["Alunos"];
+        objTurmaAtual.Meses.find(element => element.Nome == mesAtual)["Alunos"] = getObjMes(objTurmaAtual)["Alunos"];
     }
 
     //Caso não exista adiciona
     if (!possuiMesAtual){
-        objTurmaAtual.Meses.push(getObjMes(mesAtual));
+        objTurmaAtual.Meses.push(getObjMes(objTurmaAtual));
     }
 
     return objTurmaAtual;
 }
 
-function getObjMes(mesAtual){
+function getObjMes(objTurmaAtual){
+    var mesAtual = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+    //pega obj com mes atual
+    var objMesAtual = objTurmaAtual.Meses.find(element => element.Nome == mesAtual);
+
     var subObj = { 
         Nome: mesAtual,
         Qtd_alunos: 0,
@@ -126,6 +129,11 @@ function getObjMes(mesAtual){
 
     if (!subObj.Alunos) { 
         subObj.Alunos = [];
+    }
+
+    //Caso não tenha o mês atual recebe a padrão
+    if (typeof objMesAtual == "undefined"){
+        objMesAtual = subObj;
     }
 
     //Array com o tr de cada aluno porém com cabeçalho
@@ -140,13 +148,23 @@ function getObjMes(mesAtual){
 
     //Adicionando todos os alunos
     Array.from(trArrayAllAlunos).forEach(tr => {
-        let encontrado = subObj.Alunos.find(element => element.RA == tr.getElementsByTagName("td")[1].innerText);
-        if (typeof encontrado == "undefined"){
-            subObj.Alunos.push(getObjAluno(tr));
+        //pega o RA do aluno a ser comparado
+        var raAtual = tr.getElementsByTagName("td")[1].innerText;
+
+        var possuiAlunoAtual = false;
+        //Verifica se já existe o aluno atual e atualiza seus dias
+        if (typeof objMesAtual.Alunos.find(element => element.RA == raAtual) != "undefined"){
+            possuiAlunoAtual = true;
+            
+            objMesAtual.Alunos.find(element => element.RA == raAtual)["Dias"] = getObjAluno(tr)["Dias"];
+        }
+        //Caso não exista adiciona
+        if (!possuiAlunoAtual){
+            objMesAtual.Alunos.push(getObjAluno(tr));
         }
     });
 
-    return subObj;
+    return objMesAtual;
 }
 
 function getObjAluno(tr){
