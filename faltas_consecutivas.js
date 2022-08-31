@@ -16,27 +16,35 @@ function getAllContextosFaltas(){
         objAllContextosFaltas = JSONToobj(localStorage['SGE-Ágil-Faltas-Consecutivas']);
     }
 
-    var possuiContextoAtual = false;
     var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
 
-
+    var possuiContextoAtual = false;
     //Verifica se já existe o contexto atual e atualiza suas turmas
     if (typeof objAllContextosFaltas.Contextos.find(element => element.Nome == contextoAtual) != "undefined"){
         possuiContextoAtual = true;
-        objAllContextosFaltas.Contextos.find(element => element.Nome == contextoAtual)["UcsTurmas"] = getObjContextoFaltas(contextoAtual)["UcsTurmas"];
+        
+        objAllContextosFaltas.Contextos.find(element => element.Nome == contextoAtual)["UcsTurmas"] = getObjContextoFaltas(objAllContextosFaltas)["UcsTurmas"];
     }
 
     //Caso não exista adiciona
     if (!possuiContextoAtual){
-        objAllContextosFaltas.Contextos.push(getObjContextoFaltas(contextoAtual));
+        objAllContextosFaltas.Contextos.push(getObjContextoFaltas(objAllContextosFaltas));
     }
+
+    //Contar contextos
+    objAllContextosFaltas.Qtd_contextos = objAllContextosFaltas.Contextos.length;    
     
     localStorage['SGE-Ágil-Faltas-Consecutivas'] = objToJSON(objAllContextosFaltas);
     
     return objAllContextosFaltas;
 }
 
-function getObjContextoFaltas(contextoAtual){
+function getObjContextoFaltas(objAllContextosFaltas){
+
+    var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
+    //pega obj com contexto atual
+    var objContextoAtual = objAllContextosFaltas.Contextos.find(element => element.Nome == contextoAtual);
+    
     var subObj = { 
         Nome: contextoAtual,
         Qtd_ucs_turmas: 0,
@@ -45,12 +53,31 @@ function getObjContextoFaltas(contextoAtual){
         subObj.UcsTurmas = [];
     }
 
+    //Caso não tenha a UC atual recebe a padrão
+    if (typeof objContextoAtual == "undefined"){
+        objContextoAtual = subObj;
+    }
+
     var ucTurmaAtual = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
 
-   //Adicionando contexto atual
-   subObj.UcsTurmas.push(getObjUcTurma(ucTurmaAtual));
+    var possuiTurmaAtual = false;
+    //Verifica se já existe o a turma atual e atualiza seus meses
+    if (typeof objContextoAtual.UcsTurmas.find(element => element.Nome == ucTurmaAtual) != "undefined"){
+        possuiTurmaAtual = true;
+        
+        objContextoAtual.UcsTurmas.find(element => element.Nome == ucTurmaAtual)["Meses"] = getObjUcTurma(ucTurmaAtual)["Meses"];
+    }
 
-    return subObj;
+    //Caso não exista adiciona
+    if (!possuiTurmaAtual){
+        objContextoAtual.UcsTurmas.push(getObjUcTurma(ucTurmaAtual));
+    }
+
+    //Contar contextos
+    objContextoAtual.Qtd_ucs_turmas = objContextoAtual.UcsTurmas.length;    
+
+
+    return objContextoAtual;
 }
 
 function getObjUcTurma(ucTurmaAtual)
