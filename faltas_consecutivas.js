@@ -202,18 +202,22 @@ function getObjAluno(objMesAtual, tr){
         if (typeof objAlunoAtual.Datas.find(element => element.Data == dataAtual) != "undefined"){
             possuiDataAtual = true;
             
-            objAlunoAtual.Datas.find(element => element.Data == dataAtual)["Horarios"] = getObjData()["Horarios"];
+            objAlunoAtual.Datas.find(element => element.Data == dataAtual)["Horarios"] = getObjData(objAlunoAtual, td)["Horarios"];
         }
         //Caso não exista adiciona
         if (!possuiDataAtual){
-            objAlunoAtual.Datas.push(getObjData());
+            objAlunoAtual.Datas.push(getObjData(objAlunoAtual, td));
         }
     });
 
     return objAlunoAtual;
 }
 
-function getObjData(td){
+function getObjData(objAlunoAtual, td){
+    var dataAtual = td.innerText;
+    //pega obj com data atual
+    var objDataAtual = objAlunoAtual.Datas.find(element => element.Data == dataAtual);
+
     var subObj = { 
         Data: td.innerText,
         Qtd_horarios: 0,
@@ -222,16 +226,34 @@ function getObjData(td){
         subObj.Horarios = [];
     }
 
+    //Caso não tenha a data atual recebe a padrão
+    if (typeof objDataAtual == "undefined"){
+        objDataAtual = subObj;
+    }
+
     var tdArrayAllHorarios = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[1].getElementsByTagName("td");
 
     Array.from(tdArrayAllHorarios).forEach(td => {
-        let encontrado = subObj.Horarios.find(element => element.Horario == td.innerText);
-        if (typeof encontrado == "undefined"){
-            subObj.Horarios.push(getObjHorario(td,false));
+        //pega o horario a ser comparada
+        var horarioAtual = td.innerText;
+
+        //pega a ausencia do aluno no horario atual
+        var ausencia = false;
+
+        var possuiHorarioAtual = false;
+        //Verifica se já existe o horario atual e o substitui
+        if (typeof objDataAtual.Horarios.find(element => element.Horario == horarioAtual) != "undefined"){
+            possuiHorarioAtual = true;
+            
+            objDataAtual.Horarios.find(element => element.Horario == horarioAtual) = getObjHorario(td, ausencia);
+        }
+        //Caso não exista adiciona
+        if (!possuiHorarioAtual){
+            objDataAtual.Horarios.push(getObjHorario(td, ausencia));
         }
     });
 
-    return subObj
+    return objDataAtual;
 }
 
 function getObjHorario(td, ausencia){
