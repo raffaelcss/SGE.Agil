@@ -19,19 +19,19 @@ function getAllContextosFaltas(){
     var possuiContextoAtual = false;
     var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
 
-    //Verifica se já existe o contexto atual
-    Array.from(objAllContextosFaltas.Contextos).forEach(contexto => {
-        if (contexto.Nome == contextoAtual){
-            possuiContextoAtual = true;
-            contexto = getObjContextoFaltas(contextoAtual);
-        }
-    });
+
+    //Verifica se já existe o contexto atual e atualiza suas turmas
+    if (typeof objAllContextosFaltas.Contextos.find(element => element.Nome == contextoAtual) != "undefined"){
+        possuiContextoAtual = true;
+        objAllContextosFaltas.Contextos.find(element => element.Nome == contextoAtual)["UcsTurmas"] = getObjContextoFaltas(contextoAtual)["UcsTurmas"];
+    }
+
     //Caso não exista adiciona
     if (!possuiContextoAtual){
         objAllContextosFaltas.Contextos.push(getObjContextoFaltas(contextoAtual));
     }
-
-    localStorage['SGE-Ágil-Faltas-Consecutivas'] = objAllContextosFaltas;
+    
+    localStorage['SGE-Ágil-Faltas-Consecutivas'] = objToJSON(objAllContextosFaltas);
     
     return objAllContextosFaltas;
 }
@@ -163,4 +163,5 @@ function getObjHorario(td, ausencia){
 //A ser executado na página
 
 console.log("Contexto atual: ");
-console.log(objToJSON(getObjMes()));
+var contextoObtido = objToJSON(getAllContextosFaltas());
+console.log(contextoObtido);
