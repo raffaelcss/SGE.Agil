@@ -265,9 +265,10 @@ function getObjHorario(td, ausencia){
     return subObj;
 }
 
-
 //A ser executado na página
 
 console.log("Contexto atual: ");
 var contextoObtido = objToJSON(getAllContextosFaltas());
 console.log(contextoObtido);
+
+
