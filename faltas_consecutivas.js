@@ -34,8 +34,6 @@ function getAllContextosFaltas(){
     //Contar contextos
     objAllContextosFaltas.Qtd_contextos = objAllContextosFaltas.Contextos.length;    
     
-    localStorage['SGE-Ágil-Faltas-Consecutivas'] = objToJSON(objAllContextosFaltas);
-    
     return objAllContextosFaltas;
 }
 
@@ -202,18 +200,18 @@ function getObjAluno(objMesAtual, tr){
         if (typeof objAlunoAtual.Datas.find(element => element.Data == dataAtual) != "undefined"){
             possuiDataAtual = true;
             
-            objAlunoAtual.Datas.find(element => element.Data == dataAtual)["Horarios"] = getObjData(objAlunoAtual, td)["Horarios"];
+            objAlunoAtual.Datas.find(element => element.Data == dataAtual)["Horarios"] = getObjData(objAlunoAtual, td, Array.from(tdArrayAllDatas).indexOf(td))["Horarios"];
         }
         //Caso não exista adiciona
         if (!possuiDataAtual){
-            objAlunoAtual.Datas.push(getObjData(objAlunoAtual, td));
+            objAlunoAtual.Datas.push(getObjData(objAlunoAtual, td, Array.from(tdArrayAllDatas).indexOf(td) ));
         }
     });
 
     return objAlunoAtual;
 }
 
-function getObjData(objAlunoAtual, td){
+function getObjData(objAlunoAtual, td, hor){
     var dataAtual = td.innerText;
     //pega obj com data atual
     var objDataAtual = objAlunoAtual.Datas.find(element => element.Data == dataAtual);
@@ -233,42 +231,91 @@ function getObjData(objAlunoAtual, td){
 
     var tdArrayAllHorarios = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[1].getElementsByTagName("td");
 
-    Array.from(tdArrayAllHorarios).forEach(td => {
-        //pega o horario a ser comparada
-        var horarioAtual = td.innerText;
+    //pega o horario a ser comparado
+    var horarioAtual = tdArrayAllHorarios[hor].innerText;
 
-        //pega a ausencia do aluno no horario atual
-        var ausencia = true;
+    //pega a ausencia do aluno no horario atual
+    var ausencia = getAusenciaAlunoHorario(objAlunoAtual.RA, hor);
 
-        var possuiHorarioAtual = false;
-        //Verifica se já existe o horario atual e atualizar sua ausencia
-        if (typeof objDataAtual.Horarios.find(element => element.Horario == horarioAtual) != "undefined"){
-            possuiHorarioAtual = true;
-            
-            objDataAtual.Horarios.find(element => element.Horario == horarioAtual)["Ausencia"] = ausencia;
-        }
-        //Caso não exista adiciona
-        if (!possuiHorarioAtual){
-            objDataAtual.Horarios.push(getObjHorario(td, ausencia));
-        }
-    });
+    var possuiHorarioAtual = false;
+    //Verifica se já existe o horario atual e atualizar sua ausencia
+    if (typeof objDataAtual.Horarios.find(element => element.Horario == horarioAtual) != "undefined"){
+        possuiHorarioAtual = true;
+        
+        objDataAtual.Horarios.find(element => element.Horario == horarioAtual)["Ausencia"] = ausencia;
+    }
+    //Caso não exista adiciona
+    if (!possuiHorarioAtual){
+        objDataAtual.Horarios.push(getObjHorario(horarioAtual, ausencia));
+    }
+
 
     return objDataAtual;
 }
 
-function getObjHorario(td, ausencia){
+function getObjHorario(horario, ausencia){
     var subObj = { 
-        Horario: td.innerText,
+        Horario: horario,
         Ausencia: ausencia
     };
 
     return subObj;
 }
 
+function getAusenciaAlunoHorario(RA, hor){
+    //Pegando a linha dos RA's
+    var listaTrRA = Array.from(document.getElementById("ctl24_ctl06").getElementsByTagName("tr"));
+    var listaRAs = [];
+
+    listaTrRA.forEach(tr => {
+        if (!tr.classList.contains("EduTableFreqHeader")){
+            listaRAs.push(tr.children[1].innerText);
+        }
+    });
+
+    //Pegando a linha dos Checkbox
+    var listaTRCheckbox = Array.from(document.getElementsByClassName("EduTableFreqMain")[1].getElementsByTagName("tr"));
+    var listaCheckbox = [];
+
+    listaTRCheckbox.forEach(tr => {
+        if (!tr.classList.contains("EduTableFreqHeader")){
+            listaCheckbox.push(tr);
+        }
+    });
+
+    //Pegando Aluno específico
+
+    let posAluno = listaRAs.indexOf(RA);
+    if (posAluno < 0){
+        return false;
+    }
+
+    let ausencia = listaCheckbox[posAluno].children[hor].children[0].checked;
+    return ausencia;
+}
+
+function saveJSONfaltas(objAllContextosFaltas){
+
+    let json = objToJSON(objAllContextosFaltas);
+    localStorage['SGE-Ágil-Faltas-Consecutivas'] = json;
+
+    return json;
+}
+
+function funcBotao(){
+    saveJSONfaltas(getAllContextosFaltas());
+}
+
+function addFunctionButton(){
+    var bnt = document.getElementById("ctl24_xbtSalvar")
+    bnt.addEventListener("click", funcBotao, false);
+}
+
 //A ser executado na página
-
-console.log("Contexto atual: ");
-var contextoObtido = objToJSON(getAllContextosFaltas());
-console.log(contextoObtido);
-
+if (document.getElementById("tbPrincipal")){
+    addFunctionButton();
+    //console.log("Contexto atual: ");
+    //var contextoObtido = saveJSONfaltas();
+    //console.log(contextoObtido);
+}
 
