@@ -71,7 +71,7 @@ function getObjContextoFaltas(objAllContextosFaltas){
         objContextoAtual.UcsTurmas.push(getObjUcTurma(objContextoAtual));
     }
 
-    //Contar contextos
+    //Contar Turmas
     objContextoAtual.Qtd_ucs_turmas = objContextoAtual.UcsTurmas.length;    
 
 
@@ -111,6 +111,9 @@ function getObjUcTurma(objContextoAtual)
     if (!possuiMesAtual){
         objTurmaAtual.Meses.push(getObjMes(objTurmaAtual));
     }
+
+     //Contar meses
+     objTurmaAtual.Qtd_meses = objTurmaAtual.Meses.length;
 
     return objTurmaAtual;
 }
@@ -154,7 +157,8 @@ function getObjMes(objTurmaAtual){
         if (typeof objMesAtual.Alunos.find(element => element.RA == raAtual) != "undefined"){
             possuiAlunoAtual = true;
             
-            objMesAtual.Alunos.find(element => element.RA == raAtual)["Datas"] = getObjAluno(objMesAtual, tr)["Datas"];
+            objMesAtual.Alunos.find(element => element.RA == raAtual)["Datas"] = insertionSort(getObjAluno(objMesAtual, tr)["Datas"]);
+
         }
         //Caso não exista adiciona
         if (!possuiAlunoAtual){
@@ -162,7 +166,42 @@ function getObjMes(objTurmaAtual){
         }
     });
 
+    //Contar Alunos
+    objMesAtual.Qtd_alunos = objMesAtual.Alunos.length;
+
     return objMesAtual;
+}
+
+function insertionSort(vetorObjDatas){
+    //Obtem vetor com as datas
+    var vetorDatas = [];
+    Array.from(vetorObjDatas).forEach(objData => {
+        let barraPos = objData.Data.indexOf("/");
+        let dia = parseInt(objData.Data.substring(0,barraPos));
+        let mes = parseInt(objData.Data.substring(barraPos+1,objData.Data.length));
+        let num = mes*50 + dia;
+        vetorDatas.push(num);
+    });
+
+    var retorno = vetorObjDatas;
+
+    //insertionSort
+    for (i = 1; i < vetorDatas.length; i++){
+        
+        var aux = vetorDatas[i];
+        var aux2 = retorno[i];
+        var j = i;
+        
+        while ((j > 0) && (vetorDatas[j-1] > aux)){
+            vetorDatas[j] = vetorDatas[j-1];
+            vetorObjDatas[j] = retorno[j-1];
+            j -= 1;
+        }
+        vetorDatas[j] = aux;
+        retorno[j] = aux2;
+    }
+
+    return retorno;
 }
 
 function getObjAluno(objMesAtual, tr){
@@ -208,6 +247,21 @@ function getObjAluno(objMesAtual, tr){
         }
     });
 
+    //Contar dias
+    objAlunoAtual.Qtd_dias_lancados = objAlunoAtual.Datas.length;
+
+    //Contar faltas totais e consecutivas
+    let faltasTotais = 0;
+    let faltasConsecutivas = 0;
+    Array.from(objAlunoAtual.Datas).forEach(data => {
+        Array.from(data.Horarios).forEach(horario => {
+            if (horario.Ausencia) {
+                faltasTotais++;
+            }
+        });
+    });
+    objAlunoAtual.Qtd_faltas = faltasTotais;
+
     return objAlunoAtual;
 }
 
@@ -249,6 +303,8 @@ function getObjData(objAlunoAtual, td, hor){
         objDataAtual.Horarios.push(getObjHorario(horarioAtual, ausencia));
     }
 
+    //Contar dias
+    objDataAtual.Qtd_horarios = objDataAtual.Horarios.length;
 
     return objDataAtual;
 }
@@ -314,8 +370,8 @@ function addFunctionButton(){
 //A ser executado na página
 if (document.getElementById("tbPrincipal")){
     addFunctionButton();
-    //console.log("Contexto atual: ");
-    //var contextoObtido = saveJSONfaltas();
-    //console.log(contextoObtido);
+    console.log("Contexto atual: ");
+    var contextoObtido = objToJSON(getAllContextosFaltas());
+    console.log(contextoObtido);
 }
 
