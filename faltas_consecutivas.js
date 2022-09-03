@@ -86,55 +86,15 @@ function getObjUcTurma(objContextoAtual)
 
     var subObj = { 
         Nome: ucTurmaAtual,
-        Qtd_meses: 0,
+        Qtd_alunos: 0,
     };
-    if (!subObj.Meses) { 
-        subObj.Meses = [];
+    if (!subObj.Alunos) { 
+        subObj.Alunos = [];
     }
 
     //Caso não tenha a UC atual recebe a padrão
     if (typeof objTurmaAtual == "undefined"){
         objTurmaAtual = subObj;
-    }
-
-    var mesAtual = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
-
-    var possuiMesAtual = false;
-    //Verifica se já existe o mes atual e atualiza seus alunos
-    if (typeof objTurmaAtual.Meses.find(element => element.Nome == mesAtual) != "undefined"){
-        possuiMesAtual = true;
-        
-        objTurmaAtual.Meses.find(element => element.Nome == mesAtual)["Alunos"] = getObjMes(objTurmaAtual)["Alunos"];
-    }
-
-    //Caso não exista adiciona
-    if (!possuiMesAtual){
-        objTurmaAtual.Meses.push(getObjMes(objTurmaAtual));
-    }
-
-     //Contar meses
-     objTurmaAtual.Qtd_meses = objTurmaAtual.Meses.length;
-
-    return objTurmaAtual;
-}
-
-function getObjMes(objTurmaAtual){
-    var mesAtual = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
-    //pega obj com mes atual
-    var objMesAtual = objTurmaAtual.Meses.find(element => element.Nome == mesAtual);
-
-    var subObj = { 
-        Nome: mesAtual,
-        Qtd_alunos: 0,
-    };
-
-    if (!subObj.Alunos) { 
-        subObj.Alunos = [];
-    }
-
-    //Caso não tenha o mês atual recebe a padrão
-    if (typeof objMesAtual == "undefined"){
-        objMesAtual = subObj;
     }
 
     //Array com o tr de cada aluno porém com cabeçalho
@@ -154,77 +114,151 @@ function getObjMes(objTurmaAtual){
 
         var possuiAlunoAtual = false;
         //Verifica se já existe o aluno atual e atualiza seus dias
-        if (typeof objMesAtual.Alunos.find(element => element.RA == raAtual) != "undefined"){
+        if (typeof objTurmaAtual.Alunos.find(element => element.RA == raAtual) != "undefined"){
             possuiAlunoAtual = true;
             
-            objMesAtual.Alunos.find(element => element.RA == raAtual)["Datas"] = insertionSort(getObjAluno(objMesAtual, tr)["Datas"]);
+            objTurmaAtual.Alunos.find(element => element.RA == raAtual)["Meses"] = getObjAluno(objTurmaAtual, tr)["Meses"];
 
         }
         //Caso não exista adiciona
         if (!possuiAlunoAtual){
-            objMesAtual.Alunos.push(getObjAluno(objMesAtual, tr));
+            objTurmaAtual.Alunos.push(getObjAluno(objTurmaAtual, tr));
         }
     });
 
     //Contar Alunos
-    objMesAtual.Qtd_alunos = objMesAtual.Alunos.length;
+    objTurmaAtual.Qtd_alunos = objTurmaAtual.Alunos.length;
 
-    return objMesAtual;
+    return objTurmaAtual;
 }
 
-function insertionSort(vetorObjDatas){
+function getObjAluno(objTurmaAtual, tr){
+    var raAtual = tr.getElementsByTagName("td")[1].innerText;
+    //pega obj com aluno atual
+    var objAlunoAtual = objTurmaAtual.Alunos.find(element => element.RA == raAtual);
+
+    var subObj = { 
+        RA: raAtual,
+        Nome: tr.getElementsByTagName("td")[2].innerText,
+        Situacao: tr.getElementsByTagName("td")[3].innerText,
+        Qtd_meses: 0,
+        Qtd_dias_lancados: 0,
+        Qtd_faltas: 0,
+        Qtd_faltas_consecutivas: 0
+    };
+
+    if (!subObj.Meses) { 
+        subObj.Meses = [];
+    }
+    if (!subObj.FaltasConsecutivas) { 
+        subObj.FaltasConsecutivas = [];
+    }
+
+    //Caso não tenha o aluno atual recebe o padrão
+    if (typeof objAlunoAtual == "undefined"){
+        objAlunoAtual = subObj;
+    }
+
+    var mesAtual = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+
+    var possuiMesAtual = false;
+    //Verifica se já existe o mes atual e atualiza seus alunos
+    if (typeof objAlunoAtual.Meses.find(element => element.Nome == mesAtual) != "undefined"){
+        possuiMesAtual = true;
+        
+        objAlunoAtual.Meses.find(element => element.Nome == mesAtual)["Dias"] = insertionSort(getObjMes(objAlunoAtual)["Dias"]);
+    }
+
+    //Caso não exista adiciona
+    if (!possuiMesAtual){
+        objAlunoAtual.Meses.push(getObjMes(objAlunoAtual));
+    }
+
+    //Contar meses
+    objAlunoAtual.Qtd_meses = objAlunoAtual.Meses.length;
+
+    //Contar dias totais e faltas
+    let dias_lancados = 0;
+    let faltas = 0;
+    Array.from(objAlunoAtual.Meses).forEach(mes => {
+        dias_lancados += mes.Qtd_dias;
+        faltas += mes.Qtd_faltas;
+    });
+    objAlunoAtual.Qtd_dias_lancados = dias_lancados;
+    objAlunoAtual.Qtd_faltas = faltas;
+
+    //Conta faltas consecutivas e guarda as faltas
+    let qtdFaltasConsecutivas = 0;
+    let arrayFaltasCosecutivas = [];
+    Array.from(objAlunoAtual.Meses).forEach(mes => {
+        Array.from(mes.Dias).forEach(dia => {
+            Array.from(dia.Horarios).forEach(horario => {
+                if (horario.Ausencia){
+                    qtdFaltasConsecutivas++;
+                    arrayFaltasCosecutivas.push(dia.Dia + " " + horario.Horario);
+                } else {
+                    qtdFaltasConsecutivas = 0;
+                    arrayFaltasCosecutivas = [];
+                }
+            });
+        });
+    });
+    objAlunoAtual.Qtd_faltas_consecutivas = qtdFaltasConsecutivas;
+    objAlunoAtual.FaltasConsecutivas = arrayFaltasCosecutivas;
+
+    return objAlunoAtual;
+}
+
+function insertionSort(vetorObjDias){
     //Obtem vetor com as datas
-    var vetorDatas = [];
-    Array.from(vetorObjDatas).forEach(objData => {
-        let barraPos = objData.Data.indexOf("/");
-        let dia = parseInt(objData.Data.substring(0,barraPos));
-        let mes = parseInt(objData.Data.substring(barraPos+1,objData.Data.length));
+    var vetorDias = [];
+    Array.from(vetorObjDias).forEach(objData => {
+        let barraPos = objData.Dia.indexOf("/");
+        let dia = parseInt(objData.Dia.substring(0,barraPos));
+        let mes = parseInt(objData.Dia.substring(barraPos+1,objData.Dia.length));
         let num = mes*50 + dia;
-        vetorDatas.push(num);
+        vetorDias.push(num);
     });
 
-    var retorno = vetorObjDatas;
+    var retorno = vetorObjDias;
 
     //insertionSort
-    for (i = 1; i < vetorDatas.length; i++){
+    for (i = 1; i < vetorDias.length; i++){
         
-        var aux = vetorDatas[i];
+        var aux = vetorDias[i];
         var aux2 = retorno[i];
         var j = i;
         
-        while ((j > 0) && (vetorDatas[j-1] > aux)){
-            vetorDatas[j] = vetorDatas[j-1];
-            vetorObjDatas[j] = retorno[j-1];
+        while ((j > 0) && (vetorDias[j-1] > aux)){
+            vetorDias[j] = vetorDias[j-1];
+            vetorObjDias[j] = retorno[j-1];
             j -= 1;
         }
-        vetorDatas[j] = aux;
+        vetorDias[j] = aux;
         retorno[j] = aux2;
     }
 
     return retorno;
 }
 
-function getObjAluno(objMesAtual, tr){
-    var raAtual = tr.getElementsByTagName("td")[1].innerText;
-    //pega obj com aluno atual
-    var objAlunoAtual = objMesAtual.Alunos.find(element => element.RA == raAtual);
+function getObjMes(objAlunoAtual){
+    var mesAtual = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+    //pega obj com mes atual
+    var objMesAtual = objAlunoAtual.Meses.find(element => element.Nome == mesAtual);
 
     var subObj = { 
-        RA: raAtual,
-        Nome: tr.getElementsByTagName("td")[2].innerText,
-        Situacao: tr.getElementsByTagName("td")[3].innerText,
-        Qtd_dias_lancados: 0,
-        Qtd_faltas: 0,
-        Qtd_faltas_consecutivas: 0
+        Nome: mesAtual,
+        Qtd_dias: 0,
+        Qtd_faltas: 0
     };
 
-    if (!subObj.Datas) { 
-        subObj.Datas = [];
+    if (!subObj.Dias) { 
+        subObj.Dias = [];
     }
 
-    //Caso não tenha o aluno atual recebe o padrão
-    if (typeof objAlunoAtual == "undefined"){
-        objAlunoAtual = subObj;
+    //Caso não tenha o mês atual recebe a padrão
+    if (typeof objMesAtual == "undefined"){
+        objMesAtual = subObj;
     }
 
     var tdArrayAllDatas = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[0].getElementsByTagName("td");
@@ -236,51 +270,48 @@ function getObjAluno(objMesAtual, tr){
 
         var possuiDataAtual = false;
         //Verifica se já existe a data atual e atualiza seus horarios
-        if (typeof objAlunoAtual.Datas.find(element => element.Data == dataAtual) != "undefined"){
+        if (typeof objMesAtual.Dias.find(element => element.Dia == dataAtual) != "undefined"){
             possuiDataAtual = true;
             
-            objAlunoAtual.Datas.find(element => element.Data == dataAtual)["Horarios"] = getObjData(objAlunoAtual, td, Array.from(tdArrayAllDatas).indexOf(td))["Horarios"];
+            objMesAtual.Dias.find(element => element.Dia == dataAtual)["Dias"] = getObjDia(objMesAtual, td, Array.from(tdArrayAllDatas).indexOf(td), objAlunoAtual.RA)["Dias"];
         }
         //Caso não exista adiciona
         if (!possuiDataAtual){
-            objAlunoAtual.Datas.push(getObjData(objAlunoAtual, td, Array.from(tdArrayAllDatas).indexOf(td) ));
+            objMesAtual.Dias.push(getObjDia(objMesAtual, td, Array.from(tdArrayAllDatas).indexOf(td), objAlunoAtual.RA));
         }
     });
 
-    //Contar dias
-    objAlunoAtual.Qtd_dias_lancados = objAlunoAtual.Datas.length;
+    //Contando dias
+    objMesAtual.Qtd_dias = objMesAtual.Dias.length;
 
-    //Contar faltas totais e consecutivas
-    let faltasTotais = 0;
-    let faltasConsecutivas = 0;
-    Array.from(objAlunoAtual.Datas).forEach(data => {
-        Array.from(data.Horarios).forEach(horario => {
-            if (horario.Ausencia) {
-                faltasTotais++;
-            }
-        });
+    //Contando faltas
+    let faltas = 0;
+    Array.from(objMesAtual.Dias).forEach(dia => {
+        faltas += dia.Qtd_faltas;
     });
-    objAlunoAtual.Qtd_faltas = faltasTotais;
+    objMesAtual.Qtd_faltas = faltas;
+    
 
-    return objAlunoAtual;
+    return objMesAtual;
 }
 
-function getObjData(objAlunoAtual, td, hor){
-    var dataAtual = td.innerText;
+function getObjDia(objMesAtual, td, hor, raAluno){
+    var diaAtual = td.innerText;
     //pega obj com data atual
-    var objDataAtual = objAlunoAtual.Datas.find(element => element.Data == dataAtual);
+    var objDiaAtual = objMesAtual.Dias.find(element => element.Dia == diaAtual);
 
     var subObj = { 
-        Data: td.innerText,
+        Dia: td.innerText,
         Qtd_horarios: 0,
+        Qtd_faltas: 0
     };
     if (!subObj.Horarios) { 
         subObj.Horarios = [];
     }
 
     //Caso não tenha a data atual recebe a padrão
-    if (typeof objDataAtual == "undefined"){
-        objDataAtual = subObj;
+    if (typeof objDiaAtual == "undefined"){
+        objDiaAtual = subObj;
     }
 
     var tdArrayAllHorarios = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[1].getElementsByTagName("td");
@@ -289,24 +320,33 @@ function getObjData(objAlunoAtual, td, hor){
     var horarioAtual = tdArrayAllHorarios[hor].innerText;
 
     //pega a ausencia do aluno no horario atual
-    var ausencia = getAusenciaAlunoHorario(objAlunoAtual.RA, hor);
+    var ausencia = getAusenciaAlunoHorario(raAluno, hor);
 
     var possuiHorarioAtual = false;
     //Verifica se já existe o horario atual e atualizar sua ausencia
-    if (typeof objDataAtual.Horarios.find(element => element.Horario == horarioAtual) != "undefined"){
+    if (typeof objDiaAtual.Horarios.find(element => element.Horario == horarioAtual) != "undefined"){
         possuiHorarioAtual = true;
         
-        objDataAtual.Horarios.find(element => element.Horario == horarioAtual)["Ausencia"] = ausencia;
+        objDiaAtual.Horarios.find(element => element.Horario == horarioAtual)["Ausencia"] = ausencia;
     }
     //Caso não exista adiciona
     if (!possuiHorarioAtual){
-        objDataAtual.Horarios.push(getObjHorario(horarioAtual, ausencia));
+        objDiaAtual.Horarios.push(getObjHorario(horarioAtual, ausencia));
     }
 
     //Contar dias
-    objDataAtual.Qtd_horarios = objDataAtual.Horarios.length;
+    objDiaAtual.Qtd_horarios = objDiaAtual.Horarios.length;
 
-    return objDataAtual;
+    //Contar faltas totais
+    let faltasTotais = 0;
+    Array.from(objDiaAtual.Horarios).forEach(horario => {
+        if (horario.Ausencia) {
+            faltasTotais++;
+        }
+    });
+    objDiaAtual.Qtd_faltas = faltasTotais;
+
+    return objDiaAtual;
 }
 
 function getObjHorario(horario, ausencia){
