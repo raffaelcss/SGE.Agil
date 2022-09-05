@@ -79,6 +79,55 @@ span.control {
   cursor: pointer;
 }
 
+span, p, h3 {
+  cursor: default;
+}
+
+.menu-func#avalie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+  height: 30px;
+}
+
+.menu-func#avalie span {
+  position: relative;
+  color: rgba(50,50,50,0.75);
+}
+
+.button_avalie {
+  position: relative;
+  cursor: pointer;
+}
+
+.button_avalie a {
+  text-decoration: none;
+  color: #002229;
+  font-weight: 600;
+}
+
+.button_avalie a {
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.4s ease-out;
+}
+
+.button_avalie a:hover {
+  border-color: rgba(0, 34, 41, 0.5);
+}
+
+.button_avalie a:not(:hover) {
+  filter: opacity(0.55);
+}
+
+.hide {
+  visibility:hidden;
+}
+
 
 
 

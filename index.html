@@ -8,12 +8,12 @@
 <body>
     <div>
         <div class="title">
-            <a href="google.com" target="_blank">
+            <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">
                 <div class="logo"> </div>
             </a>
             <div class="title-icons">
-                <input type="image" src="./icon-config.svg" width="15" height="15">
-                <input type="image" src="./icon-help.svg" width="15" height="15">
+                <input class="hide" type="image" src="./icon-config.svg" width="15" height="15">
+                <input class="hide" type="image" src="./icon-help.svg" width="15" height="15">
             </div>
         </div>
     </div>
@@ -79,13 +79,19 @@
         <!-- Edit Aviso alunos faltosos -->
         <div class="menu sub-menu">
             <input type="image" src="./icons/seta_lado_ultima.png" width="20" height="12" style="cursor: default;">
-            <p style="margin-left: 5px;">Limite de faltas consecutivas</p>
+            <p style="margin-left: 2px;">Limite de faltas consecutivas</p>
             <label class="switch">
                 <span class="control" id="diminui-falta" style="left: -7px;">-</span>
                 <input class="limite_edit" type="number" min="5" max="30" value=15 id="Limite_faltas" >
                 <span class="control" id="aumenta-falta" style="right: -6px;">+</span>
             </label>
         </div>
+    </div>
+    <div class="menu-func" id="avalie">
+        <span>Gostou do SGE.Ágil?</span>
+        <span class="button_avalie">
+            <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">AVALIE</a>
+        </span>
     </div>
     <div class="div_version">
         <span id="version_info"></span>
