@@ -426,7 +426,8 @@ function avisarAlunosSalvarContextos(){
     //Salva JSON
     saveJSONfaltas(getAllContextosFaltas());
     //avisa sobre alunos
-    avisoAlunosFaltas(5, avisoGeral);
+    let limite = getCookie("SGE.Agil_LimiteFaltas");
+    avisoAlunosFaltas(limite, avisoGeral);
 }
 
 function addFunctionButton(){
@@ -498,7 +499,8 @@ function Ligar_aviso_faltas(){
     } else if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
         //avisa sobre alunos caso esteja na página principal
         let avisoGeral = getBoolCookie("SGE.Agil_avisoFaltas", true);
-        avisoAlunosFaltas(5, avisoGeral);
+        let limite = getCookie("SGE.Agil_LimiteFaltas");
+        avisoAlunosFaltas(limite, avisoGeral);
     }
 }
 
