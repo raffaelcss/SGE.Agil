@@ -73,7 +73,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     },
     (injectionResults) => {
       if (injectionResults.length > 0) {
-        document.getElementById("version_info").innerHTML = "version: " + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
+        document.getElementById("version_info").innerHTML = "versão: " + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
       }
       
     });
@@ -115,12 +115,16 @@ limite_faltas.onkeydown = () => {
 
 //Botoes alterar limite faltas
 bnt_diminui_falta.onclick = () => {
-  limite_faltas.value = parseInt(limite_faltas.value) - 5;
-  limite_faltas.onchange();
+  if (!bnt_diminui_falta.disabled){
+    limite_faltas.value = parseInt(limite_faltas.value) - 5;
+    limite_faltas.onchange();
+  }
 }
 bnt_aumenta_falta.onclick = () => {
-  limite_faltas.value = parseInt(limite_faltas.value) + 5;
-  limite_faltas.onchange();
+  if (!bnt_aumenta_falta.disabled){
+    limite_faltas.value = parseInt(limite_faltas.value) + 5;
+    limite_faltas.onchange();
+  }
 }
 
 
@@ -263,10 +267,19 @@ ckbox_aviso_faltas.onchange = () => {
   });
   //Salvando opção na memória. Não pode usar cookies pois é extenção
   localStorage['SGE-Ágil-Aviso-faltas'] = ckbox_aviso_faltas.checked;
+
   if (ckbox_aviso_faltas.checked) {
     limite_faltas.disabled = false;
+    bnt_aumenta_falta.disabled = false;
+    bnt_diminui_falta.disabled = false;
+    bnt_aumenta_falta.classList.remove("disable_span");
+    bnt_diminui_falta.classList.remove("disable_span");
   } else {
-    limite_faltas.active = true;
+    limite_faltas.disabled = true;
+    bnt_aumenta_falta.disabled = true;
+    bnt_diminui_falta.disabled = true;
+    bnt_aumenta_falta.classList.add("disable_span");
+    bnt_diminui_falta.classList.add("disable_span");
   }
 }
 
@@ -331,6 +344,9 @@ function getCookie(name) {
 function eraseCookie(name) {
   document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
+
+//Arrumar Limite Faltas
+ckbox_aviso_faltas.onchange();
 
 // Funçoes Send
 function Ligar_Auto_send() {

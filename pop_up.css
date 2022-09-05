@@ -94,6 +94,11 @@ span, p, h3 {
 .menu-func#avalie span {
   position: relative;
   color: rgba(50,50,50,0.75);
+  transition: all 0.4s ease-out;
+}
+
+.menu-func#avalie span:hover {
+  color: rgba(50,50,50,1);
 }
 
 .button_avalie {
@@ -126,6 +131,11 @@ span, p, h3 {
 
 .hide {
   visibility:hidden;
+}
+
+.disable_span {
+  filter: opacity(0.5) grayscale(1) blur(0.5px);
+  cursor: default !important;
 }
 
 
