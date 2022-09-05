@@ -50,6 +50,8 @@ ckbox_aviso_faltas.checked = (localStorage['SGE-Ágil-Aviso-faltas']==='true') ?
 ckbox_on.checked = (localStorage['SGE-Ágil-ON']==='true') ? true : false;
 
 limite_faltas.value = localStorage['SGE-Ágil-Limite-Faltas'] || 15;
+bnt_diminui_falta = document.getElementById("diminui-falta");
+bnt_aumenta_falta = document.getElementById("aumenta-falta");
 
 //Alterando aparẽncia do menu (Antes estava somente no onchange do SGE_On mas exigia que os eventos viessem antes do load dos valores fazendo com que a cada clique no icone da extenção executasse todas as funções novamente)
 Change_menu_apare();
@@ -109,6 +111,16 @@ limite_faltas.onkeydown = () => {
   });
   //Salvando opção na memória. Não pode usar cookies pois é extenção
   localStorage['SGE-Ágil-Limite-Faltas'] = limite_faltas.value;
+}
+
+//Botoes alterar limite faltas
+bnt_diminui_falta.onclick = () => {
+  limite_faltas.value = parseInt(limite_faltas.value) - 5;
+  limite_faltas.onchange();
+}
+bnt_aumenta_falta.onclick = () => {
+  limite_faltas.value = parseInt(limite_faltas.value) + 5;
+  limite_faltas.onchange();
 }
 
 

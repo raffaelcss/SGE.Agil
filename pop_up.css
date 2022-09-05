@@ -59,11 +59,11 @@ body {
 .switch input.limite_edit {
   position: absolute;
   opacity: 1;
-  width: 17px;
+  width: 16px;
   height: 12px;
   margin-left: auto;
   font-size: 0.75rem;
-  right: 5px;
+  right: 3px;
 }
 
 /* Desativa as setas do number */
@@ -71,6 +71,12 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
+}
+
+span.control {
+  position: absolute;
+  font-size: 15px;
+  cursor: pointer;
 }
 
 
