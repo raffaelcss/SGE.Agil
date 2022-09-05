@@ -91,7 +91,7 @@ span, p, h3 {
   height: 30px;
 }
 
-.menu-func#avalie span {
+.menu-func#avalie span, .div_version span {
   position: relative;
   color: rgba(50,50,50,0.75);
   transition: all 0.4s ease-out;
@@ -134,8 +134,16 @@ span, p, h3 {
 }
 
 .disable_span {
-  filter: opacity(0.5) grayscale(1) blur(0.5px);
+  filter: opacity(0.5) grayscale(1) blur(0.5px) !important;
   cursor: default !important;
+}
+
+.limite_edit:not(:disabled), .control {
+  color: rgba(0,0,0,0.85);
+}
+
+.limite_edit:focus-visible {
+  outline: none;
 }
 
 
@@ -205,7 +213,7 @@ input:checked + .slider:before {
 
 .div_version{
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 0;
   padding: 6px;
 }

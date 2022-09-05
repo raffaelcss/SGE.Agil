@@ -285,7 +285,7 @@ ckbox_aviso_faltas.onchange = () => {
 
 ///////////////// Funções a serem executadas no escopo da página ///////////////////
 //Tamanho do Pop-up
-document.getElementsByTagName("body")[0].style.height = document.getElementsByTagName("body")[0].clientHeight + 19 + "px";
+// document.getElementsByTagName("body")[0].style.height = document.getElementsByTagName("body")[0].clientHeight + 19 + "px";
 function valores_iniciais() {
   //Valores iniciais
   let init_pes      = true;
