@@ -141,6 +141,7 @@ function getObjAluno(objTurmaAtual, tr){
         RA: raAtual,
         Nome: tr.getElementsByTagName("td")[2].innerText,
         Situacao: tr.getElementsByTagName("td")[3].innerText,
+        ExibirMsg: true,
         Qtd_meses: 0,
         Qtd_dias_lancados: 0,
         Qtd_faltas: 0,
@@ -205,6 +206,12 @@ function getObjAluno(objTurmaAtual, tr){
     });
     objAlunoAtual.Qtd_faltas_consecutivas = qtdFaltasConsecutivas;
     objAlunoAtual.FaltasConsecutivas = arrayFaltasCosecutivas;
+
+    //Reativar msg caso tenha voltado a aula
+    if (!objAlunoAtual.ExibirMsg && objAlunoAtual.Qtd_faltas_consecutivas == 0){
+        //Reativa mensagens
+        objAlunoAtual.ExibirMsg = true;
+    }
 
     return objAlunoAtual;
 }
@@ -407,11 +414,40 @@ function addFunctionButton(){
     bnt.addEventListener("click", funcBotao, false);
 }
 
+function mensagemFaltas(){
+    
+
+    return mensagem;
+}
+
+function avisoAlunosFaltas(){
+    let contextosObtidos = getAllContextosFaltas();
+    let limiteFaltasConsecutivas = 15;
+
+    //Verifica cada aluno de cada turma
+    Array.from(contextosObtidos.Contextos).forEach(contexto => {
+        Array.from(contexto.UcsTurmas).forEach(ucTurma => {
+            Array.from(ucTurma.Alunos).forEach(aluno => {
+                //Verifica aluno
+                if (aluno.Situacao == "MATRICULADO" && aluno.Qtd_faltas_consecutivas >= limiteFaltasConsecutivas && aluno.ExibirMsg){
+                    //Gera aviso
+                    let texto = "Aluno(a) " + aluno.Nome + " faltou " + aluno.Qtd_faltas_consecutivas + " aulas consecutivas na UC " + ucTurma.Nome + ".\nAtenção à situação do(a) aluno(a)\nIgnorar (Cancelar) Não mostrar mais (OK)";
+                    if (confirm(texto)){
+                        //Desativa alertas do aluno até a próxima presença
+                        aluno.ExibirMsg = false;
+                    }
+                }
+            });
+        });
+    });
+}
+
 //A ser executado na página
 if (document.getElementById("tbPrincipal")){
     addFunctionButton();
     console.log("Contexto atual: ");
     var contextoObtido = objToJSON(getAllContextosFaltas());
     console.log(contextoObtido);
+    avisoAlunosFaltas();
 }
 
