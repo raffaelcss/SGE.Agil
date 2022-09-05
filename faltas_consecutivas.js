@@ -270,21 +270,37 @@ function getObjMes(objAlunoAtual){
 
     var tdArrayAllDatas = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[0].getElementsByTagName("td");
 
-    //Adicionando todos os horários
+    //Dia de hoje
+    const timeElapsed = Date.now();
+    const date = new Date(timeElapsed);
+    let today = date.getDate();
+    let currentMonth = date.getMonth() + 1;
+
+    //Adicionando todos os dias
     Array.from(tdArrayAllDatas).forEach(td => {
         //pega a data a ser comparada
         var dataAtual = td.innerText;
 
-        var possuiDataAtual = false;
-        //Verifica se já existe a data atual e atualiza seus horarios
-        if (typeof objMesAtual.Dias.find(element => element.Dia == dataAtual) != "undefined"){
-            possuiDataAtual = true;
-            
-            objMesAtual.Dias.find(element => element.Dia == dataAtual)["Dias"] = getObjDia(objMesAtual, td, Array.from(tdArrayAllDatas).indexOf(td), objAlunoAtual.RA)["Dias"];
-        }
-        //Caso não exista adiciona
-        if (!possuiDataAtual){
-            objMesAtual.Dias.push(getObjDia(objMesAtual, td, Array.from(tdArrayAllDatas).indexOf(td), objAlunoAtual.RA));
+        let temp = td.innerText.substring(td.innerText.indexOf("/"), td.innerText.length);
+        let valorDia = parseInt(td.innerText.substring(0,td.innerText.indexOf("/")));
+        let valorMes = parseInt(temp.substring(1, temp.length));
+
+        // console.log("Data atual: " + today + "/" + currentMonth);
+        // console.log("Data comp: " + valorDia + "/" + valorMes);
+
+        // verifica se a data é futura e se for ignora
+        if (currentMonth > valorMes || ( currentMonth == valorMes && today >= valorDia)){
+            var possuiDataAtual = false;
+            //Verifica se já existe a data atual e atualiza seus horarios
+            if (typeof objMesAtual.Dias.find(element => element.Dia == dataAtual) != "undefined"){
+                possuiDataAtual = true;
+                
+                objMesAtual.Dias.find(element => element.Dia == dataAtual)["Dias"] = getObjDia(objMesAtual, td, Array.from(tdArrayAllDatas).indexOf(td), objAlunoAtual.RA)["Dias"];
+            }
+            //Caso não exista adiciona
+            if (!possuiDataAtual){
+                objMesAtual.Dias.push(getObjDia(objMesAtual, td, Array.from(tdArrayAllDatas).indexOf(td), objAlunoAtual.RA));
+            }
         }
     });
 
@@ -476,6 +492,9 @@ function Ligar_aviso_faltas(){
     if (document.getElementById("tbPrincipal")){
         //Adiciona função de gerar JSON ao botão de salvar
         addFunctionButton();
+        //mostar
+        console.log("Contextos");
+        console.log(objToJSON(getAllContextosFaltas()));
     } else if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
         //avisa sobre alunos caso esteja na página principal
         let avisoGeral = getBoolCookie("SGE.Agil_avisoFaltas", true);
