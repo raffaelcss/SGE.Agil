@@ -18,6 +18,7 @@ function receber_cookies(){
     let init_plan     = true;
     let init_aviso    = true;
     let init_arq      = true;
+    let init_faltas   = true;
 
     let init_SGE      = true;
 
@@ -27,6 +28,7 @@ function receber_cookies(){
     SGE_Agil_ON_Plan_aula = getBoolCookie("SGE.Agil_Plan_aula", init_plan);
     SGE_Agil_ON_Aviso_new = getBoolCookie("SGE.Agil_Aviso_new", init_aviso);
     SGE_Agil_ON_Arq_turma = getBoolCookie("SGE.Agil_Arq_turma", init_arq);
+    SGE_Agil_ON_Aviso_faltas = getBoolCookie("SGE.Agil_Aviso_faltas", init_faltas);
 
     // console.log("SGE AGIL = " + SGE_Agil_ON);
     // console.log("SGE Pes = " + SGE_Agil_ON_Pes);
@@ -63,6 +65,7 @@ function Ligar_Auto(){
     }
     if (SGE_Agil_ON_Arq_turma) {Ligar_arq_turma()};     //Opção de arquivar turmas //Tem de ser antes do aviso por conta da propiedade IsArchived
     if (SGE_Agil_ON_Aviso_new) {Ligar_aviso_new()};     //Aviso novas Turmas e novas UCs
+    if (SGE_Agil_ON_Aviso_faltas) {Ligar_aviso_faltas()};     //Aviso alunos faltosos
 
 
     //mudar icon professor
@@ -103,6 +106,7 @@ function Desligar_Auto(){
     //Desligar_Freq())};                                  //Freq assistida
     Desligar_aviso_new();                               //Aviso novas turmas e Ucs
     Desligar_arq_turma();                               //Arquivar turmas
+    Desligar_aviso_faltas();                            //Aviso alunos faltosos
 
     //mudar icon professor
     if (document.getElementById("ctl09_ctl00_accordionMenuAccordionItems0_Header_RMWImage1")){
@@ -128,6 +132,7 @@ var SGE_Agil_ON_Dark;
 var SGE_Agil_ON_Plan_aula;
 var SGE_Agil_ON_Aviso_new;
 var SGE_Agil_ON_Arq_turma;
+var SGE_Agil_ON_Aviso_faltas;
 
 
 
