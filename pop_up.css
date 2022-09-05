@@ -56,10 +56,22 @@ body {
   margin: 0px;
 }
 
+.switch input.limite_edit {
+  position: absolute;
+  opacity: 1;
+  width: 17px;
+  height: 12px;
+  margin-left: auto;
+  font-size: 0.75rem;
+  right: 5px;
+}
 
-
-
-
+/* Desativa as setas do number */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
 
 
 
