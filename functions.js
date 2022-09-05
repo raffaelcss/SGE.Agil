@@ -30,6 +30,8 @@ var ckbox_aviso_new = document.getElementById('Aviso_new_on');
 var ckbox_arq_turma = document.getElementById('Arq_turma_on');
 var ckbox_aviso_faltas = document.getElementById('Aviso_faltas_on');
 
+var limite_faltas = document.getElementById("Limite_faltas");
+
 
 /////////////////////    Retornando valores originais     ////////////////////////////
 //Antes tinha deixado após os eventos onchange
@@ -46,6 +48,8 @@ ckbox_arq_turma.checked = (localStorage['SGE-Ágil-Arq-turma']==='true') ? true 
 ckbox_aviso_faltas.checked = (localStorage['SGE-Ágil-Aviso-faltas']==='true') ? true : false;
 
 ckbox_on.checked = (localStorage['SGE-Ágil-ON']==='true') ? true : false;
+
+limite_faltas.value = localStorage['SGE-Ágil-Limite-Faltas'] || 15;
 
 //Alterando aparẽncia do menu (Antes estava somente no onchange do SGE_On mas exigia que os eventos viessem antes do load dos valores fazendo com que a cada clique no icone da extenção executasse todas as funções novamente)
 Change_menu_apare();
@@ -72,6 +76,40 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       
     });
 });
+
+//Limite Faltas change
+limite_faltas.onchange = () => {
+  if (limite_faltas.value < 5){
+    limite_faltas.value = 5;
+  } else if (limite_faltas.value > 30){
+    limite_faltas.value =30;
+  }
+
+  //Saindo do escopo da extensão e indo para o da página
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //Executando script SetCookie
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: setCookie,
+      args: ["SGE.Agil_LimiteFaltas", Math.max(Math.min(limite_faltas.value, 30),5) ,43800],
+    });
+  });
+  //Salvando opção na memória. Não pode usar cookies pois é extenção
+  localStorage['SGE-Ágil-Limite-Faltas'] = limite_faltas.value;
+}
+limite_faltas.onkeydown = () => {
+  //Saindo do escopo da extensão e indo para o da página
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //Executando script SetCookie
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: setCookie,
+      args: ["SGE.Agil_LimiteFaltas", Math.max(Math.min(limite_faltas.value, 30),5) ,43800],
+    });
+  });
+  //Salvando opção na memória. Não pode usar cookies pois é extenção
+  localStorage['SGE-Ágil-Limite-Faltas'] = limite_faltas.value;
+}
 
 
 //SGE ON
@@ -213,6 +251,11 @@ ckbox_aviso_faltas.onchange = () => {
   });
   //Salvando opção na memória. Não pode usar cookies pois é extenção
   localStorage['SGE-Ágil-Aviso-faltas'] = ckbox_aviso_faltas.checked;
+  if (ckbox_aviso_faltas.checked) {
+    limite_faltas.disabled = false;
+  } else {
+    limite_faltas.active = true;
+  }
 }
 
 ///////////////// Funções a serem executadas no escopo da página ///////////////////
