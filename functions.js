@@ -28,6 +28,7 @@ var ckbox_dark = document.getElementById('Dark_on');
 var ckbox_plan_aula = document.getElementById('Plan_aula_on');
 var ckbox_aviso_new = document.getElementById('Aviso_new_on');
 var ckbox_arq_turma = document.getElementById('Arq_turma_on');
+var ckbox_aviso_faltas = document.getElementById('Aviso_faltas_on');
 
 
 /////////////////////    Retornando valores originais     ////////////////////////////
@@ -42,6 +43,7 @@ ckbox_dark.checked = (localStorage['SGE-Ágil-Dark']==='true') ? true : false;
 ckbox_plan_aula.checked = (localStorage['SGE-Ágil-Plan-aula']==='true') ? true : false;
 ckbox_aviso_new.checked = (localStorage['SGE-Ágil-Aviso-new']==='true') ? true : false;
 ckbox_arq_turma.checked = (localStorage['SGE-Ágil-Arq-turma']==='true') ? true : false;
+ckbox_aviso_faltas.checked = (localStorage['SGE-Ágil-Aviso-faltas']==='true') ? true : false;
 
 ckbox_on.checked = (localStorage['SGE-Ágil-ON']==='true') ? true : false;
 
@@ -193,6 +195,26 @@ ckbox_arq_turma.onchange = () => {
   localStorage['SGE-Ágil-Arq-turma'] = ckbox_arq_turma.checked;
 }
 
+//Switch de aviso de alunos faltosos
+ckbox_aviso_faltas.onchange = () => {
+  //Saindo do escopo da extensão e indo para o da página
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //Executando script SetCookie
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: setCookie,
+      args: ["SGE.Agil_Aviso_faltas", ckbox_aviso_faltas.checked ? true : false ,43800],
+    });
+    //Executando script para ativar ou desativar tudo automaticamente
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: ckbox_aviso_faltas.checked ? Ligar_aviso_faltas_send : Desligar_aviso_faltas_send,
+    });
+  });
+  //Salvando opção na memória. Não pode usar cookies pois é extenção
+  localStorage['SGE-Ágil-Aviso-faltas'] = ckbox_aviso_faltas.checked;
+}
+
 ///////////////// Funções a serem executadas no escopo da página ///////////////////
 //Tamanho do Pop-up
 document.getElementsByTagName("body")[0].style.height = document.getElementsByTagName("body")[0].clientHeight + 19 + "px";
@@ -203,6 +225,7 @@ function valores_iniciais() {
   let init_plan     = true;
   let init_aviso    = true;
   let init_arq      = true;
+  let init_aviso_faltas    = true;
 
   let init_SGE      = true;
 
@@ -221,6 +244,9 @@ function valores_iniciais() {
   }
   if (!localStorage['SGE-Ágil-Arq-turma']){
     localStorage['SGE-Ágil-Arq-turma']        = init_arq ? 'true' : 'false';
+  }
+  if (!localStorage['SGE-Ágil-Aviso-faltas']){
+    localStorage['SGE-Ágil-Aviso-faltas']        = init_aviso_faltas ? 'true' : 'false';
   }
 
   if (!localStorage['SGE-Ágil-ON']){
@@ -292,4 +318,11 @@ function Ligar_arq_turma_send(){
 }
 function Desligar_arq_turma_send(){
   Desligar_arq_turma();
+}
+
+function Ligar_aviso_faltas_send(){
+  Ligar_aviso_faltas();
+}
+function Desligar_aviso_faltas_send(){
+  Desligar_aviso_faltas();
 }

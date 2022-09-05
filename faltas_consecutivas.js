@@ -210,7 +210,7 @@ function getObjAluno(objTurmaAtual, tr){
     //Reativar msg caso tenha voltado a aula
     if (!objAlunoAtual.ExibirMsg && objAlunoAtual.Qtd_faltas_consecutivas == 0){
         //Reativa mensagens
-        objAlunoAtual.ExibirMsg = true;
+        objTurmaAtual.Alunos.find(element => element.RA == objAlunoAtual.RA)["ExibirMsg"] = true;
     }
 
     return objAlunoAtual;
@@ -410,7 +410,7 @@ function avisarAlunosSalvarContextos(){
     //Salva JSON
     saveJSONfaltas(getAllContextosFaltas());
     //avisa sobre alunos
-    avisoAlunosFaltas(15, avisoGeral);
+    avisoAlunosFaltas(5, avisoGeral);
 }
 
 function addFunctionButton(){
@@ -418,29 +418,55 @@ function addFunctionButton(){
     bnt.addEventListener("click", avisarAlunosSalvarContextos, false);
 }
 
+function alerta(){
+     
+}
+
 function avisoAlunosFaltas(limiteFaltasConsecutivas, avisoGeral){
+    //Retorna caso ainda não tenha o JSON principal
+    if (!localStorage['SGE-Ágil-Faltas-Consecutivas']){
+        return;
+    }
     let limite = limiteFaltasConsecutivas || 15;
     let contextosModificado = JSONToobj(localStorage['SGE-Ágil-Faltas-Consecutivas']);
 
-    //Verifica cada aluno de cada turma
-    Array.from(contextosModificado.Contextos).forEach(contexto => {
-        Array.from(contexto.UcsTurmas).forEach(ucTurma => {
-            Array.from(ucTurma.Alunos).forEach(aluno => {
-                //Verifica aluno
-                if (aluno.Situacao == "MATRICULADO" && aluno.Qtd_faltas_consecutivas >= limite && aluno.ExibirMsg && avisoGeral){
-                    //Gera aviso
-                    let texto = "Aluno(a) " + aluno.Nome + " faltou " + aluno.Qtd_faltas_consecutivas + " aulas consecutivas na UC " + ucTurma.Nome + ".\nAtenção à situação do(a) aluno(a)\nIgnorar (Cancelar) Não mostrar mais (OK)";
-                    if (confirm(texto)){
-                        //Desativa alertas do aluno até a próxima presença
-                        aluno.ExibirMsg = false;
-                    }
-                }
-            });
-        });
-    });
+    //Timer para mostar avisos
+    function espera_SgeAgilFaltas(){
+        setTimeout(() => {
+            if (document.getElementById("css_basico") || cont <= 0){         //Verifica se o css básico do SGE.Ágil já foi lançado, sinal que a página está carregada
+                setTimeout(() => {          //Tempo para o CSS carregar e a página abrir tbm
+                    //Código a ser executado
+                    //Verifica cada aluno de cada turma
+                    Array.from(contextosModificado.Contextos).forEach(contexto => {
+                        Array.from(contexto.UcsTurmas).forEach(ucTurma => {
+                            Array.from(ucTurma.Alunos).forEach(aluno => {
+                                let raAtualAviso = aluno.RA;
+                                //Verifica aluno
+                                if (aluno.Situacao == "MATRICULADO" && aluno.Qtd_faltas_consecutivas >= limite && aluno.ExibirMsg && avisoGeral){
+                                    //Gera aviso
+                                    let texto = "Aluno(a) " + aluno.Nome + " faltou " + aluno.Qtd_faltas_consecutivas + " aulas consecutivas na UC " + ucTurma.Nome + ".\n\n--------------- Atenção à situação do(a) aluno(a) ---------------\n-------------- Ignorar (Cancelar) Não mostrar (OK) --------------";
+                                    //Timer para mostar avisos
+                                    if (confirm(texto)){
+                                        //Desativa alertas do aluno até a próxima presença
+                                        ucTurma.Alunos.find(element => element.RA == raAtualAviso)["ExibirMsg"] = false;
+                                    }
+                                }
+                            });
+                        });
+                    });
+                    //Salva novo JSON
+                    saveJSONfaltas(contextosModificado);
+                }, 800);
+                
+            } else {
+                cont--;
+                console.log("Debug: Esperando página carregar: " + (1000 - cont)*2 + "ms corridos")
+                espera_SgeAgilFaltas();
+            }
+        }, 2);   
+    }        
+    espera_SgeAgilFaltas();
 
-    //retorna objeto modificado
-    return contextosModificado;
 }
 
 function Ligar_aviso_faltas(){
@@ -452,7 +478,8 @@ function Ligar_aviso_faltas(){
         addFunctionButton();
     } else if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
         //avisa sobre alunos caso esteja na página principal
-        avisoAlunosFaltas(15, avisoGeral);
+        let avisoGeral = getBoolCookie("SGE.Agil_avisoFaltas", true);
+        avisoAlunosFaltas(5, avisoGeral);
     }
 }
 
