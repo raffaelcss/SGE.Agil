@@ -67,6 +67,11 @@ function filtrar(limpar = false) {
         } 
             
     })
+
+    //atualizar scrool da página com base em uma função do arquivar turmas 0.3.2
+    setTimeout(() => {
+        refresh_scroll_mainContainer();
+    }, 150);
     
 }
 function Cria_pes() {
