@@ -38,9 +38,9 @@ function arq_obj(liAlvo){
     let nomePrimeiraUC = liAlvo.getElementsByClassName("dxnb-item")[0].getElementsByClassName("dx-vam")[0].innerText;
     Array.from(turmAntigasObj["Turmas"]).forEach(element => {
         let primeiraUCelement = element.Ucs[0].Nome;
-        console.log("Comparando primeira UC:")
-        console.log("Primeira UC Alvo: " + nomePrimeiraUC);
-        console.log("Primeira UC comparada: " + primeiraUCelement);
+        // console.log("Comparando primeira UC:")
+        // console.log("Primeira UC Alvo: " + nomePrimeiraUC);
+        // console.log("Primeira UC comparada: " + primeiraUCelement);
         
         //Compara o Nome da Turma e o nome da primeira UC, para evitar erro de turmas com mesmo nome
         if (element["Nome"] == nome && nomePrimeiraUC == primeiraUCelement){
