@@ -33,9 +33,17 @@ function insertAfter(newElement, reference) {
     reference.parentNode.insertBefore(newElement, reference.nextSibling);
 }
 
-function arq_obj(nome){
+function arq_obj(liAlvo){
+    let nome = liAlvo.getElementsByClassName("dxnb-ghtext")[0].innerHTML;
+    let nomePrimeiraUC = liAlvo.getElementsByClassName("dxnb-item")[0].getElementsByClassName("dx-vam")[0].innerText;
     Array.from(turmAntigasObj["Turmas"]).forEach(element => {
-        if (element["Nome"] == nome){
+        primeiraUCelement = element.Ucs[0].Nome;
+        console.log("Comparando primeira UC:")
+        console.log("Primeira UC Alvo: " + nomePrimeiraUC);
+        console.log("Primeira UC comparada: " + primeiraUCelement);
+        
+        //Compara o Nome da Turma e o nome da primeira UC, para evitar erro de turmas com mesmo nome
+        if (element["Nome"] == nome && nomePrimeiraUC == primeiraUCelement){
             element["Is_archived"] = !element["Is_archived"];
         }
     })
@@ -63,7 +71,8 @@ function bnt_arquivar(dono) {
     let inicio_id = dono.id.indexOf('_');
     let tmp = document.getElementById(dono.id.substring(inicio_id+1));
     tmp.classList.toggle("archived");
-    arq_obj(tmp.getElementsByClassName("dxnb-ghtext")[0].innerHTML);
+    //Anteriormente passava o nome, agora passa o objeto para fazer mais verificações
+    arq_obj(tmp);
 }
 
 function quest_bnt_arquivar() {
