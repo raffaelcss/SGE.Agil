@@ -59,9 +59,9 @@ function UCs_novas(json1, json2){
 }
 
 function getObjUC(uc, turma){
-    var inicio_text = uc.children[0].innerHTML.indexOf('>');
+    //var inicio_text = uc.children[0].innerHTML.indexOf('>');
     var subObj = { 
-        Nome: uc.children[0].innerHTML.substring(inicio_text+1),
+        Nome: uc.children[0].innerText,
         Turma: turma
     };
 
@@ -70,7 +70,8 @@ function getObjUC(uc, turma){
 
 function getObjTurma(turma, is_archived = false){
     var subObj = { 
-        Nome: turma.children[0].children[1].innerHTML,
+        //Nome: turma.children[0].children[1].innerHTML,
+        Nome: "Teste",
         Qtd_ucs: turma.children[2].children.length,
         Is_archived: is_archived
     };
@@ -107,7 +108,7 @@ function getObjContextoEducacional(){
         //Pega contexto educacional
         Nome: document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText,
         Qtd_turmas: ul_pai.children.length,    
-    };
+    }
     if (!subObj.Turmas) { 
         subObj.Turmas = [];
     }
@@ -150,7 +151,9 @@ function getAllContextos(){
     Array.from(objContextos.Contextos).forEach(contexto => {
         if (contexto.Nome == contextoAtual){
             possuiContextoAtual = true;
-            contexto = getObjContextoEducacional();
+            objContextos.Contextos.find(element => element.Nome == contexto.Nome)["Turmas"] = getObjContextoEducacional()["Turmas"];
+            //legado
+            // contexto = getObjContextoEducacional();
         }
     });
     //Caso não haja o contexto atual, adiciona-o;
@@ -187,42 +190,43 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
 
     //Busca contextos atuais
     var contextosExistentes = getAllContextos();
-    var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
+    console.log(objToJSON(contextosExistentes));
+    // var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
 
-    //Busca turmas atuais (legado)
+    // //Busca turmas atuais (legado)
+    // // var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
+
+    // //Busca turmas atuais (novo) a partir do contexto
     // var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
 
-    //Busca turmas atuais (novo) a partir do contexto
-    var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
+    // // console.log("Contextos educacionais: ");
+    // // console.log(objToJSON(contextosExistentes));
 
-    // console.log("Contextos educacionais: ");
-    // console.log(objToJSON(contextosExistentes));
+    // //Buscar Json com turmas iniciais
+    // if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
+    //     //Salva as novas turmas no Local Storage
+    //     localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
+    // }
 
-    //Buscar Json com turmas iniciais
-    if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
-        //Salva as novas turmas no Local Storage
-        localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
-    }
+    // // retirado o (|| turmasAtuaisJSON) pois já é feito no if anterior
+    // var contextosAntigosJSON = localStorage['SGE-Ágil-Turmas_atuais']; //|| turmasAtuaisJSON;
 
-    // retirado o (|| turmasAtuaisJSON) pois já é feito no if anterior
-    var contextosAntigosJSON = localStorage['SGE-Ágil-Turmas_atuais']; //|| turmasAtuaisJSON;
+    // var turmasAntigasJSON = getTurmasJSON(contextosAntigosJSON, contextoAtual);
 
-    var turmasAntigasJSON = getTurmasJSON(contextosAntigosJSON, contextoAtual);
+    // // console.log("Turmas antigas: ");
+    // // console.log(turmasAntigasJSON);
 
-    // console.log("Turmas antigas: ");
-    // console.log(turmasAntigasJSON);
-
-    var turmAntigasObj;
-    var turmAtuaisObj;
-    try {
-        turmAntigasObj = JSONToobj(turmasAntigasJSON);
-        turmAtuaisObj = JSONToobj(turmasAtuaisJSON);
-    } catch (e) {
-        turmAntigasObj = {};
-        turmAtuaisObj = {};
-    }
-    //Atualiza o status de Is_archived de cada turma no JSON
-    atualizaArchivedStatus(turmAntigasObj, turmAtuaisObj);
-    turmasAtuaisJSON = objToJSON(turmAtuaisObj);
+    // var turmAntigasObj;
+    // var turmAtuaisObj;
+    // try {
+    //     turmAntigasObj = JSONToobj(turmasAntigasJSON);
+    //     turmAtuaisObj = JSONToobj(turmasAtuaisJSON);
+    // } catch (e) {
+    //     turmAntigasObj = {};
+    //     turmAtuaisObj = {};
+    // }
+    // //Atualiza o status de Is_archived de cada turma no JSON
+    // atualizaArchivedStatus(turmAntigasObj, turmAtuaisObj);
+    // turmasAtuaisJSON = objToJSON(turmAtuaisObj);
 
 }
