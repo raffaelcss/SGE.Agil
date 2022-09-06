@@ -37,7 +37,7 @@ function arq_obj(liAlvo){
     let nome = liAlvo.getElementsByClassName("dxnb-ghtext")[0].innerHTML;
     let nomePrimeiraUC = liAlvo.getElementsByClassName("dxnb-item")[0].getElementsByClassName("dx-vam")[0].innerText;
     Array.from(turmAntigasObj["Turmas"]).forEach(element => {
-        primeiraUCelement = element.Ucs[0].Nome;
+        let primeiraUCelement = element.Ucs[0].Nome;
         console.log("Comparando primeira UC:")
         console.log("Primeira UC Alvo: " + nomePrimeiraUC);
         console.log("Primeira UC comparada: " + primeiraUCelement);
@@ -56,7 +56,9 @@ function arq_obj(liAlvo){
         // console.log(contextoAtual);
         if (contexto.Nome == contextoAtual){
             Array.from(contexto.Turmas).forEach(turma => {
-                if (turma.Nome == nome){
+                let primeiraUCelement = turma.Ucs[0].Nome;
+                //Compara o Nome da Turma e o nome da primeira UC, para evitar erro de turmas com mesmo nome
+                if (turma.Nome == nome && nomePrimeiraUC == primeiraUCelement){
                     turma["Is_archived"] = !turma["Is_archived"];
                 }
             });
@@ -180,9 +182,12 @@ function add_archived_class() {
     //Adicionando classe archived às turmas com base no JSON salvo em localstorage
     try{
         for (turm of li_turmas.children){
+            let nomePrimeiraUC = turm.getElementsByClassName("dxnb-item")[0].getElementsByClassName("dx-vam")[0].innerText;
             turmAntigasObj.Turmas.forEach(element => {
                 try {
-                    if (element.Nome === turm.children[0].children[1].innerHTML){
+                    let primeiraUCelement = element.Ucs[0].Nome;
+                    //Compara o Nome da Turma e o nome da primeira UC, evita erro de turmas com mesmo nome
+                    if (element.Nome === turm.children[0].children[1].innerHTML && nomePrimeiraUC == primeiraUCelement){
                         if (element.Is_archived){
                             turm.classList.add("archived");
                         }
