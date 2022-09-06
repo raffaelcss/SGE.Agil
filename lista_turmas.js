@@ -231,7 +231,7 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
 
     //Busca contextos atuais
     var contextosExistentes = getAllContextos();
-    console.log(objToJSON(contextosExistentes));
+    //console.log(objToJSON(contextosExistentes));
     var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
 
     //Busca turmas atuais (legado)
