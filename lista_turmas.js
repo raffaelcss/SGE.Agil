@@ -201,42 +201,42 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
     //Busca contextos atuais
     var contextosExistentes = getAllContextos();
     console.log(objToJSON(contextosExistentes));
-    // var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
+    var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
 
-    // //Busca turmas atuais (legado)
-    // // var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
-
-    // //Busca turmas atuais (novo) a partir do contexto
+    //Busca turmas atuais (legado)
     // var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
 
-    // // console.log("Contextos educacionais: ");
-    // // console.log(objToJSON(contextosExistentes));
+    //Busca turmas atuais (novo) a partir do contexto
+    var turmasAtuaisJSON = objToJSON(getObjContextoEducacional());
 
-    // //Buscar Json com turmas iniciais
-    // if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
-    //     //Salva as novas turmas no Local Storage
-    //     localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
-    // }
+    // console.log("Contextos educacionais: ");
+    // console.log(objToJSON(contextosExistentes));
 
-    // // retirado o (|| turmasAtuaisJSON) pois já é feito no if anterior
-    // var contextosAntigosJSON = localStorage['SGE-Ágil-Turmas_atuais']; //|| turmasAtuaisJSON;
+    //Buscar Json com turmas iniciais
+    if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
+        //Salva as novas turmas no Local Storage
+        localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
+    }
 
-    // var turmasAntigasJSON = getTurmasJSON(contextosAntigosJSON, contextoAtual);
+    // retirado o (|| turmasAtuaisJSON) pois já é feito no if anterior
+    var contextosAntigosJSON = localStorage['SGE-Ágil-Turmas_atuais']; //|| turmasAtuaisJSON;
 
-    // // console.log("Turmas antigas: ");
-    // // console.log(turmasAntigasJSON);
+    var turmasAntigasJSON = getTurmasJSON(contextosAntigosJSON, contextoAtual);
 
-    // var turmAntigasObj;
-    // var turmAtuaisObj;
-    // try {
-    //     turmAntigasObj = JSONToobj(turmasAntigasJSON);
-    //     turmAtuaisObj = JSONToobj(turmasAtuaisJSON);
-    // } catch (e) {
-    //     turmAntigasObj = {};
-    //     turmAtuaisObj = {};
-    // }
-    // //Atualiza o status de Is_archived de cada turma no JSON
-    // atualizaArchivedStatus(turmAntigasObj, turmAtuaisObj);
-    // turmasAtuaisJSON = objToJSON(turmAtuaisObj);
+    // console.log("Turmas antigas: ");
+    // console.log(turmasAntigasJSON);
+
+    var turmAntigasObj;
+    var turmAtuaisObj;
+    try {
+        turmAntigasObj = JSONToobj(turmasAntigasJSON);
+        turmAtuaisObj = JSONToobj(turmasAtuaisJSON);
+    } catch (e) {
+        turmAntigasObj = {};
+        turmAtuaisObj = {};
+    }
+    //Atualiza o status de Is_archived de cada turma no JSON
+    atualizaArchivedStatus(turmAntigasObj, turmAtuaisObj);
+    turmasAtuaisJSON = objToJSON(turmAtuaisObj);
 
 }
