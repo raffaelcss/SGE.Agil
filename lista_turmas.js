@@ -14,14 +14,30 @@ function Turmas_novas(json1, json2){
     
     var novas = [];
     obj2.Turmas.forEach(element => {
-        //Pega o nome da primeira UC do objeto principal
-        let nomePrimeiraUC = element.Ucs[0].Nome;
+        //Pega o nome de todas as UC do objeto principal
+        let nomeUCs = [];
+        Array.from(element.Ucs).forEach(uc => {
+            nomeUCs.push(uc.Nome);
+        });
         var igual = false;
         obj1.Turmas.forEach(element2 => {
-            //Pega o nome da primeira UC do objeto a ser comparado
-            let nomePrimeiraUCcomparado = element2.Ucs[0].Nome;
+            //Pega o nome de todas as UC do objeto principal
+            let nomeUCsComparados = [];
+            Array.from(element2.Ucs).forEach(uc2 => {
+                nomeUCsComparados.push(uc2.Nome);
+            });
+            //Verifica se pelo menos uma UC é igual
+            let mesmaTurma = false;
+            nomeUCs.forEach(nomeUcNova => {
+                nomeUCsComparados.forEach(nomeUCantiga => {
+                    //Se pelo menos uma UC tiver o mesmo nome é a mesma turma (As UCs possuem o código específico da turma)
+                    if (nomeUcNova == nomeUCantiga){
+                        mesmaTurma = true;
+                    }
+                });
+            });
             //Compara o Nome da Turma e o nome da primeira UC, para evitar erro de turmas com mesmo nome
-            if (element.Nome === element2.Nome && nomePrimeiraUC == nomePrimeiraUCcomparado)
+            if (element.Nome === element2.Nome && mesmaTurma)
                 igual = true;
         })
         if (!igual){
@@ -40,13 +56,29 @@ function UCs_novas(json1, json2){
     
     var novas = [];
     obj2.Turmas.forEach(t_nova => {     
-        //Pega o nome da primeira UC do objeto principal
-        let nomePrimeiraUC = t_nova.Ucs[0].Nome;
+        //Pega o nome de todas as UC do objeto principal
+        let nomeUCs = [];
+        Array.from(t_nova.Ucs).forEach(uc => {
+            nomeUCs.push(uc.Nome);
+        });
         obj1.Turmas.forEach(t_ant => {
-            //Pega o nome da primeira UC do objeto a ser comparado
-            let nomePrimeiraUCcomparado = t_ant.Ucs[0].Nome;
+            //Pega o nome de todas as UC do objeto principal
+            let nomeUCsComparados = [];
+            Array.from(t_ant.Ucs).forEach(uc2 => {
+                nomeUCsComparados.push(uc2.Nome);
+            });
+            //Verifica se pelo menos uma UC é igual
+            let mesmaTurma = false;
+            nomeUCs.forEach(nomeUcNova => {
+                nomeUCsComparados.forEach(nomeUCantiga => {
+                    //Se pelo menos uma UC tiver o mesmo nome é a mesma turma (As UCs possuem o código específico da turma)
+                    if (nomeUcNova == nomeUCantiga){
+                        mesmaTurma = true;
+                    }
+                });
+            });
             //Compara o Nome da Turma e o nome da primeira UC, para evitar erro de turmas com mesmo nome
-            if ((t_ant.Nome === t_nova.Nome) && (nomePrimeiraUC == nomePrimeiraUCcomparado) && (t_ant.Qtd_ucs !== t_nova.Qtd_ucs)) {
+            if ((t_ant.Nome === t_nova.Nome) && mesmaTurma && (t_ant.Qtd_ucs !== t_nova.Qtd_ucs)) {
                 novas.push(t_ant);
                 t_nova.Ucs.forEach(uc_nova => {
                     var igual = false;
