@@ -80,8 +80,7 @@ function getObjUC(uc, turma){
 
 function getObjTurma(turma, is_archived = false){
     var subObj = { 
-        //Nome: turma.children[0].children[1].innerHTML,
-        Nome: "Teste",
+        Nome: turma.children[0].children[1].innerHTML,
         Qtd_ucs: turma.children[2].children.length,
         Is_archived: is_archived
     };
