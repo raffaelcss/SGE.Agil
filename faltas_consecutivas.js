@@ -275,6 +275,7 @@ function getObjMes(objAlunoAtual){
     const date = new Date(timeElapsed);
     let today = date.getDate();
     let currentMonth = date.getMonth() + 1;
+    let currentYear = date.getUTCFullYear();
 
     //Adicionando todos os dias
     Array.from(tdArrayAllDatas).forEach(td => {
@@ -285,11 +286,14 @@ function getObjMes(objAlunoAtual){
         let valorDia = parseInt(td.innerText.substring(0,td.innerText.indexOf("/")));
         let valorMes = parseInt(temp.substring(1, temp.length));
 
+        let inputAno = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+        let valorAno = inputAno.substring(inputAno.indexOf("/")+1);
+
         // console.log("Data atual: " + today + "/" + currentMonth);
         // console.log("Data comp: " + valorDia + "/" + valorMes);
 
         // verifica se a data é futura e se for ignora
-        if (currentMonth > valorMes || ( currentMonth == valorMes && today >= valorDia)){
+        if ((currentYear > valorAno) || (currentYear == valorAno && currentMonth > valorMes) || (currentYear == valorAno && currentMonth == valorMes && today >= valorDia)){
             var possuiDataAtual = false;
             //Verifica se já existe a data atual e atualiza seus horarios
             if (typeof objMesAtual.Dias.find(element => element.Dia == dataAtual) != "undefined"){
