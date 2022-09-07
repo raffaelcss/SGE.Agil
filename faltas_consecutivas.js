@@ -493,14 +493,15 @@ function Ligar_aviso_faltas(){
     if (document.getElementById("tbPrincipal")){
         //Adiciona função de gerar JSON ao botão de salvar
         addFunctionButton();
-        //mostar
+        //mostrar
         console.log("Contextos");
         console.log(objToJSON(getAllContextosFaltas()));
     } else if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodosLetivos_xpnlTurmaDisciplina")){
         //avisa sobre alunos caso esteja na página principal
-        let avisoGeral = getBoolCookie("SGE.Agil_avisoFaltas", true);
+        let avisoGeral = getBoolCookie("SGE.Agil_avisoFaltas", false);
         let limite = getCookie("SGE.Agil_LimiteFaltas");
         avisoAlunosFaltas(limite, avisoGeral);
+        //console.log("FOI");
     }
 }
 

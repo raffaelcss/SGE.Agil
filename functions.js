@@ -268,6 +268,11 @@ ckbox_aviso_faltas.onchange = () => {
   //Salvando opção na memória. Não pode usar cookies pois é extenção
   localStorage['SGE-Ágil-Aviso-faltas'] = ckbox_aviso_faltas.checked;
 
+  //Atualizar status desativado do menu limite de faltas
+  atualizaStatusDisableSpanFaltas();
+}
+
+function atualizaStatusDisableSpanFaltas() {
   if (ckbox_aviso_faltas.checked) {
     limite_faltas.disabled = false;
     bnt_aumenta_falta.disabled = false;
@@ -345,8 +350,8 @@ function eraseCookie(name) {
   document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
 
-//Arrumar Limite Faltas
-ckbox_aviso_faltas.onchange();
+//Atualizar status desativado do menu limite de faltas
+atualizaStatusDisableSpanFaltas();
 
 // Funçoes Send
 function Ligar_Auto_send() {
