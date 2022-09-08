@@ -16,7 +16,12 @@ function getAllContextosFaltas(){
         objAllContextosFaltas = JSONToobj(localStorage['SGE-Ágil-Faltas-Consecutivas']);
     }
 
-    var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
+    var contextoAtual = "";
+    if (document.getElementById("ctl03_ctl42")){
+        if (document.getElementById("ctl03_ctl42").getElementsByTagName("span").length > 0){
+            contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
+        }
+    }
 
     var possuiContextoAtual = false;
     //Verifica se já existe o contexto atual e atualiza suas turmas
@@ -39,7 +44,12 @@ function getAllContextosFaltas(){
 
 function getObjContextoFaltas(objAllContextosFaltas){
 
-    var contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
+    var contextoAtual = "";
+    if (document.getElementById("ctl03_ctl42")){
+        if (document.getElementById("ctl03_ctl42").getElementsByTagName("span").length > 0){
+            contextoAtual = document.getElementById("ctl03_ctl42").getElementsByTagName("span")[0].innerText;
+        }
+    }
     //pega obj com contexto atual
     var objContextoAtual = objAllContextosFaltas.Contextos.find(element => element.Nome == contextoAtual);
     
@@ -56,7 +66,10 @@ function getObjContextoFaltas(objAllContextosFaltas){
         objContextoAtual = subObj;
     }
 
-    var ucTurmaAtual = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
+    var ucTurmaAtual = "";
+    if (document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc")){
+        ucTurmaAtual = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
+    }
 
     var possuiTurmaAtual = false;
     //Verifica se já existe a turma atual e atualiza seus meses
@@ -80,7 +93,10 @@ function getObjContextoFaltas(objAllContextosFaltas){
 
 function getObjUcTurma(objContextoAtual)
 {
-    var ucTurmaAtual = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
+    var ucTurmaAtual = "";
+    if (document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc")){
+        ucTurmaAtual = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
+    }
     //pega obj com turma atual
     var objTurmaAtual = objContextoAtual.UcsTurmas.find(element => element.Nome == ucTurmaAtual);
 
@@ -98,7 +114,10 @@ function getObjUcTurma(objContextoAtual)
     }
 
     //Array com o tr de cada aluno porém com cabeçalho
-    var trArrayAllAlunosWithCabecalho = document.getElementById("ctl24_ctl06").getElementsByTagName("tr");
+    var trArrayAllAlunosWithCabecalho = [];
+    if (document.getElementById("ctl24_ctl06")){
+        trArrayAllAlunosWithCabecalho = document.getElementById("ctl24_ctl06").getElementsByTagName("tr");
+    }
     var trArrayAllAlunos = [];
     Array.from(trArrayAllAlunosWithCabecalho).forEach(tr => {
         //Verifica se não é um cabeçalho e adciona no novo array
@@ -110,7 +129,10 @@ function getObjUcTurma(objContextoAtual)
     //Adicionando todos os alunos
     Array.from(trArrayAllAlunos).forEach(tr => {
         //pega o RA do aluno a ser comparado
-        var raAtual = tr.getElementsByTagName("td")[1].innerText;
+        var raAtual = "";
+        if (tr.getElementsByTagName("td").length > 1){
+            raAtual = tr.getElementsByTagName("td")[1].innerText;
+        }
 
         var possuiAlunoAtual = false;
         //Verifica se já existe o aluno atual e atualiza seus dias
@@ -133,14 +155,24 @@ function getObjUcTurma(objContextoAtual)
 }
 
 function getObjAluno(objTurmaAtual, tr){
-    var raAtual = tr.getElementsByTagName("td")[1].innerText;
+    var raAtual = "";
+    if (tr.getElementsByTagName("td").length > 1){
+        raAtual = tr.getElementsByTagName("td")[1].innerText;
+    }
     //pega obj com aluno atual
     var objAlunoAtual = objTurmaAtual.Alunos.find(element => element.RA == raAtual);
 
+    var nomeSub = "";
+    var situacaoSub = "";
+    if (tr.getElementsByTagName("td").length > 3){
+        nomeSub = tr.getElementsByTagName("td")[2].innerText;
+        situacaoSub = tr.getElementsByTagName("td")[3].innerText;
+    }
+
     var subObj = { 
         RA: raAtual,
-        Nome: tr.getElementsByTagName("td")[2].innerText,
-        Situacao: tr.getElementsByTagName("td")[3].innerText,
+        Nome: nomeSub,
+        Situacao: situacaoSub,
         ExibirMsg: true,
         Qtd_meses: 0,
         Qtd_dias_lancados: 0,
@@ -160,7 +192,10 @@ function getObjAluno(objTurmaAtual, tr){
         objAlunoAtual = subObj;
     }
 
-    var mesAtual = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+    var mesAtual = "";
+    if (document.getElementById("ctl24_xcbEtapaFaltas_I")){
+        mesAtual = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+    }
 
     var possuiMesAtual = false;
     //Verifica se já existe o mes atual e atualiza seus alunos
@@ -249,7 +284,10 @@ function insertionSort(vetorObjDias){
 }
 
 function getObjMes(objAlunoAtual){
-    var mesAtual = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+    var mesAtual = "";
+    if (document.getElementById("ctl24_xcbEtapaFaltas_I")){
+        mesAtual = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+    }
     //pega obj com mes atual
     var objMesAtual = objAlunoAtual.Meses.find(element => element.Nome == mesAtual);
 
@@ -268,7 +306,12 @@ function getObjMes(objAlunoAtual){
         objMesAtual = subObj;
     }
 
-    var tdArrayAllDatas = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[0].getElementsByTagName("td");
+    var tdArrayAllDatas = [];
+    if (document.getElementById("ctl24_pnlHorarios")){
+        if (document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader").length > 0){
+            tdArrayAllDatas = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[0].getElementsByTagName("td");
+        }
+    }
 
     //Dia de hoje
     const timeElapsed = Date.now();
@@ -282,12 +325,23 @@ function getObjMes(objAlunoAtual){
         //pega a data a ser comparada
         var dataAtual = td.innerText;
 
-        let temp = td.innerText.substring(td.innerText.indexOf("/"), td.innerText.length);
-        let valorDia = parseInt(td.innerText.substring(0,td.innerText.indexOf("/")));
-        let valorMes = parseInt(temp.substring(1, temp.length));
+        let valorDia = 1;
+        let valorMes = 1;
+        let valorAno = 2022;
 
-        let inputAno = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
-        let valorAno = inputAno.substring(inputAno.indexOf("/")+1);
+        try {
+            let temp = td.innerText.substring(td.innerText.indexOf("/"), td.innerText.length);
+            valorDia = parseInt(td.innerText.substring(0,td.innerText.indexOf("/")));
+            valorMes = parseInt(temp.substring(1, temp.length));
+    
+            let inputAno = "";
+            if (document.getElementById("ctl24_xcbEtapaFaltas_I")) {
+                inputAno = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+            }
+            valorAno = inputAno.substring(inputAno.indexOf("/")+1);
+        } catch (error) {
+
+        }
 
         // console.log("Data atual: " + today + "/" + currentMonth);
         // console.log("Data comp: " + valorDia + "/" + valorMes);
@@ -341,10 +395,18 @@ function getObjDia(objMesAtual, td, hor, raAluno){
         objDiaAtual = subObj;
     }
 
-    var tdArrayAllHorarios = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[1].getElementsByTagName("td");
+    var tdArrayAllHorarios = [];
+    if (document.getElementById("ctl24_pnlHorarios")){
+        if (document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader").length > 1){
+            tdArrayAllHorarios = document.getElementById("ctl24_pnlHorarios").getElementsByClassName("EduTableFreqHeader")[1].getElementsByTagName("td");
+        }
+    }
 
     //pega o horario a ser comparado
-    var horarioAtual = tdArrayAllHorarios[hor].innerText;
+    var horarioAtual = "";
+    if (tdArrayAllHorarios[hor]){
+        horarioAtual = tdArrayAllHorarios[hor].innerText;
+    }
 
     //pega a ausencia do aluno no horario atual
     var ausencia = getAusenciaAlunoHorario(raAluno, hor);
@@ -387,7 +449,10 @@ function getObjHorario(horario, ausencia){
 
 function getAusenciaAlunoHorario(RA, hor){
     //Pegando a linha dos RA's
-    var listaTrRA = Array.from(document.getElementById("ctl24_ctl06").getElementsByTagName("tr"));
+    var listaTrRA = [];
+    if (document.getElementById("ctl24_ctl06")){
+        listaTrRA = Array.from(document.getElementById("ctl24_ctl06").getElementsByTagName("tr"));
+    }
     var listaRAs = [];
 
     listaTrRA.forEach(tr => {
@@ -397,7 +462,10 @@ function getAusenciaAlunoHorario(RA, hor){
     });
 
     //Pegando a linha dos Checkbox
-    var listaTRCheckbox = Array.from(document.getElementsByClassName("EduTableFreqMain")[1].getElementsByTagName("tr"));
+    var listaTRCheckbox = [];
+    if (document.getElementsByClassName("EduTableFreqMain").length > 1){
+        listaTRCheckbox = Array.from(document.getElementsByClassName("EduTableFreqMain")[1].getElementsByTagName("tr"));
+    }
     var listaCheckbox = [];
 
     listaTRCheckbox.forEach(tr => {
@@ -413,7 +481,10 @@ function getAusenciaAlunoHorario(RA, hor){
         return false;
     }
 
-    let ausencia = listaCheckbox[posAluno].children[hor].children[0].checked;
+    let ausencia = false;
+    if (listaCheckbox[posAluno].children[hor].children[0]){
+        ausencia = listaCheckbox[posAluno].children[hor].children[0].checked;
+    }
     return ausencia;
 }
 
@@ -435,12 +506,11 @@ function avisarAlunosSalvarContextos(){
 }
 
 function addFunctionButton(){
-    var bnt = document.getElementById("ctl24_xbtSalvar")
+    if (!document.getElementById("ctl24_xbtSalvar")){
+        return;
+    }
+    var bnt = document.getElementById("ctl24_xbtSalvar");
     bnt.addEventListener("click", avisarAlunosSalvarContextos, false);
-}
-
-function alerta(){
-     
 }
 
 function avisoAlunosFaltas(limiteFaltasConsecutivas, avisoGeral){
