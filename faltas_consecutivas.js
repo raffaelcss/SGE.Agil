@@ -139,7 +139,11 @@ function getObjUcTurma(objContextoAtual)
         if (typeof objTurmaAtual.Alunos.find(element => element.RA == raAtual) != "undefined"){
             possuiAlunoAtual = true;
             
+            //Atualiza meses
             objTurmaAtual.Alunos.find(element => element.RA == raAtual)["Meses"] = getObjAluno(objTurmaAtual, tr)["Meses"];
+
+            //Atualiza situação do aluno
+            objTurmaAtual.Alunos.find(element => element.RA == raAtual)["Situacao"] = getObjAluno(objTurmaAtual, tr)["Situacao"];
 
         }
         //Caso não exista adiciona
