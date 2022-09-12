@@ -28,6 +28,9 @@ var ckbox_dark = document.getElementById('Dark_on');
 var ckbox_plan_aula = document.getElementById('Plan_aula_on');
 var ckbox_aviso_new = document.getElementById('Aviso_new_on');
 var ckbox_arq_turma = document.getElementById('Arq_turma_on');
+var ckbox_aviso_faltas = document.getElementById('Aviso_faltas_on');
+
+var limite_faltas = document.getElementById("Limite_faltas");
 
 
 /////////////////////    Retornando valores originais     ////////////////////////////
@@ -42,8 +45,13 @@ ckbox_dark.checked = (localStorage['SGE-Ágil-Dark']==='true') ? true : false;
 ckbox_plan_aula.checked = (localStorage['SGE-Ágil-Plan-aula']==='true') ? true : false;
 ckbox_aviso_new.checked = (localStorage['SGE-Ágil-Aviso-new']==='true') ? true : false;
 ckbox_arq_turma.checked = (localStorage['SGE-Ágil-Arq-turma']==='true') ? true : false;
+ckbox_aviso_faltas.checked = (localStorage['SGE-Ágil-Aviso-faltas']==='true') ? true : false;
 
 ckbox_on.checked = (localStorage['SGE-Ágil-ON']==='true') ? true : false;
+
+limite_faltas.value = localStorage['SGE-Ágil-Limite-Faltas'] || 15;
+bnt_diminui_falta = document.getElementById("diminui-falta");
+bnt_aumenta_falta = document.getElementById("aumenta-falta");
 
 //Alterando aparẽncia do menu (Antes estava somente no onchange do SGE_On mas exigia que os eventos viessem antes do load dos valores fazendo com que a cada clique no icone da extenção executasse todas as funções novamente)
 Change_menu_apare();
@@ -65,11 +73,59 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     },
     (injectionResults) => {
       if (injectionResults.length > 0) {
-        document.getElementById("version_info").innerHTML = "version: " + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
+        document.getElementById("version_info").innerHTML = "versão: " + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
       }
       
     });
 });
+
+//Limite Faltas change
+limite_faltas.onchange = () => {
+  if (limite_faltas.value < 5){
+    limite_faltas.value = 5;
+  } else if (limite_faltas.value > 30){
+    limite_faltas.value =30;
+  }
+
+  //Saindo do escopo da extensão e indo para o da página
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //Executando script SetCookie
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: setCookie,
+      args: ["SGE.Agil_LimiteFaltas", Math.max(Math.min(limite_faltas.value, 30),5) ,43800],
+    });
+  });
+  //Salvando opção na memória. Não pode usar cookies pois é extenção
+  localStorage['SGE-Ágil-Limite-Faltas'] = limite_faltas.value;
+}
+limite_faltas.onkeydown = () => {
+  //Saindo do escopo da extensão e indo para o da página
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //Executando script SetCookie
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: setCookie,
+      args: ["SGE.Agil_LimiteFaltas", Math.max(Math.min(limite_faltas.value, 30),5) ,43800],
+    });
+  });
+  //Salvando opção na memória. Não pode usar cookies pois é extenção
+  localStorage['SGE-Ágil-Limite-Faltas'] = limite_faltas.value;
+}
+
+//Botoes alterar limite faltas
+bnt_diminui_falta.onclick = () => {
+  if (!bnt_diminui_falta.disabled){
+    limite_faltas.value = parseInt(limite_faltas.value) - 5;
+    limite_faltas.onchange();
+  }
+}
+bnt_aumenta_falta.onclick = () => {
+  if (!bnt_aumenta_falta.disabled){
+    limite_faltas.value = parseInt(limite_faltas.value) + 5;
+    limite_faltas.onchange();
+  }
+}
 
 
 //SGE ON
@@ -193,9 +249,48 @@ ckbox_arq_turma.onchange = () => {
   localStorage['SGE-Ágil-Arq-turma'] = ckbox_arq_turma.checked;
 }
 
+//Switch de aviso de alunos faltosos
+ckbox_aviso_faltas.onchange = () => {
+  //Saindo do escopo da extensão e indo para o da página
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //Executando script SetCookie
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: setCookie,
+      args: ["SGE.Agil_Aviso_faltas", ckbox_aviso_faltas.checked ? true : false ,43800],
+    });
+    //Executando script para ativar ou desativar tudo automaticamente
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: ckbox_aviso_faltas.checked ? Ligar_aviso_faltas_send : Desligar_aviso_faltas_send,
+    });
+  });
+  //Salvando opção na memória. Não pode usar cookies pois é extenção
+  localStorage['SGE-Ágil-Aviso-faltas'] = ckbox_aviso_faltas.checked;
+
+  //Atualizar status desativado do menu limite de faltas
+  atualizaStatusDisableSpanFaltas();
+}
+
+function atualizaStatusDisableSpanFaltas() {
+  if (ckbox_aviso_faltas.checked) {
+    limite_faltas.disabled = false;
+    bnt_aumenta_falta.disabled = false;
+    bnt_diminui_falta.disabled = false;
+    bnt_aumenta_falta.classList.remove("disable_span");
+    bnt_diminui_falta.classList.remove("disable_span");
+  } else {
+    limite_faltas.disabled = true;
+    bnt_aumenta_falta.disabled = true;
+    bnt_diminui_falta.disabled = true;
+    bnt_aumenta_falta.classList.add("disable_span");
+    bnt_diminui_falta.classList.add("disable_span");
+  }
+}
+
 ///////////////// Funções a serem executadas no escopo da página ///////////////////
 //Tamanho do Pop-up
-document.getElementsByTagName("body")[0].style.height = document.getElementsByTagName("body")[0].clientHeight + 19 + "px";
+// document.getElementsByTagName("body")[0].style.height = document.getElementsByTagName("body")[0].clientHeight + 19 + "px";
 function valores_iniciais() {
   //Valores iniciais
   let init_pes      = true;
@@ -203,6 +298,7 @@ function valores_iniciais() {
   let init_plan     = true;
   let init_aviso    = true;
   let init_arq      = true;
+  let init_aviso_faltas    = true;
 
   let init_SGE      = true;
 
@@ -221,6 +317,9 @@ function valores_iniciais() {
   }
   if (!localStorage['SGE-Ágil-Arq-turma']){
     localStorage['SGE-Ágil-Arq-turma']        = init_arq ? 'true' : 'false';
+  }
+  if (!localStorage['SGE-Ágil-Aviso-faltas']){
+    localStorage['SGE-Ágil-Aviso-faltas']        = init_aviso_faltas ? 'true' : 'false';
   }
 
   if (!localStorage['SGE-Ágil-ON']){
@@ -250,6 +349,9 @@ function getCookie(name) {
 function eraseCookie(name) {
   document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
+
+//Atualizar status desativado do menu limite de faltas
+atualizaStatusDisableSpanFaltas();
 
 // Funçoes Send
 function Ligar_Auto_send() {
@@ -292,4 +394,11 @@ function Ligar_arq_turma_send(){
 }
 function Desligar_arq_turma_send(){
   Desligar_arq_turma();
+}
+
+function Ligar_aviso_faltas_send(){
+  Ligar_aviso_faltas();
+}
+function Desligar_aviso_faltas_send(){
+  Desligar_aviso_faltas();
 }

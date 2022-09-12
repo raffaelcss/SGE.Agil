@@ -56,10 +56,95 @@ body {
   margin: 0px;
 }
 
+.switch input.limite_edit {
+  position: absolute;
+  opacity: 1;
+  width: 16px;
+  height: 12px;
+  margin-left: auto;
+  font-size: 0.75rem;
+  right: 3px;
+}
 
+/* Desativa as setas do number */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
 
+span.control {
+  position: absolute;
+  font-size: 15px;
+  cursor: pointer;
+}
 
+span, p, h3 {
+  cursor: default;
+}
 
+.menu-func#avalie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+  height: 30px;
+}
+
+.menu-func#avalie span, .div_version span {
+  position: relative;
+  color: rgba(50,50,50,0.75);
+  transition: all 0.4s ease-out;
+}
+
+.menu-func#avalie span:hover {
+  color: rgba(50,50,50,1);
+}
+
+.button_avalie {
+  position: relative;
+  cursor: pointer;
+}
+
+.button_avalie a {
+  text-decoration: none;
+  color: #002229;
+  font-weight: 600;
+}
+
+.button_avalie a {
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.4s ease-out;
+}
+
+.button_avalie a:hover {
+  border-color: rgba(0, 34, 41, 0.5);
+}
+
+.button_avalie a:not(:hover) {
+  filter: opacity(0.55);
+}
+
+.hide {
+  visibility:hidden;
+}
+
+.disable_span {
+  filter: opacity(0.5) grayscale(1) blur(0.5px) !important;
+  cursor: default !important;
+}
+
+.limite_edit:not(:disabled), .control {
+  color: rgba(0,0,0,0.85);
+}
+
+.limite_edit:focus-visible {
+  outline: none;
+}
 
 
 
@@ -128,7 +213,7 @@ input:checked + .slider:before {
 
 .div_version{
   position: absolute;
-  bottom: 0;
+  top: 0;
   right: 0;
   padding: 6px;
 }

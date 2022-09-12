@@ -8,12 +8,12 @@
 <body>
     <div>
         <div class="title">
-            <a href="google.com" target="_blank">
+            <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">
                 <div class="logo"> </div>
             </a>
-            <div class="title-icons" style="visibility: hidden">
-                <input type="image" src="./icon-config.svg" width="15" height="15">
-                <input type="image" src="./icon-help.svg" width="15" height="15">
+            <div class="title-icons">
+                <input class="hide" type="image" src="./icons/icon-config.svg" width="15" height="15">
+                <input class="hide" type="image" src="./icons/icon-help.svg" width="15" height="15">
             </div>
         </div>
     </div>
@@ -68,6 +68,30 @@
                 <span class="slider round" id="Arq_turma_on_swt"></span>        
             </label>
         </div>
+        <!-- Botão Aviso alunos faltosos -->
+        <div class="menu sub-menu">
+            <p>Avisar sobre alunos faltosos</p>
+            <label class="switch">
+                <input type="checkbox" id="Aviso_faltas_on">
+                <span class="slider round" id="Aviso_faltas_on_swt"></span>        
+            </label>
+        </div>
+        <!-- Edit Aviso alunos faltosos -->
+        <div class="menu sub-menu">
+            <input type="image" src="./icons/seta_lado_ultima.png" width="22" height="13.5" style="cursor: default;">
+            <p style="margin-left: 2px;">Limite de faltas consecutivas</p>
+            <label class="switch">
+                <span class="control" id="diminui-falta" style="left: -7px;">-</span>
+                <input class="limite_edit" type="number" min="5" max="30" value=15 id="Limite_faltas" >
+                <span class="control" id="aumenta-falta" style="right: -6px;">+</span>
+            </label>
+        </div>
+    </div>
+    <div class="menu-func" id="avalie">
+        <span>Gostou do SGE.Ágil?</span>
+        <span class="button_avalie">
+            <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">AVALIE</a>
+        </span>
     </div>
     <div class="div_version">
         <span id="version_info"></span>

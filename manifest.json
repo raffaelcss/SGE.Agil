@@ -21,7 +21,7 @@
         "service_worker": "./background.js"
       },
     "content_scripts": [{
-        "js": ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "plano_aula_assistido.js", "lista_turmas.js", "arquivar_turmas.js", "aviso_novas_turmas.js","script.js"],
+        "js": ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "plano_aula_assistido.js", "lista_turmas.js", "arquivar_turmas.js", "aviso_novas_turmas.js", "faltas_consecutivas.js","script.js"],
         "matches": [
             "http://www2.fiemg.com.br/Corpore.Net/*",
             "https://www2.fiemg.com.br/Corpore.Net/*",
