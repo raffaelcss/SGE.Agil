@@ -339,20 +339,27 @@ function getObjMes(objAlunoAtual){
             valorMes = parseInt(temp.substring(1, temp.length));
     
             let inputAno = "";
-            if (document.getElementById("ctl24_xcbEtapaFaltas_I")) {
-                inputAno = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+            //Antigo, não serve para o Trilhas pois a etapa não tem mais o ano escrito
+            // if (document.getElementById("ctl24_xcbEtapaFaltas_I")) {
+            //     inputAno = document.getElementById("ctl24_xcbEtapaFaltas_I").value;
+            // }
+            if (document.getElementById("ctl24_xdtDe_I")) {
+                inputAno = document.getElementById("ctl24_xdtDe_I").value;
             }
             valorAno = inputAno.substring(inputAno.indexOf("/")+1);
+            valorAno = valorAno.substring(valorAno.indexOf("/")+1);
+            
         } catch (error) {
 
         }
 
-        // console.log("Data atual: " + today + "/" + currentMonth);
-        // console.log("Data comp: " + valorDia + "/" + valorMes);
+        console.log("Data atual: " + today + "/" + currentMonth+ "/" + currentYear);
+        console.log("Data comp: " + valorDia + "/" + valorMes+ "/" + valorAno);
 
         // verifica se a data é futura e se for ignora
         if ((currentYear > valorAno) || (currentYear == valorAno && currentMonth > valorMes) || (currentYear == valorAno && currentMonth == valorMes && today >= valorDia)){
             var possuiDataAtual = false;
+            console.log("TESTE");
             //Verifica se já existe a data atual e atualiza seus horarios
             if (typeof objMesAtual.Dias.find(element => element.Dia == dataAtual) != "undefined"){
                 possuiDataAtual = true;
