@@ -5,12 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doe para o SGE Ágil</title>
     <meta name="description" content="O SGE Ágil é um software gratuito, sustentado pela comunidade, e isso não seria possível sem o seu apoio contínuo.">
+    <link rel="stylesheet" type="text/css" href="doe.css" media="screen" />
 </head>
 <body>
-    <div id="doar-pagseguro" data-receiveremail="ff2apps@gmail.com" data-title="Contribua com nosso projeto" data-logo="logo/pagseguro-contribua.png"></div>
+    <nav id="navbar" style="top: 0px;">
+      <div class="container">
+        <a href="/pt_BR/" hreflang="pt-BR" id="navbar-logo">
+          <img src="logo/Novo_darkblue.png" alt="Adblock Plus logo in navigation menu">
+        </a>
+        <ul id="navbar-menu">
+          
+            <li class="">
+              <a href="/pt_BR/download" hreflang="pt-BR">Baixe</a>
+            </li>
+          
+            <li class="">
+              <a href="/en/about" hreflang="en">Sobre</a>
+            </li>
+          
+          <li>
+            <a href="https://help.eyeo.com" target="_blank">Ajuda</a>
+          </li>
+          <li class="active">
+            <a href="/pt_BR/donate" hreflang="pt-BR">Doe</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-doar">
+        <h1 class="">Doe para o SGE Ágil</h1>
+        <p>
+            O SGE Ágil é gratuito. Nossa missão é oferecer aos usuários ferramentas que permitam o controle. A sua doação ajudará diretamente o desenvolvimento do SGE Ágil.
+        </p>
+        <div class="metodos-doar">
+          <span id="ou">ou</span>
+          <div id="doar-pix" class="pix">
+            <img src="qr_codes/pix/black_pix.png" alt="Qrcode Pix" class="qr" width="282px">
+          </div>
+          <div id="doar-pagseguro" data-receiveremail="ff2apps@gmail.com" data-title="Contribua com nosso projeto" data-logo="logo/pagseguro-contribua.png"></div>
+        </div>
 
-    <script src="https://cdn.jsdelivr.net/gh/r-martins/doacao-pagseguro@2/dist/js/chunk-vendors.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/r-martins/doacao-pagseguro@2/dist/js/app.js"></script>
-    <link href="https://cdn.jsdelivr.net/gh/r-martins/doacao-pagseguro@2/dist/css/app.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/gh/r-martins/doacao-pagseguro@2/dist/js/chunk-vendors.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/r-martins/doacao-pagseguro@2/dist/js/app.js"></script>
+        <link href="https://cdn.jsdelivr.net/gh/r-martins/doacao-pagseguro@2/dist/css/app.css" rel="stylesheet">                                    
+    </div>
+    <!-- Botão comum sem módulo do PagSeguro -->
+    <div class="botao">
+      <!-- INICIO FORMULARIO BOTAO PAGSEGURO -->
+      <!-- <form action="https://pagseguro.uol.com.br/checkout/v2/donation.html" method="post">
+        <input type="hidden" name="currency" value="BRL" />
+        <input type="hidden" name="receiverEmail" value="ff2apps@gmail.com" />
+        <input type="hidden" name="iot" value="button" />
+        <input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/doacoes/209x48-doar-azul-assina.gif" name="submit" alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
+      </form> -->
+      <!-- FINAL FORMULARIO BOTAO PAGSEGURO --> 
+    </div>
+    <footer id="footer" class="content">
+      <div class="footer-wrap footer-legal-links">
+        <div class="container">
+          <div id="footer-legal">
+            <p id="copyright-notice">Copyright © 2022 Todos os direitos reservados. SGE Ágil<sup>®</sup> é uma marca comercial registrada da <a href="https://eyeo.com">ff2apps</a>.</p>
+            <ul id="legal-list">
+              <li><a href="/pt-br/terms" hreflang="pt-br">Termos de uso</a></li>
+              <li><a href="/pt-br/privacy" hreflang="pt-br">Política de privacidade</a></li>
+              <li><a href="/pt-br/imprint" hreflang="pt-br">Contato</a></li> 
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
 </body>
 </html>
