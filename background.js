@@ -38,7 +38,9 @@ chrome.action.onClicked.addListener(() => {
       chrome.tabs.query({highlighted: true}, (tab) => {
         if (tab.length > 0){
           if (tab[0].status == 'complete' || count <= 0){
-            chrome.action.openPopup();
+            if (tab[0].url.indexOf('fiemg.com.br') != -1 && tab[0].url.indexOf('Corpore') != -1){
+              chrome.action.openPopup();
+            }
           } else {
             console.log("tentando.. " + (1000 - count)*2 + "ms decorridos");
             count--;
