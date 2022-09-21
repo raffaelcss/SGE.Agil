@@ -1,4 +1,5 @@
 {
+    "manifest_version":3,
     "name":"SGE Ágil",
     "version":"0.4.0",
     "description":"Adiciona recursos ao SGE SENAI",
@@ -43,6 +44,5 @@
         "https://www2.fiemg.com.br/Corpore.Net/*",
         "http://prados101.fiemg.com.br/Corpore.Net/*",
         "https://prados101.fiemg.com.br/Corpore.Net/*"
-    ],
-    "manifest_version":3
+    ]
 }
