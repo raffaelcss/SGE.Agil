@@ -10,10 +10,21 @@ function getAllContextosFaltas(){
     //Busca contextos salvos, anteriormente chamados apenas de turmas
     var objAllContextosFaltas;
 
-    if (typeof localStorage['SGE-Ágil-Faltas-Consecutivas'] == "undefined"){
+    let user = getUsuario();
+    //Corrigindo pré multi-user
+    if (typeof localStorage['SGE-Ágil-Faltas-Consecutivas'] != "undefined"){
+        if (typeof user != "undefined"){
+            //Setando novo multi-user
+            localStorage['SGE-Ágil-Faltas-Consecutivas-' + user] = localStorage['SGE-Ágil-Faltas-Consecutivas'];
+            //Removendo anterior
+            localStorage.removeItem("SGE-Ágil-Faltas-Consecutivas");
+        }
+    }
+
+    if (typeof localStorage['SGE-Ágil-Faltas-Consecutivas-' + user] == "undefined"){
         objAllContextosFaltas = objContextoPadraoFaltas;
     } else {
-        objAllContextosFaltas = JSONToobj(localStorage['SGE-Ágil-Faltas-Consecutivas']);
+        objAllContextosFaltas = JSONToobj(localStorage['SGE-Ágil-Faltas-Consecutivas-' + user]);
     }
 
     var contextoAtual = "";
@@ -501,8 +512,10 @@ function getAusenciaAlunoHorario(RA, hor){
 
 function saveJSONfaltas(objAllContextosFaltas){
 
+    let user = getUsuario();
+
     let json = objToJSON(objAllContextosFaltas);
-    localStorage['SGE-Ágil-Faltas-Consecutivas'] = json;
+    localStorage['SGE-Ágil-Faltas-Consecutivas-' + user] = json;
 
     return json;
 }
@@ -525,12 +538,13 @@ function addFunctionButton(){
 }
 
 function avisoAlunosFaltas(limiteFaltasConsecutivas, avisoGeral){
+    let user = getUsuario();
     //Retorna caso ainda não tenha o JSON principal
-    if (!localStorage['SGE-Ágil-Faltas-Consecutivas']){
+    if (!localStorage['SGE-Ágil-Faltas-Consecutivas-' + user]){
         return;
     }
     let limite = limiteFaltasConsecutivas || 15;
-    let contextosModificado = JSONToobj(localStorage['SGE-Ágil-Faltas-Consecutivas']);
+    let contextosModificado = JSONToobj(localStorage['SGE-Ágil-Faltas-Consecutivas-' + user]);
 
     //Timer para mostar avisos
     function espera_SgeAgilFaltas(){
