@@ -78,8 +78,9 @@ function Ligar_aviso_new(){
                                         contexto["Qtd_turmas"] = JSONToobj(turmasAtuaisJSON).Qtd_turmas;
                                     }
                                 });
+                                let user = getUsuario();
                                 //Salva na memória o JSON
-                                localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
+                                localStorage['SGE-Ágil-Turmas_atuais-' + user] = objToJSON(contextosExistentes);
                             }
                         }, 800);
                         
