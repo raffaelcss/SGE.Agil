@@ -1,3 +1,11 @@
+function getUsuario(){
+    if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_ctl00_xrpContextoEducacional_lbUsuario")){
+        return document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_ctl00_xrpContextoEducacional_lbUsuario").innerText;
+    }
+
+    return "";
+}
+
 function objToJSON(obj){
     return JSON.stringify(obj);
 }
