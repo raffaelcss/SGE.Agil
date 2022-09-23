@@ -188,13 +188,24 @@ function getAllContextos(){
         objContextoPadrao.Contextos = [];
     }
 
+    let user = getUsuario();
+    //Corrigindo pré multi-user
+    if (typeof localStorage['SGE-Ágil-Turmas_atuais'] != "undefined"){
+        if (typeof user != "undefined"){
+            //Setando novo multi-user
+            localStorage['SGE-Ágil-Turmas_atuais-' + user] = localStorage['SGE-Ágil-Turmas_atuais'];
+            //Removendo anterior
+            localStorage.removeItem("SGE-Ágil-Turmas_atuais");
+        }
+    }
+
     //Busca contextos salvos, anteriormente chamados apenas de turmas
     var objContextos;
 
-    if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
+    if (typeof localStorage['SGE-Ágil-Turmas_atuais-' + user] == "undefined"){
         objContextos = objContextoPadrao;
     } else {
-        objContextos = JSONToobj(localStorage['SGE-Ágil-Turmas_atuais']);
+        objContextos = JSONToobj(localStorage['SGE-Ágil-Turmas_atuais-' + user]);
     }
 
     //Verifica se está com o JSON antigo e o atualiza para o novo 0.3.1
@@ -225,7 +236,7 @@ function getAllContextos(){
 
     if (novosContextos) {
         //Salva na memória
-        localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(objContextos);
+        localStorage['SGE-Ágil-Turmas_atuais-' + user] = objToJSON(objContextos);
     }
 
     return objContextos;
@@ -259,14 +270,16 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
     // console.log("Contextos educacionais: ");
     // console.log(objToJSON(contextosExistentes));
 
+    let user = getUsuario();
+
     //Buscar Json com turmas iniciais
-    if (typeof localStorage['SGE-Ágil-Turmas_atuais'] == "undefined"){
+    if (typeof localStorage['SGE-Ágil-Turmas_atuais-' + user] == "undefined"){
         //Salva as novas turmas no Local Storage
-        localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
+        localStorage['SGE-Ágil-Turmas_atuais-' + user] = objToJSON(contextosExistentes);
     }
 
     // retirado o (|| turmasAtuaisJSON) pois já é feito no if anterior
-    var contextosAntigosJSON = localStorage['SGE-Ágil-Turmas_atuais']; //|| turmasAtuaisJSON;
+    var contextosAntigosJSON = localStorage['SGE-Ágil-Turmas_atuais-' + user]; //|| turmasAtuaisJSON;
 
     var turmasAntigasJSON = getTurmasJSON(contextosAntigosJSON, contextoAtual);
 
