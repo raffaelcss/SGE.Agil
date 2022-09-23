@@ -1,9 +1,17 @@
 function getUsuario(){
     if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_ctl00_xrpContextoEducacional_lbUsuario")){
-        return document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_ctl00_xrpContextoEducacional_lbUsuario").innerText;
-    }
+        let user = "" + document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_ctl00_xrpContextoEducacional_lbUsuario").innerText;
 
-    return "";
+        setCookie("SGE.Agil_User", user, 43800);
+        return user;
+    } else {
+        let user = getCookie("SGE.Agil_User", "");
+        if (user != ""){
+            return getCookie("SGE.Agil_User", "");
+        }
+        //Volta para guia inicial caso não tenha usuario
+        window.location.replace(window.location.origin + window.location.pathname);
+    }
 }
 
 function objToJSON(obj){
@@ -277,5 +285,8 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
     //Atualiza o status de Is_archived de cada turma no JSON
     atualizaArchivedStatus(turmAntigasObj, turmAtuaisObj);
     turmasAtuaisJSON = objToJSON(turmAtuaisObj);
+
+    //Atualiza usuário
+    getUsuario();
 
 }
