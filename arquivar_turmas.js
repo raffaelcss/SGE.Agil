@@ -65,8 +65,9 @@ function arq_obj(liAlvo){
         }
     });
     //console.log(contextosExistentes);
+    let user = getUsuario();
     //Salva na memória o JSON
-    localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(contextosExistentes);
+    localStorage['SGE-Ágil-Turmas_atuais-' + user] = objToJSON(contextosExistentes);
 }
 
 function bnt_arquivar(dono) {
