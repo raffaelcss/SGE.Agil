@@ -11,8 +11,7 @@
        "128": "./icons/icon128.png" 
     },
     "action":{
-        "default_title": "SGE Ágil",
-        "default_popup": "index.html"
+        "default_title": "SGE Ágil"
     },
     "permissions": [
         "tabs",

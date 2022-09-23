@@ -7,22 +7,22 @@
 // });
 
 //Verifica aba por aba e define se irá ativar o popUp ou clique
-chrome.tabs.onUpdated.addListener((tabIdObt, changeInfo, tab) => {
-  if (changeInfo.status == 'complete'){
-    let caminhoPopup = "";
-    //Define qual a palavra deve conter a URL para que ative a extenção. Ex: fiemg
-    if (tab.url.indexOf('fiemg.com.br') != -1 && tab.url.indexOf('Corpore') != -1){
-      console.log('SGE.Ágil Enable!');
-      caminhoPopup = "index.html";
-    }
-    else{
-      console.log('SGE.Ágil Disable!');
-      caminhoPopup = "";
-    }
-    //Ativa ou desativa o popUp
-    chrome.action.setPopup({popup:caminhoPopup, tabId: tabIdObt},()=>{});
-  }
-});
+// chrome.tabs.onUpdated.addListener((tabIdObt, changeInfo, tab) => {
+//   if (changeInfo.status == 'complete'){
+//     let caminhoPopup = "";
+//     //Define qual a palavra deve conter a URL para que ative a extenção. Ex: fiemg
+//     if (tab.url.indexOf('fiemg.com.br') != -1 && tab.url.indexOf('Corpore') != -1){
+//       console.log('SGE.Ágil Enable!');
+//       caminhoPopup = "index.html";
+//     }
+//     else{
+//       console.log('SGE.Ágil Disable!');
+//       caminhoPopup = "";
+//     }
+//     //Ativa ou desativa o popUp
+//     chrome.action.setPopup({popup:caminhoPopup, tabId: tabIdObt},()=>{});
+//   }
+// });
 
 //Ir para o SGE quando clicar
 chrome.action.onClicked.addListener(() => {
@@ -39,16 +39,18 @@ chrome.action.onClicked.addListener(() => {
         if (tab.length > 0){
           if (tab[0].status == 'complete' || count <= 0){
             if (tab[0].url.indexOf('fiemg.com.br') != -1 && tab[0].url.indexOf('Corpore') != -1){
+              console.log(tab[0]);
+              chrome.action.setPopup({popup:"index.html", tabId: tab[0].id},()=>{});
               chrome.action.openPopup();
             }
           } else {
-            console.log("tentando.. " + (1000 - count)*2 + "ms decorridos");
+            console.log("tentando.. " + (1000 - count)*20 + "ms decorridos");
             count--;
             esperaPagEAbrePopup();
           }
         }
       })
-    },2);
+    },20);
   }
   esperaPagEAbrePopup();
 });
