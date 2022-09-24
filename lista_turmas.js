@@ -298,8 +298,6 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
     //Atualiza o status de Is_archived de cada turma no JSON
     atualizaArchivedStatus(turmAntigasObj, turmAtuaisObj);
     turmasAtuaisJSON = objToJSON(turmAtuaisObj);
-
-    //Atualiza usuário
-    getUsuario();
+    console.log(turmasAtuaisJSON);
 
 }

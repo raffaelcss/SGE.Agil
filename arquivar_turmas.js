@@ -49,7 +49,7 @@ function arq_obj(liAlvo){
     })
     //Salvando novo status das turmas (legado)
     // localStorage['SGE-Ágil-Turmas_atuais'] = objToJSON(turmAntigasObj);
-
+    console.log(objToJSON(contextosExistentes));
     //Econtra o contexto atual e atualiza somente ele
     Array.from(contextosExistentes.Contextos).forEach(contexto => {
         // console.log(contexto.Nome);
@@ -64,7 +64,7 @@ function arq_obj(liAlvo){
             });
         }
     });
-    //console.log(contextosExistentes);
+    console.log(objToJSON(contextosExistentes));
     let user = getUsuario();
     //Salva na memória o JSON
     localStorage['SGE-Ágil-Turmas_atuais-' + user] = objToJSON(contextosExistentes);
