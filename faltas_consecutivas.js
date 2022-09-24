@@ -364,13 +364,12 @@ function getObjMes(objAlunoAtual){
 
         }
 
-        console.log("Data atual: " + today + "/" + currentMonth+ "/" + currentYear);
-        console.log("Data comp: " + valorDia + "/" + valorMes+ "/" + valorAno);
+        // console.log("Data atual: " + today + "/" + currentMonth+ "/" + currentYear);
+        // console.log("Data comp: " + valorDia + "/" + valorMes+ "/" + valorAno);
 
         // verifica se a data é futura e se for ignora
         if ((currentYear > valorAno) || (currentYear == valorAno && currentMonth > valorMes) || (currentYear == valorAno && currentMonth == valorMes && today >= valorDia)){
             var possuiDataAtual = false;
-            console.log("TESTE");
             //Verifica se já existe a data atual e atualiza seus horarios
             if (typeof objMesAtual.Dias.find(element => element.Dia == dataAtual) != "undefined"){
                 possuiDataAtual = true;
@@ -543,10 +542,21 @@ function avisoAlunosFaltas(limiteFaltasConsecutivas, avisoGeral){
     if (!localStorage['SGE-Ágil-Faltas-Consecutivas-' + user]){
         return;
     }
+    //Verifica Timer para não repetir mensagens
+    let msCookie = parseInt(getCookie("SGE.Agil_Timer_Faltas", "0"));
+    let msAtual = Date.now();
+    if (msCookie != 0 && msAtual < (msCookie + 10000)){
+        return;
+    }
+
+    console.log("ms Cookie: " + msCookie);
+    console.log("ms Atual: " + msAtual);
+
     let limite = limiteFaltasConsecutivas || 15;
     let contextosModificado = JSONToobj(localStorage['SGE-Ágil-Faltas-Consecutivas-' + user]);
 
     //Timer para mostar avisos
+    let cont = 1000;
     function espera_SgeAgilFaltas(){
         setTimeout(() => {
             if (document.getElementById("css_basico") || cont <= 0){         //Verifica se o css básico do SGE.Ágil já foi lançado, sinal que a página está carregada
@@ -561,7 +571,6 @@ function avisoAlunosFaltas(limiteFaltasConsecutivas, avisoGeral){
                                 if (aluno.Situacao == "MATRICULADO" && aluno.Qtd_faltas_consecutivas >= limite && aluno.ExibirMsg && avisoGeral){
                                     //Gera aviso
                                     let texto = "Aluno(a) " + aluno.Nome + " faltou " + aluno.Qtd_faltas_consecutivas + " aulas consecutivas na UC " + ucTurma.Nome + ".\n\n--------------- Atenção à situação do(a) aluno(a) ---------------\n-------------- Ignorar (Cancelar) Não mostrar (OK) --------------";
-                                    //Timer para mostar avisos
                                     if (confirm(texto)){
                                         //Desativa alertas do aluno até a próxima presença
                                         ucTurma.Alunos.find(element => element.RA == raAtualAviso)["ExibirMsg"] = false;
@@ -570,6 +579,8 @@ function avisoAlunosFaltas(limiteFaltasConsecutivas, avisoGeral){
                             });
                         });
                     });
+                    //Timer Cookie para mostar avisos apenas após 10s
+                    setCookie("SGE.Agil_Timer_Faltas", Date.now(), 43800);
                     //Salva novo JSON
                     saveJSONfaltas(contextosModificado);
                 }, 800);
