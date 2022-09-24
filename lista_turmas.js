@@ -243,7 +243,7 @@ function getAllContextos(){
 }
 
 function atualizaArchivedStatus(turmAntObj, turmAtuaisObj){
-    turmAntObj.Turmas.forEach(element_antigo => {
+    turmAntObj.Turmas.forEach(element_antigo => {  
         turmAtuaisObj.Turmas.forEach(element_atual => {
             if (element_antigo.Nome == element_atual.Nome){
                 element_atual.Is_archived = element_antigo.Is_archived;
@@ -298,6 +298,15 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
     //Atualiza o status de Is_archived de cada turma no JSON
     atualizaArchivedStatus(turmAntigasObj, turmAtuaisObj);
     turmasAtuaisJSON = objToJSON(turmAtuaisObj);
+    console.log("TURMAS:")
     console.log(turmasAtuaisJSON);
+
+    console.log("Contextos antes:");
+    console.log(objToJSON(contextosExistentes));
+    //Atualiza o status de Is_archived de cada turma no JSON
+    atualizaArchivedStatus(turmAtuaisObj, contextosExistentes.Contextos.find(element => element.Nome == contextoAtual));
+
+    console.log("Contextos depois:");
+    console.log(objToJSON(contextosExistentes));
 
 }
