@@ -298,15 +298,15 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
     //Atualiza o status de Is_archived de cada turma no JSON
     atualizaArchivedStatus(turmAntigasObj, turmAtuaisObj);
     turmasAtuaisJSON = objToJSON(turmAtuaisObj);
-    console.log("TURMAS:")
-    console.log(turmasAtuaisJSON);
+    // console.log("TURMAS:")
+    // console.log(turmasAtuaisJSON);
 
-    console.log("Contextos antes:");
-    console.log(objToJSON(contextosExistentes));
+    // console.log("Contextos antes:");
+    // console.log(objToJSON(contextosExistentes));
     //Atualiza o status de Is_archived de cada turma no JSON
     atualizaArchivedStatus(turmAtuaisObj, contextosExistentes.Contextos.find(element => element.Nome == contextoAtual));
 
-    console.log("Contextos depois:");
-    console.log(objToJSON(contextosExistentes));
+    // console.log("Contextos depois:");
+    // console.log(objToJSON(contextosExistentes));
 
 }
