@@ -281,6 +281,10 @@ if (document.getElementById("ctl24_EduTurmasProfRadioButtonWebForm1_xtabPeriodos
     // retirado o (|| turmasAtuaisJSON) pois já é feito no if anterior
     var contextosAntigosJSON = localStorage['SGE-Ágil-Turmas_atuais-' + user]; //|| turmasAtuaisJSON;
 
+    //Adicionando contextosAntigosObj para o arquivar turmas funcionar independente
+    //Do turmas novas depois da v0.4.0
+    var contextosAntigosObj = JSONToobj(contextosAntigosJSON);
+
     var turmasAntigasJSON = getTurmasJSON(contextosAntigosJSON, contextoAtual);
 
     // console.log("Turmas antigas: ");
