@@ -205,14 +205,14 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
     display: block;
     background-image: repeating-linear-gradient(-135deg,transparent,transparent .5625rem,rgba(213,220,240,0.8) .5625rem,rgba(213,220,240,0.8) .625rem);
     background-size: .8838834765rem .8838834765rem;
-    transform: rotateZ(15deg);
-    bottom: -100%;
-    left: -50%;
-    /* right: -50%; */
-    top: -50%;
+    /* transform: rotateZ(15deg); */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; 
     position: absolute;
-    height: 800%;
-    width: 800%;
+    /* height: 800%;
+    width: 800%; */
     pointer-events: none;
 }
 
