@@ -1,6 +1,11 @@
 body {
     /* height: 350px; */
     width: 250px;
+    margin: 0;
+}
+
+.body {
+  margin: 8px;
 }
 
 /* Barra Superior*/
@@ -37,11 +42,10 @@ body {
   margin-bottom: 10px;
   padding: 0 5px 0 5px;
 }
-.menu-func{
-  padding: 2px 10px;
-  border: 0.1rem solid rgba(0, 0, 0, 0.384);
-  border-radius: 6px;
+footer{
+  border-top: 1px solid #e6e6e6;
   background: rgb(250,250,250);
+  --animation-time: 3s;
 }
 .sub-menu{
   display: flex;
@@ -83,36 +87,128 @@ span, p, h3 {
   cursor: default;
 }
 
-.menu-func#avalie {
+footer {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  position: relative;
+  /* justify-content: space-between;
+  align-items: center; */
   margin-top: 5px;
-  height: 30px;
+  height: 49px;
 }
 
-.menu-func#avalie span, .div_version span {
+.footer span, .div_version span {
   position: relative;
   color: rgba(50,50,50,0.75);
   transition: all 0.4s ease-out;
 }
 
-.menu-func#avalie span:hover {
+.panels{
+  overflow: hidden;
+  position: relative;
+  height: 41px;
+}
+.panels > [aria-hidden=false] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+button {
+  border: 0;
+  color: #0797E1;
+  background: none;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: #acacac dotted 1px;
+  animation: 0.3s ease-out 0s 1 outline-in;
+}
+
+.tabs {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.tabs > li {
+  flex: 1;
+  padding: 0 1px;
+}
+
+.tabs button::before, .tabs button::after{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50%;
+  background-color: #0797E1;
+  opacity: 0.3;
+  content: "";
+  transition: all 0.3s ease-in;
+}
+
+.tabs button::after 
+{
+  right: 100%;
+  height: 50%;
+  opacity: 0.5;
+  --animation-name: progress-bar;
+}
+
+.tabs.animated button[aria-selected=true]::after {
+  animation: var(--animation-name) var(--animation-time) linear 0s;
+}
+
+.tabs button[aria-selected=true]::before, .tabs button:hover::before, .tabs button:focus::before, .tabs button[aria-selected=true]::after {
+  height: 100%;
+}
+
+.tabs button {
+  position: relative;
+  height: 8px;
+  width: 100%;
+  padding: 0;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.panels > li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  height: 41px;
+  padding: 0 16px;
+  width: calc(100% - 32px);
+  opacity: 0;
+  transform: translateY(calc(-1 * 41px));
+  transition: transform 0.3s ease;
+
+
+}
+.footer span:hover {
   color: rgba(50,50,50,1);
 }
 
-.button_avalie {
+.button_footer {
   position: relative;
   cursor: pointer;
 }
 
-.button_avalie a {
+.button_footer a {
   text-decoration: none;
   color: #002229;
   font-weight: 600;
 }
 
-.button_avalie a {
+.button_footer a {
   padding: 5px 10px;
   border: 1px solid transparent;
   border-radius: 6px;
@@ -121,11 +217,11 @@ span, p, h3 {
   transition: all 0.4s ease-out;
 }
 
-.button_avalie a:hover {
+.button_footer a:hover {
   border-color: rgba(0, 34, 41, 0.5);
 }
 
-.button_avalie a:not(:hover) {
+.button_footer a:not(:hover) {
   filter: opacity(0.55);
 }
 
@@ -145,9 +241,6 @@ span, p, h3 {
 .limite_edit:focus-visible {
   outline: none;
 }
-
-
-
 
 
 
@@ -219,4 +312,13 @@ input:checked + .slider:before {
 }
 #version_info {
   padding: 3px;
+}
+
+@keyframes progress-bar {
+  from {
+    right: 100%;
+  }
+  to {
+    right: 0;
+  }
 }
