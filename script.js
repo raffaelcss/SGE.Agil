@@ -212,8 +212,8 @@ if (document.getElementById("ctl24_xgvPlanoAula_DXMainTable")){
             var ultimo = "";
             Array.from(aulas).forEach(element => {
                 if (typeof element.children[2] != "undefined"){
-                    if ((element.children[2].innerHTML !== ultimo) && ultimo !== "") {
-                        ultimo = element.children[2].innerHTML;
+                    if ((element.children[2].innerText !== ultimo) && ultimo !== "") {
+                        ultimo = element.children[2].innerText;
                         element.classList.add("primeira_aula");
                     }
                     if (ultimo === ""){

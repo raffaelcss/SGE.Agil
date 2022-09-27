@@ -165,12 +165,12 @@ img[src="HTTPS://WWW2.FIEMG.COM.BR/CORPORE.NET/SHAREDSERVICES/IMAGES/LEFT_MENU_E
 }
 
 /* Tabela de frequencias */
-/* tr.primeira_aula{
-    background: #d5dcf0 !important;
-} */
-#ctl24_xgvPlanoAula_DXMainTable > tbody > tr:nth-child(5n + 2){
+tr.primeira_aula{
     background: #d5dcf0 !important;
 }
+/* #ctl24_xgvPlanoAula_DXMainTable > tbody > tr:nth-child(5n + 2){
+    background: #d5dcf0 !important;
+} */
 #ctl24_xgvPlanoAula_DXMainTable > tbody > tr.dxgvSelectedRow_Edu{
     background: #cccccc !important;
     color: black;
