@@ -1,17 +1,19 @@
 body {
     /* height: 350px; */
-    width: 250px;
+    width: 264px;
     margin: 0;
 }
 
-.body {
-  margin: 8px;
+body>div {
+  /* padding: 0 10px; */
+  border-top: 1px solid #e6e6e6;
 }
 
 /* Barra Superior*/
 .title{
     font-weight: bold;
-    padding: 0 0 5px;
+    margin: 16px;
+    /* padding: 8px 0 5px; */
     display: flex;
     align-items: center;
 }
@@ -20,8 +22,8 @@ body {
 }
 .logo{
     display: inline-block;
-    width: 110px;
-    height: 20px;
+    width: 154px;
+    height: 26px;
     background-size: contain !important;
     /*background: url(chrome-extension://bpconcjcammlapcogcnnelfmaeghhagj/images/logo/nimbus_capture_full.svg) no-repeat;*/
     background: url(./logo/Novo_darkblue.png) no-repeat;
@@ -39,13 +41,19 @@ body {
   align-items: center;
 }
 .menu-principal{
-  margin-bottom: 10px;
-  padding: 0 5px 0 5px;
+  margin: 0 16px 10px;
+  /* padding: 0 5px 0 5px; */
+}
+.menu-func{
+  padding: 8px 16px;
+  /* border: 0.1rem solid rgba(0, 0, 0, 0.384); */
+  /* border-radius: 6px; */
+  background: #f7f7f7;
 }
 footer{
   border-top: 1px solid #e6e6e6;
-  background: rgb(250,250,250);
-  --animation-time: 3s;
+  /* background: rgb(250,250,250); */
+  --animation-time: 4s;
 }
 .sub-menu{
   display: flex;
@@ -93,7 +101,7 @@ footer {
   position: relative;
   /* justify-content: space-between;
   align-items: center; */
-  margin-top: 5px;
+  /* margin-top: 5px; */
   height: 49px;
 }
 
@@ -204,11 +212,9 @@ ul {
 
 .button_footer a {
   text-decoration: none;
-  color: #002229;
-  font-weight: 600;
-}
-
-.button_footer a {
+  font-size: 13px;
+  color: #0797E1;
+  /* color: #002229; */
   padding: 5px 10px;
   border: 1px solid transparent;
   border-radius: 6px;
@@ -222,7 +228,7 @@ ul {
 }
 
 .button_footer a:not(:hover) {
-  filter: opacity(0.55);
+  filter: opacity(0.8);
 }
 
 .hide {
@@ -298,7 +304,7 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 .slider.grande{
-  transform: scale(1.2);
+  transform: scale(1.4);
 }
 .disable {
   filter: opacity(0.5) grayscale(1) blur(0.5px);
@@ -308,7 +314,7 @@ input:checked + .slider:before {
   position: absolute;
   top: 0;
   right: 0;
-  padding: 6px;
+  padding: 2px;
 }
 #version_info {
   padding: 3px;

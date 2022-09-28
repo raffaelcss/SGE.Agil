@@ -74,7 +74,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     (injectionResults) => {
       if (typeof injectionResults != "undefined"){
         if (injectionResults.length > 0) {
-          document.getElementById("version_info").innerHTML = "versão: " + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
+          document.getElementById("version_info").innerHTML = "v" + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
         }
       }
     });
