@@ -27,8 +27,12 @@ function contextClick(info, tab) {
   const { menuItemId } = info;
 
   if (menuItemId === 'sge_context') {
-    // do something
-    click();
+    if (tab.status == 'complete'){
+      if (tab.url.indexOf('fiemg.com.br') != -1 && tab.url.indexOf('Corpore') != -1){
+        // do something
+        click();
+      }
+    }
   }
 }
 
