@@ -1,10 +1,39 @@
+async function checkIsPinned(){
+  let userSettings = await chrome.action.getUserSettings();
+  if(userSettings.isOnToolbar == false){
+    chrome.tabs.query({highlighted: true, currentWindow: true}, (tab) => {
+      chrome.action.setPopup({popup:'pin.html', tabId: tab[0].id},()=>{});
+      chrome.action.openPopup();
+      chrome.action.setPopup({popup:'', tabId: tab[0].id},()=>{});
+    });
+  }
+}
+
 //Executado quando instala a extensão
 
-// chrome.runtime.onInstalled.addListener(() => {
-//   // default state goes here
-//   // this runs ONE TIME ONLY (unless the user reinstalls your extension)
-//   alert("Teste instalação");
-// });
+chrome.runtime.onInstalled.addListener(() => {
+  // default state goes here
+  // this runs ONE TIME ONLY (unless the user reinstalls your extension)
+  // checkIsPinned();
+});
+
+chrome.contextMenus.create({
+  id: "sge_context",
+  title: "SGE Ágil",
+  contexts: ["page"]
+});
+
+function contextClick(info, tab) {
+  const { menuItemId } = info;
+
+  if (menuItemId === 'sge_context') {
+    // do something
+    click();
+  }
+}
+
+chrome.contextMenus.onClicked.addListener(contextClick);
+
 
 //Verifica aba por aba e define se irá ativar o popUp ou clique
 // chrome.tabs.onUpdated.addListener((tabIdObt, changeInfo, tab) => {
@@ -24,8 +53,7 @@
 //   }
 // });
 
-//Ir para o SGE quando clicar
-chrome.action.onClicked.addListener(() => {
+function click() {
   console.log("Window: " + windowSGE);
   console.log("Tab Id: " + tabSGE);
   if (tabSGE <= 0){
@@ -62,7 +90,10 @@ chrome.action.onClicked.addListener(() => {
     },20);
   }
   esperaPagEAbrePopup();
-});
+}
+
+//Ir para o SGE quando clicar
+chrome.action.onClicked.addListener(click);
 
 var tabSGE  = 0;
 var windowSGE = 0;
