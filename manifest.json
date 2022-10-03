@@ -1,4 +1,5 @@
 {
+    "manifest_version":3,
     "name":"SGE Ágil",
     "version":"0.4.1",
     "description":"Adiciona recursos ao SGE SENAI",
@@ -10,8 +11,7 @@
        "128": "./icons/icon128.png" 
     },
     "action":{
-        "default_title": "SGE Ágil",
-        "default_popup": "index.html"
+        "default_title": "SGE Ágil"
     },
     "permissions": [
         "tabs",
@@ -43,6 +43,5 @@
         "https://www2.fiemg.com.br/Corpore.Net/*",
         "http://prados101.fiemg.com.br/Corpore.Net/*",
         "https://prados101.fiemg.com.br/Corpore.Net/*"
-    ],
-    "manifest_version":3
+    ]
 }

@@ -4,28 +4,32 @@
     <meta charset="utf-8">
     <title>SGE Ágil</title>
     <link rel="stylesheet" type="text/css" href="pop_up.css" media="screen" />
+    <script type="text/javascript" src="pop_up.js"></script>
 </head>
 <body>
     <div>
-        <div class="title">
-            <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">
-                <div class="logo"> </div>
-            </a>
-            <div class="title-icons">
-                <input class="hide" type="image" src="./icons/icon-config.svg" width="15" height="15">
-                <input class="hide" type="image" src="./icons/icon-help.svg" width="15" height="15">
+        <div>
+            <div class="title">
+                <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">
+                    <div class="logo"> </div>
+                </a>
+                <div class="title-icons">
+                    <input class="hide" type="image" src="./icons/icon-config.svg" width="15" height="15">
+                    <input class="hide" type="image" src="./icons/icon-help.svg" width="15" height="15">
+                </div>
+            </div>
+        </div>
+        <div class="menu menu-principal">
+            <div class="menu sub-menu">
+                <h3>Ativar SGE.Ágil</h3>
+                <label class="switch">
+                    <input type="checkbox" id="SGE_on">
+                    <span class="slider round grande" id="SGE_on_swt"></span>        
+                </label>
             </div>
         </div>
     </div>
-    <div class="menu menu-principal">
-        <div class="menu sub-menu">
-            <h3>Ativar SGE.Ágil</h3>
-            <label class="switch">
-                <input type="checkbox" id="SGE_on">
-                <span class="slider round grande" id="SGE_on_swt"></span>        
-            </label>
-        </div>
-    </div>
+    
     <!-- Sub menus -->
     <div class="menu-func" id="sub-menu">
         <!-- Botão Pesquisa -->
@@ -87,12 +91,39 @@
             </label>
         </div>
     </div>
-    <div class="menu-func" id="avalie">
-        <span>Gostou do SGE.Ágil?</span>
-        <span class="button_avalie">
-            <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">AVALIE</a>
-        </span>
-    </div>
+    <footer class="footer">
+        <ul class="panels">
+            <li class="tabpanel" id="footer-panel-0" aria-hidden="false">
+                <span>Gostou do SGE.Ágil?</span>
+                <span class="button_footer">
+                    <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">AVALIE</a>
+                </span>
+            </li>
+            <li class="tabpanel" id="footer-panel-1" aria-hidden="true">
+                <span>Deseja apoiar o SGE.Ágil?</span>
+                <span class="button_footer">
+                    <a href="pagseguro/doe.html" target="_blank">DOE</a>
+                </span>
+            </li>
+            <li class="tabpanel" id="footer-panel-2" aria-hidden="true">
+                <span>Alguma dúvida?</span>
+                <span class="button_footer">
+                    <a href="pagseguro/ajuda.html" target="_blank">AJUDA</a>
+                </span>
+            </li>
+        </ul>
+        <ul class="tabs animated">
+            <li>
+                <button role="tab" id="footer-tab-0" aria-controls="footer-panel-0" aria-labelledby="footer-panel-description-0" aria-selected="true" tabindex="0"></button>
+            </li>
+            <li>
+                <button role="tab" id="footer-tab-1" aria-controls="footer-panel-1" aria-labelledby="footer-panel-description-1" aria-selected="false" tabindex="-1"></button>
+            </li>
+            <li>
+                <button role="tab" id="footer-tab-2" aria-controls="footer-panel-2" aria-labelledby="footer-panel-description-2" aria-selected="false" tabindex="-1"></button>
+            </li>
+        </ul>
+    </footer>
     <div class="div_version">
         <span id="version_info"></span>
     </div>
