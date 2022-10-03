@@ -85,7 +85,7 @@ div {
 #navbar-logo img {
     height: 3.2em;
     width: auto;
-    padding: 0.5em 0em;
+    padding: 0.3em 0em;
     margin: 0em 1em 0em 0em;
 }
 
@@ -97,7 +97,7 @@ div {
 }
 
 
-@media (min-width: 992px){
+@media (min-width: 1200px){
     #navbar .active a::before {
         content: "";
         position: absolute;
@@ -140,6 +140,7 @@ div {
     #legal-list li {
         padding-left: 1.5em;
     }
+
 }
 
 ol, ul {
@@ -281,4 +282,70 @@ sup {
     position: absolute;
     top: calc(50% - 11px);
     left: calc(50% - 13px);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 32px 0 16px 0;
+    margin: 2rem 0 1rem 0;
+    line-height: 1.4;
+}
+
+h2 {
+    font-size: 1.5em;
+}
+
+
+
+@media (min-width: 768px){
+    h2 {
+        font-size: 42px;
+    }
+}
+
+.sobre {
+    margin: 0 6rem;
+}
+
+p a:visited {
+    color: blue;
+}
+
+p {
+    text-align: justify;
+}
+
+li ::marker {
+    unicode-bidi: isolate;
+    font-variant-numeric: tabular-nums;
+    text-transform: none;
+    text-indent: 0px !important;
+    text-align: start !important;
+    text-align-last: start !important;
+}
+
+@media (max-width: 1199px){
+    .metodos-doar{
+        margin: 0;
+        margin-top: 20px;
+    }
+    .container-doar{
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    .navbar-menu{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 945px){
+    .metodos-doar{
+        flex-direction: column;
+    }
 }

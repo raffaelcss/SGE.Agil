@@ -1,0 +1,181 @@
+.spin[data-v-39ef9381]{
+    display:block;
+    width:20px;
+    height:20px;
+    margin:20px auto;
+    border:3px solid transparent;
+    border-radius:50%;
+    border-top-color:rgba(232,87,11,.9294117647058824);
+    -webkit-animation:spin-39ef9381 1s ease infinite;
+    animation:spin-39ef9381 1s ease infinite
+}
+@-webkit-keyframes spin-39ef9381{
+    to{
+        transform:rotate(1turn)
+    }
+}
+@keyframes spin-39ef9381{
+    to{
+        transform:rotate(1turn)
+    }
+}
+.mainForm[data-v-c4184e20]{
+    font-family:Avenir,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-align:center;
+    color:#2c3e50;
+    margin-top:60px;
+    width:260px;
+    background-color:#f9f9f9;
+    padding:10px;
+    border:1px solid #dedede
+}
+.mainForm #doar-pagseguro hr[data-v-c4184e20]{
+    width:70%;
+    height:1px;
+    border-width:0;
+    color:#dedede;
+    background-color:#dedede
+}
+.mainForm #doar-pagseguro input[data-v-c4184e20]{
+    display:block;
+    margin:10px auto;
+    width:75%;
+    box-sizing:border-box;
+    padding:10px;
+    border:1px solid #eee
+}
+.mainForm #doar-pagseguro label[data-v-c4184e20]{
+    display:inline-block;
+    margin-top:10px;
+    position:relative;
+    font-size:17px;
+    margin-bottom:10px
+}
+.mainForm .logo[data-v-c4184e20]{
+    width:230px;
+    margin:0 auto
+}
+.mainForm .logo img[data-v-c4184e20]{
+    margin:0 auto;
+    width:100%
+}
+.mainForm .amounts .option[data-v-c4184e20],.mainForm .frequency div[data-v-c4184e20]{
+    color:#46a034;
+    font-size:16px;
+    padding:9px;
+    font-family:Arial;
+    font-weight:400;
+    border:0;
+    margin:4px 0;
+    cursor:pointer
+}
+.mainForm .amounts .option[data-v-c4184e20]{
+    margin:4px
+}
+.mainForm .frequency div[data-v-c4184e20]{
+    font-size:14px
+}
+.mainForm h2[data-v-c4184e20]{
+    font-size:20px;
+    font-weight:400
+}
+.mainForm .unique[data-v-c4184e20]{
+    border-top-left-radius:3px;
+    border-bottom-left-radius:3px;
+}
+.mainForm .frequency div.monthly[data-v-c4184e20]{
+    border-top-right-radius:3px;
+    border-bottom-right-radius:3px;
+    background-color:rgba(197,197,204,.28)
+}
+.mainForm .custom-amount[data-v-c4184e20]{
+    margin-top:20px
+}
+.mainForm .amounts div.option[data-v-c4184e20],.mainForm .frequency div[data-v-c4184e20],.mainForm div.submit[data-v-c4184e20]{
+    background-color:rgba(197,197,204,.28)
+}
+.mainForm .amounts div.active[data-v-c4184e20],.mainForm .amounts div.option[data-v-c4184e20]:hover,.mainForm .frequency div.active[data-v-c4184e20],.mainForm .frequency div[data-v-c4184e20]:hover,.mainForm .option div.active[data-v-c4184e20],.mainForm div.submit[data-v-c4184e20],.mainForm div.submit[data-v-c4184e20]:active,.mainForm div.submit[data-v-c4184e20]:focus,.mainForm div.submit[data-v-c4184e20]:hover{
+    background-color:#2d7120;
+    color:#fff
+}
+.mainForm .error[data-v-c4184e20]{
+    color:red;
+    font-size:14px;
+    margin:14px 0;
+    font-weight:700
+}
+.mainForm .by[data-v-c4184e20]{
+    font-size:12px;
+    text-align: center;
+}
+.mainForm .by a[data-v-c4184e20]{
+    text-decoration:none;
+    color:inherit;
+    font-weight:700
+}
+.mainForm .monthly-info[data-v-c4184e20]{
+    font-size:14px
+}
+.mainForm div.submit[data-v-c4184e20]{
+    padding:12px 31px;
+    background-color:#09a805;
+    border:none;
+    font-weight:700;
+    color:#fff;
+    text-transform:uppercase;
+    cursor:pointer
+}
+.mainForm .payLink[data-v-c4184e20]{
+    font-weight:700;
+    text-align: center;
+}
+.mainForm .payLink a[data-v-c4184e20]{
+    color:#099b34;
+    -webkit-text-decoration-color:#c8c8c8;
+    text-decoration-color:#c8c8c8
+}
+.mainForm hr[data-v-c4184e20]{
+    width:50%;
+    height:0;
+    border-top:1px solid #d0cece;
+    border-bottom:0
+}
+.mainForm input.customAmountInput[data-v-c4184e20]{
+    font-size:15px;
+    line-height:23px;
+    width:120px;
+    border:1px solid grey;
+    color:#4b4a4a;
+    font-family:unset;
+    margin:auto
+}
+
+.frequency {
+    display: flex;
+    justify-content: center;
+}
+
+.amounts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.hide {
+    display: none;
+}
+
+.submit {
+    margin: auto;
+    width: 15%;
+    height: 15px;
+    font-size: 13px;
+    padding: 10px 31px !important;
+    padding-bottom: 14px !important;
+}
+
+.contrib-title{
+    margin-top: 16px;
+}
