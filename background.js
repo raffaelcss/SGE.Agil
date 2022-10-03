@@ -21,7 +21,7 @@ chrome.contextMenus.create({
   id: "sge_context",
   title: "SGE Ágil",
   contexts: ["page"]
-});
+}, () => chrome.runtime.lastError);
 
 function contextClick(info, tab) {
   const { menuItemId } = info;
