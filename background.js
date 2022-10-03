@@ -26,16 +26,21 @@
 
 //Ir para o SGE quando clicar
 chrome.action.onClicked.addListener(() => {
-  console.log(tabSGE);
+  console.log("Window: " + windowSGE);
+  console.log("Tab Id: " + tabSGE);
   if (tabSGE <= 0){
     chrome.tabs.create({url:'https://www2.fiemg.com.br/Corpore.Net/Login.aspx'}, ()=>{});
   } else {
-    chrome.tabs.highlight({tabs: tabSGE}, () => {});
+    try {
+      chrome.tabs.highlight({tabs: tabSGE, windowId: windowSGE}, () => {});
+    } catch (error) {
+      console.log("Erro ao selecionar aba. error: " + error);
+    }
   }
   let count = 1000;
   function esperaPagEAbrePopup() { 
     setTimeout(()=>{
-      chrome.tabs.query({highlighted: true}, (tab) => {
+      chrome.tabs.query({highlighted: true, currentWindow: true}, (tab) => {
         if (tab.length > 0){
           if (tab[0].status == 'complete' || count <= 0){
             if (tab[0].url.indexOf('fiemg.com.br') != -1 && tab[0].url.indexOf('Corpore') != -1){
@@ -60,17 +65,21 @@ chrome.action.onClicked.addListener(() => {
 });
 
 var tabSGE  = 0;
+var windowSGE = 0;
 function getSGEIndex(){
   tabSGE = 0;
+  windowSGE = 0;
   chrome.tabs.query({url:'*://www2.fiemg.com.br/Corpore.Net/*'} ,(tab) => {
     if(tab.length > 0){
       tabSGE = tab[0].index;
+      windowSGE = tab[0].windowId;
     }
   });
   if (tabSGE == 0){
     chrome.tabs.query({url:'*://prados101.fiemg.com.br/Corpore.Net/*'} ,(tab) => {
       if(tab.length > 0)
         tabSGE = tab[0].index;
+        windowSGE = tab[0].windowId;
     }); 
   }
 }
