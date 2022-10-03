@@ -77,9 +77,10 @@ function getSGEIndex(){
   });
   if (tabSGE == 0){
     chrome.tabs.query({url:'*://prados101.fiemg.com.br/Corpore.Net/*'} ,(tab) => {
-      if(tab.length > 0)
+      if(tab.length > 0){
         tabSGE = tab[0].index;
         windowSGE = tab[0].windowId;
+      }
     }); 
   }
 }
