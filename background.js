@@ -17,6 +17,7 @@ chrome.runtime.onInstalled.addListener(() => {
   // checkIsPinned();
 });
 
+//Suprime o erro caso já exista um contextMenu, pois só tem que criar um quando instala
 chrome.contextMenus.create({
   id: "sge_context",
   title: "SGE Ágil",
