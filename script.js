@@ -207,20 +207,25 @@ if (document.getElementsByClassName("ExpanderCell").length > 0){
 // Por enquanto desativado, cria a classe mas não é usada
 if (document.getElementById("ctl24_xgvPlanoAula_DXMainTable")){
     if (document.getElementById("ctl24_xgvPlanoAula_DXMainTable").children.length > 0){
-        var aulas = document.getElementById("ctl24_xgvPlanoAula_DXMainTable").children[0].children;
-        if (aulas.length > 0){
-            var ultimo = "";
-            Array.from(aulas).forEach(element => {
-                if (typeof element.children[2] != "undefined"){
-                    if ((element.children[2].innerText !== ultimo) && ultimo !== "") {
-                        ultimo = element.children[2].innerText;
-                        element.classList.add("primeira_aula");
-                    }
-                    if (ultimo === ""){
-                        ultimo = "Data";
-                    }
+        setInterval(()=>{
+            if (document.getElementsByClassName("primeira_aula").length <= 0){
+                console.log("foi")
+                var aulas = document.getElementById("ctl24_xgvPlanoAula_DXMainTable").children[0].children;
+                if (aulas.length > 0){
+                    var ultimo = "";
+                    Array.from(aulas).forEach(element => {
+                        if (typeof element.children[2] != "undefined"){
+                            if ((element.children[2].innerText !== ultimo) && ultimo !== "") {
+                                ultimo = element.children[2].innerText;
+                                element.classList.add("primeira_aula");
+                            }
+                            if (ultimo === ""){
+                                ultimo = "Data";
+                            }
+                        }
+                    });
                 }
-            })
-        }
+            }
+        },500);
     }
 }
