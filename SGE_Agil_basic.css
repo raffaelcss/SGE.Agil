@@ -190,8 +190,10 @@ tr.primeira_aula{
 }
 
 /* Janela chata que aparece no inicio */
-#dxpc-header {
-    background: #14608e !important;
+.dxpc-header {
+    /* color: #ffffff !important; */
+    /* background: #14608e !important; */
+    background: #d5dcf0 !important;
     background-image: none !important;
 }
 
