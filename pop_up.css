@@ -26,7 +26,7 @@ body>div {
     height: 26px;
     background-size: contain !important;
     /*background: url(chrome-extension://bpconcjcammlapcogcnnelfmaeghhagj/images/logo/nimbus_capture_full.svg) no-repeat;*/
-    background: url(./logo/Novo_darkblue.png) no-repeat;
+    background: url(./logo/logo_alpha.png) no-repeat;
 }
 .icon-config{
     background: url(./icon-config.svg)  center no-repeat;
@@ -319,6 +319,45 @@ input:checked + .slider:before {
 #version_info {
   padding: 3px;
 }
+
+/* Dark mode  */
+
+body:has(#Dark_on:checked) {
+  background: #18191A;
+  color: #E4E6EB;
+}
+
+body:has(#Dark_on:checked) span{
+  color: #E4E6EB;
+}
+
+body:has(#Dark_on:checked) #sub-menu{
+  background: #242526;
+  color: #E4E6EB;
+}
+
+body:has(#Dark_on:checked) [type="image"]{
+  filter: invert(1);
+}
+
+body:has(#Dark_on:checked) > div, body:has(#Dark_on:checked) > footer {
+  border-top: 1px solid #424446
+}
+
+body:has(#Dark_on:checked) button::before, body:has(#Dark_on:checked) button::after{
+  background-color: #65bbff;
+}
+
+body:has(#Dark_on:checked) .button_footer a{
+  color: #65bbff;
+}
+
+body:has(#Dark_on:checked) .logo{
+  background: url(./logo/logo_alpha_white.png) no-repeat;
+}
+
+
+/* Animações  */
 
 @keyframes progress-bar {
   from {
