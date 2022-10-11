@@ -54,7 +54,10 @@ function Ligar_Auto(){
         //console.log("CSS Básico adicionado");
     }
 
-    //Funções
+    //Funções sempre ligadas
+    Ligar_frequenciaAssistida();
+
+    //Funções com opção on/off
     if (SGE_Agil_ON_Pes) {Ligar_pesquisa()};            //Barra de pesquisa
     if (SGE_Agil_ON_Dark) {Ligar_darkMode()};           //Dark Mode
     //if (SGE_Agil_ON_Freq) {Ligar_Freq()};             //Freq assistida
@@ -99,11 +102,13 @@ function Desligar_Auto(){
         css_basico.parentNode.removeChild(css_basico);
     }
 
+    // Funções sempre ligadas
+    Desligar_frequenciaAssistida();
+
     //Funções
     Desligar_pesquisa();                                //Barra de pesquisa
     Desligar_darkMode();                                //Dark Mode
     Desligar_planAula();                                //Plano de aula assistido
-    //Desligar_Freq())};                                  //Freq assistida
     Desligar_aviso_new();                               //Aviso novas turmas e Ucs
     Desligar_arq_turma();                               //Arquivar turmas
     Desligar_aviso_faltas();                            //Aviso alunos faltosos
