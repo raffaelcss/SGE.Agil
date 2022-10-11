@@ -30,6 +30,144 @@ function numberToColumCell(columNumber){
     }
 }
 
+function preencherNotas(ws, rowCount, columnCount){
+    for (let row = 2; row <= rowCount; row++) {
+        for (let col = 6; col <= columnCount; col++) {
+            const cellRef = XLSX.utils.encode_cell({ r: row, c: col });
+            //Colocando as células vazias como número
+            ws[cellRef].t = 'n';
+        }
+    }
+}
+
+function corrigirTamanhoColunas(ws, rowCount, columnCount){
+    //Colunas fixas
+    ws["!cols"] = [{ wch: 1 },{ wch: 4 },{ wch: 9 }]
+    //Coluna alunos
+    let max_width = 0;
+    for (let row = 2; row <= rowCount; row++) {
+        const cellRef = XLSX.utils.encode_cell({ r: row, c: 3 });
+        max_width = Math.max(ws[cellRef].v.length*1.2 + 1.5,max_width);
+    }
+    ws["!cols"].push({ wch: max_width });
+    //Status
+    ws["!cols"].push({ wch: 14 });
+    //Atividades
+    for (let col = 5; col <= columnCount; col++) {
+        const cellRef = XLSX.utils.encode_cell({ r: 0, c: col });
+        ws["!cols"].push({ wch: 12.5 });
+    }
+}
+
+function addFormulaSomatorioNotas(ws, rowCount, columnCount){
+    //Somatorio de notas
+    for (let row = 2; row <= rowCount; row++){
+        const cellRef = XLSX.utils.encode_cell({ r: row, c: 5 });
+        var sum_range = XLSX.utils.encode_range({ s: { c: 6, r: row }, e: { c: columnCount, r: row } });
+
+        ws[cellRef].t = 'n';
+        ws[cellRef].f = "SUM("+sum_range+")";
+        ws[cellRef].F = sum_range;
+    }
+}
+
+function estilizarTabela(ws, rowCount, columnCount){
+    for (let row = 1; row <= rowCount; row++) {
+        for (let col = 1; col <= columnCount; col++) {
+            const cellRef = XLSX.utils.encode_cell({ r: row, c: col });
+            // Geral
+            ws[cellRef].s = {
+                font: { 
+                    name: "Arial", 
+                    sz: 12 
+                },
+                alignment: { 
+                    horizontal: "center",
+                    // wrapText: true 
+                },
+                border: {
+                    top:{
+                        style: 'thin',
+                    },
+                    bottom:{
+                        style: 'thin',
+                    },
+                    left:{
+                        style: 'thin',
+                    },
+                    right:{
+                        style: 'thin',
+                    },
+                }
+            };
+            //Cabeçalho
+            if (row === 1 && col > 0) {
+                ws[cellRef].s = {
+                    ...ws[cellRef].s,
+                    font: { 
+                        ...ws[cellRef].s.font,
+                        bold: true,
+                        color: { 
+                            rgb: "FFFFFF" 
+                        }
+                    },
+                    fill: {
+                        fgColor: {
+                            rgb: "1F497D"
+                        }
+                    }
+                };
+            }
+
+            //Box Drawin
+            if (row === 1 && col > 0) {
+                ws[cellRef].s = {
+                    ...ws[cellRef].s,
+                    border: {
+                        ...ws[cellRef].s.border,
+                        top:{
+                            style: 'medium',
+                        }
+                    }
+                };
+            }
+            if (row === rowCount){
+                ws[cellRef].s = {
+                    ...ws[cellRef].s,
+                    border: {
+                        ...ws[cellRef].s.border,
+                        bottom:{
+                            style: 'medium',
+                        }
+                    }
+                };
+            }
+            if (col === 1 && row > 0) {
+                ws[cellRef].s = {
+                    ...ws[cellRef].s,
+                    border: {
+                        ...ws[cellRef].s.border,
+                        left:{
+                            style: 'medium',
+                        }
+                    }
+                };
+            }
+            if (col === columnCount){
+                ws[cellRef].s = {
+                    ...ws[cellRef].s,
+                    border: {
+                        ...ws[cellRef].s.border,
+                        right:{
+                            style: 'medium',
+                        }
+                    }
+                };
+            }
+        }
+      }
+}
+
 function criaTabela(type, fn, dl) {
 	var elt = document.getElementById('ctl24_xgvNotas_DXMainTable').cloneNode(true);
 
@@ -39,22 +177,36 @@ function criaTabela(type, fn, dl) {
         td.innerText = texto;
     });
 
-    quantidadeAlunos = elt.children[0].children.length - 1;
+    // //Adicionando coluna inicial
+    // Array.from(elt.children[0].children).forEach(tr => {
+    //     const colNova = document.createElement("td");
+    //     tr.insertAdjacentElement('afterbegin', colNova);
+    // });
+
+    // //Adicionando linha inicial
+    // const rowNova = document.createElement("tr");
+    // for(let i=0; i < elt.children[0].children[1].children.length; i++){
+    //     let col = document.createElement("td");
+    //     rowNova.appendChild(col);
+    // }
+    // elt.children[0].insertAdjacentElement('afterbegin', rowNova);
     
-    
-	var wb = XLSX.utils.table_to_book(elt, {sheet:"Notas"});
+    //Cria Workbook
+	var wb = XLSX.utils.table_to_book(elt, {sheet:"Notas", origin: "B2"});
+
+    const range = XLSX.utils.decode_range(wb.Sheets['Notas']["!ref"] ?? "");
+    const rowCount = range.e.r;
+    const columnCount = range.e.c;
     
     console.log(elt);
     console.log(wb);
-    
-    //XLSX.utils.sheet_set_array_formula(wb.Sheets['Notas'], "E2:E"+(quantidadeAlunos+1), "SUM(F2:G2)");
+
+    addFormulaSomatorioNotas(wb.Sheets['Notas'], rowCount, columnCount);
+    preencherNotas(wb.Sheets['Notas'], rowCount, columnCount);
+    corrigirTamanhoColunas(wb.Sheets['Notas'], rowCount, columnCount);
+    estilizarTabela(wb.Sheets['Notas'], rowCount, columnCount);
 
     console.log(wb);
-    //Somatorio de notas
-    for (let i=2; i <= (quantidadeAlunos+1); i++){
-        wb.Sheets['Notas']["E"+i] = { t: "n", f: "SUM(F"+i+":"+colunaFinalAtividades+i+")", F: "F"+i+":"+colunaFinalAtividades+i };
-    }
-
 
 	return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "bynary"});
 }

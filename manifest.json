@@ -34,7 +34,7 @@
         ]
     }],
     "web_accessible_resources": [{
-        "resources": ["SGE_Agil_basic.css","dark_mode.css","icons/btRaio_amarelo.gif","icons/btRaio_azul.gif","icons/mn_Professor.gif","icons/sesi-senai.png", "svg/archive-box-bold-svgrepo-com.svg", "svg/archive-out-svgrepo-com.svg","xlsx.full.min.js","planilhas_notas.js"],
+        "resources": ["SGE_Agil_basic.css","dark_mode.css","icons/btRaio_amarelo.gif","icons/btRaio_azul.gif","icons/mn_Professor.gif","icons/sesi-senai.png", "svg/archive-box-bold-svgrepo-com.svg", "svg/archive-out-svgrepo-com.svg","xlsx.style.min.js","planilhas_notas.js"],
         "matches": [
             "http://www2.fiemg.com.br/*",
             "https://www2.fiemg.com.br/*",

@@ -19,5 +19,5 @@ function injectCode(src) {
     nullthrows(document.head || document.documentElement).appendChild(script);
 }
 
-injectCode(chrome.runtime.getURL('/xlsx.full.min.js'));
+injectCode(chrome.runtime.getURL('/xlsx.style.min.js'));
 injectCode(chrome.runtime.getURL('/planilhas_notas.js'));
