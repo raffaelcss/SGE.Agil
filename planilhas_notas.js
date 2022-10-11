@@ -1,7 +1,36 @@
-const cabecalho_notas = document.getElementById("ctl24_xgvNotas_DXHeadersRow0");
+const cabecalhoNotas = document.getElementById("ctl24_xgvNotas_DXHeadersRow0");
+const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
 
 var vazio = document.getElementById("ctl24_xgvNotas_emptyheader") != null;
 
+function numberToColumCell(columNumber){
+    switch (columNumber){
+        case 1:
+            return  "A";
+        case 2:
+            return  "B";
+        case 3:
+            return  "C";
+        case 4:
+            return  "D";
+        case 5:
+            return  "E";
+        case 6:
+            return  "F";
+        case 7:
+            return  "G";
+        case 8:
+            return  "H";
+        case 9:
+            return  "I";
+        case 10:
+            return  "J";
+        case 11:
+            return  "K";
+        case 12:
+            return  "L";
+    }
+}
 
 function criaTabela(type, fn, dl) {
 	var elt = document.getElementById('ctl24_xgvNotas_DXMainTable').cloneNode(true);
@@ -12,28 +41,34 @@ function criaTabela(type, fn, dl) {
         td.innerText = texto;
     });
 
+    quantidadeAlunos = elt.children[0].children.length - 1;
+    
+    
+	var wb = XLSX.utils.table_to_book(elt, {sheet:"Notas"});
+    
     console.log(elt);
+    console.log(wb);
+    
+    //XLSX.utils.sheet_set_array_formula(wb.Sheets['Notas'], "E2:E"+(quantidadeAlunos+1), "SUM(F2:G2)");
 
-	var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"});
-	return dl ?
-		XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) :
-		XLSX.writeFile(wb, fn || ('SheetJSTableExport.' + (type || 'xlsx')));
-}
+    console.log(wb);
+    //Somatorio de notas
+    for (let i=2; i <= (quantidadeAlunos+1); i++){
+        wb.Sheets['Notas']["E"+i] = { t: "n", f: "SUM(F"+i+":"+colunaFinalAtividades+i+")", F: "F"+i+":"+colunaFinalAtividades+i };
+    }
 
-function criaXlsx(){
 
-}
-
-function baixaXlsx(){
-
+	return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "bynary"});
 }
 
 if (!vazio){
     let valor_total = 0;
-    let quantidadeAtividades = cabecalho_notas.children.length - 5;
+    var quantidadeAtividades = cabecalhoNotas.children.length - 5;
+    var colunaFinalAtividades = numberToColumCell(5+quantidadeAtividades);
+    var quantidadeAlunos = 0;
 
     //Verifica o valor de cada atividade
-    Array.from(cabecalho_notas.children).forEach(td => {
+    Array.from(cabecalhoNotas.children).forEach(td => {
         let text_td = td.getElementsByTagName("td")[0].innerText;
         if (text_td.indexOf("(") != -1){
             let text_nota = text_td.substring(text_td.indexOf("(")+1,text_td.indexOf("(")+6).replace(",",".");
@@ -51,9 +86,8 @@ if (!vazio){
         bnt.style.border = "1px solid black";
         bnt.id = "teste";
         bnt.innerText = "Teste";
-        bnt.onclick = (event) =>{
-            event.stopPropagation();
-            criaTabela('xlsx');
+        bnt.onclick = () =>{
+            criaTabela('xlsx',nomePlanilha+'.xlsx',false);
         };
         document.getElementById("ctl09_ctl00_accordionMenuAccordionItems0_Contents").appendChild(bnt);
     }
