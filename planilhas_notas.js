@@ -1,6 +1,4 @@
 const cabecalhoNotas = document.getElementById("ctl24_xgvNotas_DXHeadersRow0");
-const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
-
 var vazio = document.getElementById("ctl24_xgvNotas_emptyheader") != null;
 
 function numberToColumCell(columNumber){
@@ -61,7 +59,10 @@ function criaTabela(type, fn, dl) {
 	return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "bynary"});
 }
 
-if (!vazio){
+if (document.getElementById("ctl24_xgvNotas") && !vazio){
+
+    const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
+
     let valor_total = 0;
     var quantidadeAtividades = cabecalhoNotas.children.length - 5;
     var colunaFinalAtividades = numberToColumCell(5+quantidadeAtividades);
