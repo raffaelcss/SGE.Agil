@@ -362,10 +362,23 @@ if (document.getElementById("ctl24_xgvNotas") && !vazio){
         bnt.style.padding = "5px";
         bnt.style.border = "1px solid black";
         bnt.id = "teste";
-        bnt.innerText = "Teste";
+        bnt.innerText = "Gerar modelo Excel";
+        bnt.style.height = "25px";
+        bnt.style.width = "68px";
+        bnt.style.background = "#F2F2F2 top";
+        bnt.style.border = "solid 1px #7F7F7F;";
+        
         bnt.onclick = () =>{
             criaTabela('xlsx',nomePlanilha+'.xlsx',false);
         };
-        document.getElementById("ctl09_ctl00_accordionMenuAccordionItems0_Contents").appendChild(bnt);
+
+        const pai = document.getElementById("ctl24_xbtSelecionar").parentNode.parentNode;
+        const td = document.createElement("td");
+        const div = document.createElement("div");
+        div.style.width = "110px";
+        pai.children[pai.children.length-1].style.width = "100%";
+        div.appendChild(bnt)
+        td.appendChild(div);
+        pai.appendChild(td);
     }
 }
