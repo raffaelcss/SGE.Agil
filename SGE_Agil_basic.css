@@ -314,7 +314,12 @@ tr.primeira_aula{
 }
 
 
-
+#btn-inverter:hover{
+    color: #000000;
+    background: #E4E4E4 top;
+    background-repeat: repeat-x;
+    border: solid 1px #606060;
+}
 
 
 
