@@ -359,26 +359,28 @@ if (document.getElementById("ctl24_xgvNotas") && !vazio){
         console.log("Você deve criar todas as avaliações primeiro!");
     } else {
         let bnt = document.createElement("span");
-        bnt.style.padding = "5px";
-        bnt.style.border = "1px solid black";
-        bnt.id = "teste";
+        bnt.style.padding = "2px 0px";
         bnt.innerText = "Gerar modelo Excel";
-        bnt.style.height = "25px";
-        bnt.style.width = "68px";
-        bnt.style.background = "#F2F2F2 top";
-        bnt.style.border = "solid 1px #7F7F7F;";
-        
-        bnt.onclick = () =>{
-            criaTabela('xlsx',nomePlanilha+'.xlsx',false);
-        };
+        bnt.style.whiteSpace = "nowrap";
 
         const pai = document.getElementById("ctl24_xbtSelecionar").parentNode.parentNode;
         const td = document.createElement("td");
         const div = document.createElement("div");
-        div.style.width = "110px";
+        div.id = "ctl24_xbtModelo";
+        const div2 = document.createElement("div");
+        div2.id = "ctl24_xbtModelo_interno"
+
+        div.onclick = () =>{
+            criaTabela('xlsx',nomePlanilha+'.xlsx',false);
+        };
+
         pai.children[pai.children.length-1].style.width = "100%";
-        div.appendChild(bnt)
+        div2.appendChild(bnt);
+        div.appendChild(div2)
         td.appendChild(div);
         pai.appendChild(td);
+
+        const td2 = document.createElement("td");
+        pai.appendChild(td2);
     }
 }

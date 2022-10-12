@@ -313,7 +313,26 @@ tr.primeira_aula{
     background-color: var(--branco);
 }
 
+/* Botão Model Excel */
+#ctl24_xbtModelo{
+    height: 25px;
+    background: #F2F2F2 top;
+    border: solid 1px #7F7F7F;
+    display: inline-table;
+    cursor: pointer;
+}
 
+#ctl24_xbtModelo:hover{
+    background: #E4E4E4 top;
+    border: solid 1px #606060;
+}
+
+#ctl24_xbtModelo_interno{
+    padding: 3px 8px 4px;
+    display: table-cell;
+    vertical-align: middle;
+    line-height: 100%;
+}
 
 
 
