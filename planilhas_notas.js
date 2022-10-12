@@ -335,7 +335,9 @@ function criaTabela(type, fn, dl) {
 	return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "bynary"});
 }
 
-function criarBotao(addClick){
+function criarBotaoModelo(addClick){
+    const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
+
     let bnt = document.createElement("span");
     bnt.style.padding = "2px 0px";
     bnt.innerText = "Gerar modelo Excel";
@@ -345,6 +347,7 @@ function criarBotao(addClick){
     const td = document.createElement("td");
     const div = document.createElement("div");
     div.id = "ctl24_xbtModelo";
+    div.classList.add("btnExcel");
     if (addClick){
         div.classList.add("hovering");
         div.title = "Gerar arquivo Excel para lançamento de notas";
@@ -360,7 +363,55 @@ function criarBotao(addClick){
         }
     }
     const div2 = document.createElement("div");
-    div2.id = "ctl24_xbtModelo_interno"
+    div2.id = "ctl24_xbtModelo_interno";
+    div2.classList.add("btnExcel_interno");
+
+    pai.children[pai.children.length-1].style.width = "100%";
+    div2.appendChild(bnt);
+    div.appendChild(div2)
+    td.appendChild(div);
+    pai.appendChild(td);
+
+    // const td2 = document.createElement("td");
+    // pai.appendChild(td2);
+
+    if (addClick) {
+        div.onclick = () =>{
+            criaTabela('xlsx',nomePlanilha+'.xlsx',false);
+        };
+    }
+}
+
+function criarBotaoCarregar(addClick){
+    const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
+
+    let bnt = document.createElement("span");
+    bnt.style.padding = "2px 0px";
+    bnt.innerText = "Carregar Excel";
+    bnt.style.whiteSpace = "nowrap";
+
+    const pai = document.getElementById("ctl24_xbtSelecionar").parentNode.parentNode;
+    const td = document.createElement("td");
+    const div = document.createElement("div");
+    div.id = "ctl24_xbtCarregar";
+    div.classList.add("btnExcel");
+    if (addClick){
+        div.classList.add("hovering");
+        div.title = "Carregar arquivo Excel para lançamento de notas";
+    } else {
+        let ava = "";
+        if (document.getElementById("ctl24_xcbAvaliacao_I")){
+            ava = document.getElementById("ctl24_xcbAvaliacao_I").getAttribute("value");
+        }
+        if (ava != "TODAS"){
+            div.title = "Selecione Avaliações:TODAS para carregar as notas";
+        } else {
+            div.title = "Primeiro crie todas as avaliações (100pts)";
+        }
+    }
+    const div2 = document.createElement("div");
+    div2.id = "ctl24_xbtCarregar_interno";
+    div2.classList.add("btnExcel_interno");
 
     pai.children[pai.children.length-1].style.width = "100%";
     div2.appendChild(bnt);
@@ -373,14 +424,12 @@ function criarBotao(addClick){
 
     if (addClick) {
         div.onclick = () =>{
-            criaTabela('xlsx',nomePlanilha+'.xlsx',false);
+            alert("Teste");
         };
     }
 }
 
 if (document.getElementById("ctl24_xgvNotas") && !vazio){
-
-    const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
 
     let valor_total = 0;
     var quantidadeAtividades = cabecalhoNotas.children.length - 5;
@@ -400,8 +449,10 @@ if (document.getElementById("ctl24_xgvNotas") && !vazio){
     //Verifica se possui todas as atividades lançadas (100 pontos)
     if (valor_total < 100) {
         console.log("Você deve criar todas as avaliações primeiro!");
-        criarBotao(false);
+        criarBotaoModelo(false);
+        criarBotaoCarregar(false);
     } else {
-        criarBotao(true);
+        criarBotaoModelo(true);
+        criarBotaoCarregar(true);
     }
 }

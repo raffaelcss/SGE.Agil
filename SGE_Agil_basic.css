@@ -314,7 +314,7 @@ tr.primeira_aula{
 }
 
 /* Botão Model Excel */
-#ctl24_xbtModelo{
+.btnExcel{
     height: 25px;
     background: #F2F2F2 top;
     border: solid 1px #c3c3c3;
@@ -323,18 +323,18 @@ tr.primeira_aula{
     color: #808080;
 }
 
-#ctl24_xbtModelo.hovering{
+.btnExcel.hovering{
     border: solid 1px #7F7F7F;
     cursor: pointer;
     color: black;
 }
 
-#ctl24_xbtModelo.hovering:hover{
+.btnExcel.hovering:hover{
     background: #E4E4E4 top;
     border: solid 1px #606060;
 }
 
-#ctl24_xbtModelo_interno{
+.btnExcel_interno{
     padding: 3px 8px 4px;
     display: table-cell;
     vertical-align: middle;
