@@ -335,6 +335,49 @@ function criaTabela(type, fn, dl) {
 	return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "bynary"});
 }
 
+function criarBotao(addClick){
+    let bnt = document.createElement("span");
+    bnt.style.padding = "2px 0px";
+    bnt.innerText = "Gerar modelo Excel";
+    bnt.style.whiteSpace = "nowrap";
+
+    const pai = document.getElementById("ctl24_xbtSelecionar").parentNode.parentNode;
+    const td = document.createElement("td");
+    const div = document.createElement("div");
+    div.id = "ctl24_xbtModelo";
+    if (addClick){
+        div.classList.add("hovering");
+        div.title = "Gerar arquivo Excel para lançamento de notas";
+    } else {
+        let ava = "";
+        if (document.getElementById("ctl24_xcbAvaliacao_I")){
+            ava = document.getElementById("ctl24_xcbAvaliacao_I").getAttribute("value");
+        }
+        if (ava != "TODAS"){
+            div.title = "Selecione Avaliações:TODAS para gerar o modelo";
+        } else {
+            div.title = "Primeiro crie todas as avaliações (100pts)";
+        }
+    }
+    const div2 = document.createElement("div");
+    div2.id = "ctl24_xbtModelo_interno"
+
+    pai.children[pai.children.length-1].style.width = "100%";
+    div2.appendChild(bnt);
+    div.appendChild(div2)
+    td.appendChild(div);
+    pai.appendChild(td);
+
+    const td2 = document.createElement("td");
+    pai.appendChild(td2);
+
+    if (addClick) {
+        div.onclick = () =>{
+            criaTabela('xlsx',nomePlanilha+'.xlsx',false);
+        };
+    }
+}
+
 if (document.getElementById("ctl24_xgvNotas") && !vazio){
 
     const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
@@ -357,30 +400,8 @@ if (document.getElementById("ctl24_xgvNotas") && !vazio){
     //Verifica se possui todas as atividades lançadas (100 pontos)
     if (valor_total < 100) {
         console.log("Você deve criar todas as avaliações primeiro!");
+        criarBotao(false);
     } else {
-        let bnt = document.createElement("span");
-        bnt.style.padding = "2px 0px";
-        bnt.innerText = "Gerar modelo Excel";
-        bnt.style.whiteSpace = "nowrap";
-
-        const pai = document.getElementById("ctl24_xbtSelecionar").parentNode.parentNode;
-        const td = document.createElement("td");
-        const div = document.createElement("div");
-        div.id = "ctl24_xbtModelo";
-        const div2 = document.createElement("div");
-        div2.id = "ctl24_xbtModelo_interno"
-
-        div.onclick = () =>{
-            criaTabela('xlsx',nomePlanilha+'.xlsx',false);
-        };
-
-        pai.children[pai.children.length-1].style.width = "100%";
-        div2.appendChild(bnt);
-        div.appendChild(div2)
-        td.appendChild(div);
-        pai.appendChild(td);
-
-        const td2 = document.createElement("td");
-        pai.appendChild(td2);
+        criarBotao(true);
     }
 }

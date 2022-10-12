@@ -317,12 +317,19 @@ tr.primeira_aula{
 #ctl24_xbtModelo{
     height: 25px;
     background: #F2F2F2 top;
-    border: solid 1px #7F7F7F;
+    border: solid 1px #c3c3c3;
     display: inline-table;
-    cursor: pointer;
+    cursor: default;
+    color: #808080;
 }
 
-#ctl24_xbtModelo:hover{
+#ctl24_xbtModelo.hovering{
+    border: solid 1px #7F7F7F;
+    cursor: pointer;
+    color: black;
+}
+
+#ctl24_xbtModelo.hovering:hover{
     background: #E4E4E4 top;
     border: solid 1px #606060;
 }
