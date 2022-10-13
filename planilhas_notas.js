@@ -354,6 +354,49 @@ function criarFieldset(){
     }
 }
 
+function criarDragDrop(parent){
+    let divPrincipal = document.createElement("div");
+    let label = document.createElement("label");
+    let i = document.createElement("i");
+    let divTexto = document.createElement("div");
+    let input = document.createElement("input");
+    let divLista = document.createElement("div");
+    let img = document.createElement("img");
+
+    i.appendChild(img);
+
+    label.appendChild(i);
+    label.appendChild(divTexto);
+
+    divPrincipal.appendChild(label);
+    divPrincipal.appendChild(input);
+    divPrincipal.appendChild(divLista);
+    
+    divPrincipal.id = "drag-drop";
+    divPrincipal.classList.add("area-upload");
+
+    label.classList.add("label-upload");
+    label.setAttribute("for","upload-file");
+
+    i.id = "icon-drop";
+    i.classList.add("fas");
+    i.classList.add("fa-cloud-upload-alt");
+
+    img.id = "img-drop";
+
+    divTexto.classList.add("texto");
+    divTexto.innerText = "Clique ou arraste o arquivo";
+
+    input.setAttribute("type","file");
+    input.setAttribute("accept","image/jpg,image/png");
+    input.id = "upload-file";
+    input.setAttribute("multiple",true);
+
+    divLista.classList.add("lista-uploads");
+    
+    parent.appendChild(divPrincipal);  
+}
+
 function criarBotaoModelo(addClick, parent){
     const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
 
@@ -465,6 +508,7 @@ if (document.getElementById("ctl24_xgvNotas") && !vazio){
 
     criarFieldset();
     let parent = document.getElementById("div-field-excel");
+    criarDragDrop(parent);
 
     //Verifica se possui todas as atividades lançadas (100 pontos)
     if (valor_total < 100) {

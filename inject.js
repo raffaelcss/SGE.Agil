@@ -21,3 +21,18 @@ function injectCode(src) {
 
 injectCode(chrome.runtime.getURL('/xlsx.style.min.js'));
 injectCode(chrome.runtime.getURL('/planilhas_notas.js'));
+
+function timeSetDropIcon() {
+    setTimeout(() => {
+        if (document.getElementById("img-drop")) {
+            document.getElementById("img-drop").src = chrome.runtime.getURL('icons/upload20x13.png');
+            console.log(chrome.runtime.getURL('icons/upload20x13.png'));
+        } else {
+            console.log("ainda n");
+            timeSetDropIcon();
+        }
+    }, 100);
+}
+
+timeSetDropIcon();
+
