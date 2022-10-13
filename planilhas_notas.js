@@ -363,7 +363,7 @@ function criarFieldset(){
     }
 }
 
-function criarDragDrop(addClick, parent){
+function criarDragDrop(enable, parent){
     let divPrincipal = document.createElement("div");
     let label = document.createElement("label");
     let i = document.createElement("i");
@@ -371,6 +371,24 @@ function criarDragDrop(addClick, parent){
     let input = document.createElement("input");
     let divLista = document.createElement("div");
     let img = document.createElement("img");
+
+    let ava = "";
+    if (document.getElementById("ctl24_xcbAvaliacao_I")){
+        ava = document.getElementById("ctl24_xcbAvaliacao_I").getAttribute("value");
+    }
+
+    if(!enable){
+        divPrincipal.classList.add("drag-off");
+        input.disabled = true;
+        if (ava != "TODAS"){
+            divTexto.innerText = "Impossível fazer upload de avaliações individuais";
+            divTexto.style.padding = "0 10px";
+        } else {
+            divTexto.innerText = "Primeiro crie todas as avaliações (100pts)";
+        }
+    } else {
+        divTexto.innerText = "Clique ou arraste o arquivo de notas";
+    }
 
     i.appendChild(img);
 
@@ -394,7 +412,6 @@ function criarDragDrop(addClick, parent){
     img.id = "img-drop";
 
     divTexto.classList.add("texto");
-    divTexto.innerText = "Clique ou arraste o arquivo";
 
     input.setAttribute("type","file");
     input.setAttribute("accept","image/jpg,image/png");

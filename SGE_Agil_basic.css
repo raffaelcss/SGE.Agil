@@ -518,3 +518,7 @@ tr.primeira_aula{
 .area-upload .lista-uploads .barra.error .text{
 	color: white;
 }
+
+.area-upload.drag-off {
+    filter: grayscale(1);
+}
