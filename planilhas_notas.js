@@ -339,22 +339,31 @@ function criaTabela(type, fn, dl) {
 function criarFieldset(){
     if (document.getElementById("ctl24_legendProvas")){
         let fieldExemplo = document.getElementById("ctl24_legendProvas").parentNode;
-        let pai = fieldExemplo.parentNode;
+        let pai = fieldExemplo.parentNode.parentNode;
         let field = fieldExemplo.cloneNode(true);
         let titulo = field.getElementsByTagName("span")[0];
         let divPrincipal = field.getElementsByTagName("center")[0].getElementsByTagName("div")[0];
 
         field.id = "field-excel";
+        field.style.width = "250px";
         titulo.innerText = "SGE Ágil";
         divPrincipal.id = "div-field-excel";
 
         divPrincipal.innerHTML = "";
 
-        pai.appendChild(field);
+        let td = document.createElement("td");
+        td.appendChild(field);
+
+        //Colocar ao lado
+        let irmao = document.getElementById("ctl24_legendFiltros").parentNode.parentNode;
+        // irmao.setAttribute("width", "45%");
+
+        // pai.appendChild(field);
+        irmao.parentNode.insertBefore(td, irmao.nextSibling);
     }
 }
 
-function criarDragDrop(parent){
+function criarDragDrop(addClick, parent){
     let divPrincipal = document.createElement("div");
     let label = document.createElement("label");
     let i = document.createElement("i");
@@ -484,7 +493,10 @@ function criarBotaoCarregar(addClick, parent){
 
     if (addClick) {
         div.onclick = () =>{
-            alert("Teste");
+            let input = document.getElementById("upload-file");
+            if (input){
+                input.click();
+            }
         };
     }
 }
@@ -508,14 +520,15 @@ if (document.getElementById("ctl24_xgvNotas") && !vazio){
 
     criarFieldset();
     let parent = document.getElementById("div-field-excel");
-    criarDragDrop(parent);
 
     //Verifica se possui todas as atividades lançadas (100 pontos)
     if (valor_total < 100) {
         console.log("Você deve criar todas as avaliações primeiro!");
+        criarDragDrop(false, parent);
         criarBotaoModelo(false, parent);
         criarBotaoCarregar(false, parent);
     } else {
+        criarDragDrop(true, parent);
         criarBotaoModelo(true, parent);
         criarBotaoCarregar(true, parent);
     }
