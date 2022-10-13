@@ -341,6 +341,10 @@ tr.primeira_aula{
     line-height: 100%;
 }
 
+#div-field-excel {
+    display: flex;
+    justify-content: space-around;
+}
 
 
 

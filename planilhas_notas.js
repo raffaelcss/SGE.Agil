@@ -1,34 +1,34 @@
 const cabecalhoNotas = document.getElementById("ctl24_xgvNotas_DXHeadersRow0");
 var vazio = document.getElementById("ctl24_xgvNotas_emptyheader") != null;
 
-function numberToColumCell(columNumber){
-    switch (columNumber){
-        case 1:
-            return  "A";
-        case 2:
-            return  "B";
-        case 3:
-            return  "C";
-        case 4:
-            return  "D";
-        case 5:
-            return  "E";
-        case 6:
-            return  "F";
-        case 7:
-            return  "G";
-        case 8:
-            return  "H";
-        case 9:
-            return  "I";
-        case 10:
-            return  "J";
-        case 11:
-            return  "K";
-        case 12:
-            return  "L";
-    }
-}
+// function numberToColumCell(columNumber){
+//     switch (columNumber){
+//         case 1:
+//             return  "A";
+//         case 2:
+//             return  "B";
+//         case 3:
+//             return  "C";
+//         case 4:
+//             return  "D";
+//         case 5:
+//             return  "E";
+//         case 6:
+//             return  "F";
+//         case 7:
+//             return  "G";
+//         case 8:
+//             return  "H";
+//         case 9:
+//             return  "I";
+//         case 10:
+//             return  "J";
+//         case 11:
+//             return  "K";
+//         case 12:
+//             return  "L";
+//     }
+// }
 
 function preencherNotas(ws, rowCount, columnCount){
     for (let row = 2; row <= rowCount; row++) {
@@ -335,7 +335,26 @@ function criaTabela(type, fn, dl) {
 	return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "bynary"});
 }
 
-function criarBotaoModelo(addClick){
+//Lembra de mudar tudo para um menu logo abaixo da legenda
+function criarFieldset(){
+    if (document.getElementById("ctl24_legendProvas")){
+        let fieldExemplo = document.getElementById("ctl24_legendProvas").parentNode;
+        let pai = fieldExemplo.parentNode;
+        let field = fieldExemplo.cloneNode(true);
+        let titulo = field.getElementsByTagName("span")[0];
+        let divPrincipal = field.getElementsByTagName("center")[0].getElementsByTagName("div")[0];
+
+        field.id = "field-excel";
+        titulo.innerText = "SGE Ágil";
+        divPrincipal.id = "div-field-excel";
+
+        divPrincipal.innerHTML = "";
+
+        pai.appendChild(field);
+    }
+}
+
+function criarBotaoModelo(addClick, parent){
     const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
 
     let bnt = document.createElement("span");
@@ -343,7 +362,7 @@ function criarBotaoModelo(addClick){
     bnt.innerText = "Gerar modelo Excel";
     bnt.style.whiteSpace = "nowrap";
 
-    const pai = document.getElementById("ctl24_xbtSelecionar").parentNode.parentNode;
+    const pai = parent || document.getElementById("ctl24_xbtSelecionar").parentNode.parentNode;
     const td = document.createElement("td");
     const div = document.createElement("div");
     div.id = "ctl24_xbtModelo";
@@ -366,7 +385,7 @@ function criarBotaoModelo(addClick){
     div2.id = "ctl24_xbtModelo_interno";
     div2.classList.add("btnExcel_interno");
 
-    pai.children[pai.children.length-1].style.width = "100%";
+    //pai.children[pai.children.length-1].style.width = "100%";
     div2.appendChild(bnt);
     div.appendChild(div2)
     td.appendChild(div);
@@ -382,7 +401,7 @@ function criarBotaoModelo(addClick){
     }
 }
 
-function criarBotaoCarregar(addClick){
+function criarBotaoCarregar(addClick, parent){
     const nomePlanilha = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
 
     let bnt = document.createElement("span");
@@ -390,7 +409,7 @@ function criarBotaoCarregar(addClick){
     bnt.innerText = "Carregar Excel";
     bnt.style.whiteSpace = "nowrap";
 
-    const pai = document.getElementById("ctl24_xbtSelecionar").parentNode.parentNode;
+    const pai = parent || document.getElementById("ctl24_xbtSelecionar").parentNode.parentNode;
     const td = document.createElement("td");
     const div = document.createElement("div");
     div.id = "ctl24_xbtCarregar";
@@ -413,14 +432,12 @@ function criarBotaoCarregar(addClick){
     div2.id = "ctl24_xbtCarregar_interno";
     div2.classList.add("btnExcel_interno");
 
-    pai.children[pai.children.length-1].style.width = "100%";
+    //pai.children[pai.children.length-1].style.width = "100%";
     div2.appendChild(bnt);
     div.appendChild(div2)
     td.appendChild(div);
     pai.appendChild(td);
 
-    const td2 = document.createElement("td");
-    pai.appendChild(td2);
 
     if (addClick) {
         div.onclick = () =>{
@@ -432,9 +449,9 @@ function criarBotaoCarregar(addClick){
 if (document.getElementById("ctl24_xgvNotas") && !vazio){
 
     let valor_total = 0;
-    var quantidadeAtividades = cabecalhoNotas.children.length - 5;
-    var colunaFinalAtividades = numberToColumCell(5+quantidadeAtividades);
-    var quantidadeAlunos = 0;
+    // var quantidadeAtividades = cabecalhoNotas.children.length - 5;
+    // var colunaFinalAtividades = numberToColumCell(5+quantidadeAtividades);
+    // var quantidadeAlunos = 0;
 
     //Verifica o valor de cada atividade
     Array.from(cabecalhoNotas.children).forEach(td => {
@@ -446,13 +463,16 @@ if (document.getElementById("ctl24_xgvNotas") && !vazio){
         }
     });
 
+    criarFieldset();
+    let parent = document.getElementById("div-field-excel");
+
     //Verifica se possui todas as atividades lançadas (100 pontos)
     if (valor_total < 100) {
         console.log("Você deve criar todas as avaliações primeiro!");
-        criarBotaoModelo(false);
-        criarBotaoCarregar(false);
+        criarBotaoModelo(false, parent);
+        criarBotaoCarregar(false, parent);
     } else {
-        criarBotaoModelo(true);
-        criarBotaoCarregar(true);
+        criarBotaoModelo(true, parent);
+        criarBotaoCarregar(true, parent);
     }
 }
