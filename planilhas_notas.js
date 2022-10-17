@@ -673,7 +673,13 @@ function lancaNota(progressEvent){
                     //Lança nota
                     if (objAlunosNotas.alunos[raAtual]){
                         let nota = objAlunosNotas.alunos[raAtual][nomeAtividades_temp.pop()];
-                        input.value = nota ? nota : "";
+                        if (nota){
+                            let stringNota = (typeof nota)=="number" ? nota.toFixed(2).replace(".",",") : nota.replace(".",",");
+                            input.value = stringNota;
+                        } else {
+                            //undefined
+                            input.value = "";
+                        }
                     }
                 }
             })
