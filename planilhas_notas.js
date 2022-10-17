@@ -1,39 +1,6 @@
 const cabecalhoNotas = document.getElementById("ctl24_xgvNotas_DXHeadersRow0");
 var vazio = document.getElementById("ctl24_xgvNotas_emptyheader") != null;
 
-// function numberToColumCell(columNumber){
-//     switch (columNumber){
-//         case 1:
-//             return  "A";
-//         case 2:
-//             return  "B";
-//         case 3:
-//             return  "C";
-//         case 4:
-//             return  "D";
-//         case 5:
-//             return  "E";
-//         case 6:
-//             return  "F";
-//         case 7:
-//             return  "G";
-//         case 8:
-//             return  "H";
-//         case 9:
-//             return  "I";
-//         case 10:
-//             return  "J";
-//         case 11:
-//             return  "K";
-//         case 12:
-//             return  "L";
-//     }
-// }
-
-function objToJSON(obj){
-    return JSON.stringify(obj);
-}
-
 function preencherNotas(ws, rowCount, columnCount){
     for (let row = 2; row <= rowCount; row++) {
         for (let col = 6; col <= columnCount; col++) {
@@ -65,7 +32,7 @@ function corrigirTamanhoColunas(ws, rowCount, columnCount){
     max_width =0;
     for (let row = 2; row < 7; row++){
         const cellRef = XLSX.utils.encode_cell({ r: row, c: columnCount+3 });
-        console.log(cellRef);
+        // console.log(cellRef);
         if (ws[cellRef]){
             max_width = Math.max(ws[cellRef].v.length,max_width);
         }
@@ -299,7 +266,7 @@ function estilizarTabela(ws, rowCount, columnCount){
     }
 }
 
-function criaTabela(type, fn, dl) {
+function criaTabela(type, fn) {
 	var elt = document.getElementById('ctl24_xgvNotas_DXMainTable').cloneNode(true);
 
     //Consertando cabeçalho
@@ -309,7 +276,17 @@ function criaTabela(type, fn, dl) {
     });
     
     //Cria Workbook
-	var wb = XLSX.utils.table_to_book(elt, {sheet:"Notas", origin: "B2"});
+	var wb = XLSX.utils.table_to_book(elt, {
+        sheet:"Notas",
+        origin: "B2"
+    });
+
+    //Dando Title ao Workbook para conferir posteriormente no upload
+    wb.Props = {
+        Title: fn,
+        Manager: "SGE Ágil",
+        Subject: "0.5.0"
+    }
 
     const range = XLSX.utils.decode_range(wb.Sheets['Notas']["!ref"] ?? "");
     const rowCount = range.e.r;
@@ -336,7 +313,9 @@ function criaTabela(type, fn, dl) {
 
     console.log(wb);
 
-	return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "binary"});
+    return XLSX.writeFile(wb, fn + "." + (type || 'xlsx'),{bookType: "xlsx", type: "binary"});
+
+	// return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "binary"});
 }
 
 //Lembra de mudar tudo para um menu logo abaixo da legenda
@@ -470,7 +449,7 @@ function criarBotaoModelo(addClick, parent){
 
     if (addClick) {
         div.onclick = () =>{
-            criaTabela('xlsx',nomePlanilha+'.xlsx',false);
+            criaTabela('xlsx',nomePlanilha);
         };
     }
 }
@@ -558,8 +537,11 @@ function eventosDragDrop(){
         let info = validarArquivo(files[0]);
 
         var barra = document.createElement("div");
+        barra.id = "barra-excel";
         var fill = document.createElement("div");
+        fill.id = "fill-excel";
         var text = document.createElement("div");
+        text.id = "info-excel";
         barra.appendChild(fill);
         barra.appendChild(text);
 
@@ -582,7 +564,7 @@ function eventosDragDrop(){
 }
 
 function validarArquivo(file, size, types){
-    console.log(file);
+    // console.log(file);
 	// Tipos permitidos
 	var mime_types = [ 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ];
     if (types){
@@ -602,7 +584,7 @@ function validarArquivo(file, size, types){
 	// }
 
 	// Se der tudo certo
-	return {"success": "Enviando: " + file.name};
+	return {"success": "Enviando... "};
 }
 
 function lancaNota(progressEvent){
@@ -610,6 +592,41 @@ function lancaNota(progressEvent){
     const loadedWb = XLSX.read(progressEvent.target.result, {
         type: 'binary'
     });
+
+    if (!loadedWb.Props) {
+        return {
+            error: true,
+            message: "Arquivo inválido",
+            wb: loadedWb
+        };
+    }
+    if (loadedWb.Props.Manager != "SGE Ágil") {
+        return {
+            error: true,
+            message: "Utilize apenas planilhas do SGE Ágil.",
+            wb: loadedWb
+        };
+    }
+    const nomeTitle = document.getElementById("ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_lbTurmaDisc").innerText;
+    if (loadedWb.Props.Title != nomeTitle) {
+        return {
+            error: true,
+            message: "Essa planilha não pertence à essa Turma/UC.",
+            wb: loadedWb
+        };
+    }
+    if (document.getElementById("Mver_hide") && document.getElementById("ver_hide") && document.getElementById("subver_hide")){
+        let versaoAtual = document.getElementById("Mver_hide").innerText + document.getElementById("ver_hide").innerText + document.getElementById("subver_hide").innerText;
+        versaoAtual = parseInt(versaoAtual);
+        if (parseInt(loadedWb.Props.Subject.replace(".","")) > versaoAtual) {
+            return {
+                error: true,
+                message: "Essa planilha não é compativel com essa versão do SGE Ágil.",
+                wb: loadedWb
+            };
+        }
+    }
+
     const loadedSheet = loadedWb.Sheets["Notas"];
     let range = XLSX.utils.decode_range(loadedSheet["!ref"]);
     // console.log(range);
@@ -687,22 +704,88 @@ function lancaNota(progressEvent){
 
 
     } else {
-        console.log("Tabela não encontrada");
+        return {
+            error: true,
+            message: "Tabela de notas não encontrada.",
+            wb: loadedWb
+        };
     }
+
+    return {
+        error: false,
+        message: "Notas lançadas!",
+        wb: loadedWb
+    }
+}
+
+function trataRetornoLancamento(ret){
+    let barra = document.getElementById("barra-excel");
+    let fill = document.getElementById("fill-excel");
+    let text = document.getElementById("info-excel");
+
+    console.log(ret);
+
+    text.innerText = "Verificando..";
+    let percent = 80;
+    var time = 20;
+    function load80to100(){
+        setTimeout(()=>{
+            fill.style.minWidth = percent + "%";
+            percent++;
+            //console.log(time);
+            if (percent < 100){
+                load80to100();
+            } else {
+                load100();
+            }
+        },time);
+        time+= 3;
+    }
+    function load100(){
+        text.innerText = ret.message;
+    
+        if(ret.error){
+            barra.classList.remove("complete");
+            barra.classList.add("error");
+        } else {
+            barra.classList.add("complete");
+            barra.classList.remove("error");
+        }
+    }
+
+    load80to100();
+
 }
 
 function lerArquivo(file){
     const reader = new FileReader();
     reader.onload = function(e) {
-        console.log(e);
-        lancaNota(e);
+        let percent = 65;
+        var time = 30;
+        let progressBar = document.getElementsByClassName("fill").length > 0 ? document.getElementsByClassName("fill")[0] : undefined;
+        function load65to80(){
+            setTimeout(()=>{
+                progressBar.style.minWidth = percent + "%";
+                percent++;
+                if (percent < 80){
+                    load65to80();
+                } else {
+                    trataRetornoLancamento(lancaNota(e));
+                }
+            },time);
+            time+= 3;
+        }
+        if (progressBar){
+            load65to80();
+        }
     }
     reader.onloadstart = () => {
         console.log("Start");
     }
     var percent = 0;
     reader.onprogress = (fi) => {
-        percent = 100 * fi.loaded / fi.total;
+        //Carregamento representa 80% os outros 20% por conta do lançamento
+        percent = 65 * fi.loaded / fi.total;
         let txtPercent = percent + "%";
         let progressBar = document.getElementsByClassName("fill");
         if (progressBar.length > 0){
@@ -711,10 +794,6 @@ function lerArquivo(file){
     }
     reader.onloadend = () => {
         console.log("End");
-        let barra = document.getElementsByClassName("barra");
-        if (barra.length > 0){
-            barra[0].classList.add("complete");
-        }
     }
 
     //Carrega arquivo

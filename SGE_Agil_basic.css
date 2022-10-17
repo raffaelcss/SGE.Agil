@@ -471,7 +471,7 @@ tr.primeira_aula{
 
 .area-upload .lista-uploads .barra{
 	background-color: #e6e6e6;
-	margin: 10px 0;
+	margin-top: 10px;
 	width: 100%;
 	position: relative;
 }
@@ -522,3 +522,38 @@ tr.primeira_aula{
 .area-upload.drag-off {
     filter: grayscale(1);
 }
+
+div.fill{
+    overflow: hidden;
+}
+
+div.fill::before{
+    background-color: #cfffff;
+    content: "";
+    display: block;
+    transform: rotate(30deg);
+    width: 4px;
+    height: 150%;
+    top: -5px;
+    position: absolute;
+    left: -5%;
+    animation: load-brightness 1s infinite;
+}
+
+div.complete div.fill::before{
+    animation: none;
+}
+
+div.error div.fill::before{
+    animation: none;
+}
+
+@keyframes load-brightness {
+    from {
+        left: -5%;
+    }
+    to {
+        left: 103%;
+    }
+}
+
