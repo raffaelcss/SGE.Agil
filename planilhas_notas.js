@@ -618,7 +618,10 @@ function lancaNota(progressEvent){
     if (document.getElementById("Mver_hide") && document.getElementById("ver_hide") && document.getElementById("subver_hide")){
         let versaoAtual = document.getElementById("Mver_hide").innerText + document.getElementById("ver_hide").innerText + document.getElementById("subver_hide").innerText;
         versaoAtual = parseInt(versaoAtual);
-        if (parseInt(loadedWb.Props.Subject.replace(".","")) > versaoAtual) {
+        console.log("Versao atual: " + versaoAtual);
+        console.log("Versao arquivo: " + parseInt(loadedWb.Props.Subject.replace(".","").replace(".","")));
+        
+        if (parseInt(loadedWb.Props.Subject.replace(".","").replace(".","")) > versaoAtual) {
             return {
                 error: true,
                 message: "Essa planilha não é compativel com essa versão do SGE Ágil.",
