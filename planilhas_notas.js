@@ -30,6 +30,10 @@ var vazio = document.getElementById("ctl24_xgvNotas_emptyheader") != null;
 //     }
 // }
 
+function objToJSON(obj){
+    return JSON.stringify(obj);
+}
+
 function preencherNotas(ws, rowCount, columnCount){
     for (let row = 2; row <= rowCount; row++) {
         for (let col = 6; col <= columnCount; col++) {
@@ -332,7 +336,7 @@ function criaTabela(type, fn, dl) {
 
     console.log(wb);
 
-	return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "bynary"});
+	return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "binary"});
 }
 
 //Lembra de mudar tudo para um menu logo abaixo da legenda
@@ -414,9 +418,10 @@ function criarDragDrop(enable, parent){
     divTexto.classList.add("texto");
 
     input.setAttribute("type","file");
-    input.setAttribute("accept","image/jpg,image/png");
+    input.setAttribute("accept",".xlsx");
     input.id = "upload-file";
-    input.setAttribute("multiple",true);
+    //Não aceitar multiplos arquivos
+    // input.setAttribute("multiple","");
 
     divLista.classList.add("lista-uploads");
     
@@ -518,6 +523,198 @@ function criarBotaoCarregar(addClick, parent){
     }
 }
 
+function abrirArquivo(file, barra){
+    // var xl2json = new ExcelToJSON();
+    // // console.log(xl2json);
+    
+    // var jsonTable = xl2json.parseExcel(file);
+
+    // console.log(jsonTable);
+
+    lerArquivo(file);
+    
+}
+
+function eventosDragDrop(){
+    //Parte visual
+    drop_ = document.querySelector('.area-upload #upload-file');
+    drop_.addEventListener('dragenter', function(){
+        document.querySelector('.area-upload .label-upload').classList.add('highlight');
+    });
+    drop_.addEventListener('dragleave', function(){
+        document.querySelector('.area-upload .label-upload').classList.remove('highlight');
+    });
+    drop_.addEventListener('drop', function(){
+        document.querySelector('.area-upload .label-upload').classList.remove('highlight');
+    });
+
+    //Parte funcional
+    let input = document.querySelector('#upload-file');
+    input.addEventListener('change', ()=> {
+        let files = input.files;
+        if (files.length <= 0){
+            return;
+        }
+        let info = validarArquivo(files[0]);
+
+        var barra = document.createElement("div");
+        var fill = document.createElement("div");
+        var text = document.createElement("div");
+        barra.appendChild(fill);
+        barra.appendChild(text);
+
+        barra.classList.add("barra");
+        fill.classList.add("fill");
+        text.classList.add("text");
+
+        if(info.error == undefined){
+            text.innerHTML = info.success;
+            abrirArquivo(files[0],barra); //Enviar
+        }else{
+            text.innerHTML = info.error;
+            barra.classList.add("error");
+        }
+    
+        //Adicionar barra
+        document.querySelector('.lista-uploads').appendChild(barra);
+
+    });
+}
+
+function validarArquivo(file, size, types){
+    console.log(file);
+	// Tipos permitidos
+	var mime_types = [ 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ];
+    if (types){
+        mime_types = [...mime_types, ...types];
+    }
+    // console.log(mime_types);
+	
+	// // Validar os tipos
+	// if(mime_types.indexOf(file.type) == -1) {
+	// 	return {"error" : "O arquivo " + file.name + " não é permitido"};
+	// }
+
+	// // Apenas 2MB é permitido
+    // let maxMB = size || 2;
+	// if(file.size > maxMB*1024*1024) {
+	// 	return {"error" : file.name + " ultrapassou limite de "+maxMB+"MB"};
+	// }
+
+	// Se der tudo certo
+	return {"success": "Enviando: " + file.name};
+}
+
+function lancaNota(progressEvent){
+    /* e.target.result is an ArrayBuffer */
+    const loadedWb = XLSX.read(progressEvent.target.result, {
+        type: 'binary'
+    });
+    const loadedSheet = loadedWb.Sheets["Notas"];
+    let range = XLSX.utils.decode_range(loadedSheet["!ref"]);
+    // console.log(range);
+
+    if (range.s){
+        range.s.c = 1;
+        range.s.r = 1;
+    }
+    if (range.e){
+        range.e.c = range.e.c - 3;
+    }
+
+    let newCodedRange = XLSX.utils.encode_range(range);
+    // console.log(newCodedRange);
+
+    // let loadedTable = XLSX.utils.sheet_to_row_object_array(loadedSheet);
+
+    const ArrayAlunosNotas = XLSX.utils.sheet_to_json(loadedSheet,{
+        range: newCodedRange
+    });
+
+    let objAlunosNotas = {
+        alunos: {}
+    };
+    
+    ArrayAlunosNotas.forEach(aluno => {
+        let ra = aluno["R.A."];
+        objAlunosNotas.alunos[ra] = aluno;
+    })
+
+    // console.log(objAlunosNotas);
+    // console.log(objToJSON(objAlunosNotas));
+
+    //Lançando na tabela
+    const htmlTable = document.getElementById("ctl24_xgvNotas_DXMainTable");
+    if (htmlTable){
+        const trAlunos = htmlTable.getElementsByClassName("dxgvDataRow_Edu");
+
+        var nomeAtividades = [];
+
+        //Verifica o nome de cada atividade
+        Array.from(cabecalhoNotas.children).forEach(td => {
+            let text_td = td.getElementsByTagName("td")[0].innerText;
+            if (text_td.indexOf("(") != -1){
+                nomeAtividades.push(text_td);
+            }
+        });
+        nomeAtividades.reverse();
+
+        var inputsNotas ={};
+
+        Array.from(trAlunos).forEach(tr => {
+            let raAtual = parseInt(tr.getElementsByTagName("span").length > 0 ? tr.getElementsByTagName("span")[0].innerText : 0);
+            let inputs = tr.getElementsByTagName("input").length > 0 ? tr.getElementsByTagName("input") : [];
+            
+            inputsNotas[raAtual] = {};
+
+            let nomeAtividades_temp = [...nomeAtividades];
+            Array.from(inputs).forEach(input => {
+                if (input.type == "text") {
+                    //Lança nota
+                    if (objAlunosNotas.alunos[raAtual]){
+                        let nota = objAlunosNotas.alunos[raAtual][nomeAtividades_temp.pop()];
+                        input.value = nota ? nota : "";
+                    }
+                }
+            })
+        });
+
+
+    } else {
+        console.log("Tabela não encontrada");
+    }
+}
+
+function lerArquivo(file){
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        console.log(e);
+        lancaNota(e);
+    }
+    reader.onloadstart = () => {
+        console.log("Start");
+    }
+    var percent = 0;
+    reader.onprogress = (fi) => {
+        percent = 100 * fi.loaded / fi.total;
+        let txtPercent = percent + "%";
+        let progressBar = document.getElementsByClassName("fill");
+        if (progressBar.length > 0){
+            progressBar[0].style.minWidth = txtPercent;
+        }
+    }
+    reader.onloadend = () => {
+        console.log("End");
+        let barra = document.getElementsByClassName("barra");
+        if (barra.length > 0){
+            barra[0].classList.add("complete");
+        }
+    }
+
+    //Carrega arquivo
+    reader.readAsArrayBuffer(file);
+}
+
 if (document.getElementById("ctl24_xgvNotas") && !vazio){
 
     let valor_total = 0;
@@ -546,6 +743,7 @@ if (document.getElementById("ctl24_xgvNotas") && !vazio){
         criarBotaoCarregar(false, parent);
     } else {
         criarDragDrop(true, parent);
+        eventosDragDrop();
         criarBotaoModelo(true, parent);
         criarBotaoCarregar(true, parent);
     }
