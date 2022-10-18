@@ -642,7 +642,7 @@ function lancaNota(progressEvent){
     }
 
     //Questiona se deseja lançar
-    if (confirm(`Deseja realmente carregar as notas da turma?\nElas poderão ser alteradas manualmente.`)){
+    if (confirm(`Deseja realmente carregar as notas da turma?\nElas poderão ser alteradas manualmente.\nLembre-se de salvar as notas após o processo!`)){
         const loadedSheet = loadedWb.Sheets["Notas"];
         let range = XLSX.utils.decode_range(loadedSheet["!ref"]);
         // console.log(range);
@@ -681,6 +681,14 @@ function lancaNota(progressEvent){
         if (htmlTable){
             const trAlunos = htmlTable.getElementsByClassName("dxgvDataRow_Edu");
 
+            if (trAlunos.length <=0){
+                return {
+                    error: true,
+                    message: "A turma não possui alunos!",
+                    wb: loadedWb
+                };
+            }
+
             var nomeAtividades = [];
 
             //Verifica o nome de cada atividade
@@ -707,7 +715,8 @@ function lancaNota(progressEvent){
                         if (objAlunosNotas.alunos[raAtual]){
                             let nota = objAlunosNotas.alunos[raAtual][nomeAtividades_temp.pop()];
                             if (nota){
-                                let stringNota = (typeof nota)=="number" ? nota.toFixed(2).replace(".",",") : nota.replace(".",",");
+                                let stringNota = (typeof nota)=="number" ? nota.toFixed(2).replace(".",",") : parseFloat(nota.replace(".",",")).toFixed(2);
+                                stringNota = stringNota == "NaN" ? "" : stringNota;
                                 input.value = stringNota;
                             } else {
                                 //undefined
