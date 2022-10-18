@@ -325,7 +325,6 @@ function criaTabela(type, fn) {
 	// return dl ? XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) : XLSX.writeFile(wb, fn ||('SheetJSTableExport.' + (type || 'xlsx')),{bookType: "xlsx", type: "binary"});
 }
 
-//Lembra de mudar tudo para um menu logo abaixo da legenda
 function criarFieldset(){
     if (document.getElementById("ctl24_legendProvas")){
         let fieldExemplo = document.getElementById("ctl24_legendProvas").parentNode;
@@ -839,36 +838,48 @@ function lerArquivo(file){
     reader.readAsArrayBuffer(file);
 }
 
-if (document.getElementById("ctl24_xgvNotas") && !vazio){
-
-    let valor_total = 0;
-    // var quantidadeAtividades = cabecalhoNotas.children.length - 5;
-    // var colunaFinalAtividades = numberToColumCell(5+quantidadeAtividades);
-    // var quantidadeAlunos = 0;
-
-    //Verifica o valor de cada atividade
-    Array.from(cabecalhoNotas.children).forEach(td => {
-        let text_td = td.getElementsByTagName("td")[0].innerText;
-        if (text_td.indexOf("(") != -1){
-            let text_nota = text_td.substring(text_td.indexOf("(")+1,text_td.indexOf("(")+6).replace(",",".");
-            let valor = parseFloat(text_nota);
-            valor_total += valor;
+function Ligar_upload_notas(){
+    if (document.getElementById("ctl24_xgvNotas") && !vazio){
+    
+        let valor_total = 0;
+        // var quantidadeAtividades = cabecalhoNotas.children.length - 5;
+        // var colunaFinalAtividades = numberToColumCell(5+quantidadeAtividades);
+        // var quantidadeAlunos = 0;
+    
+        //Verifica o valor de cada atividade
+        Array.from(cabecalhoNotas.children).forEach(td => {
+            let text_td = td.getElementsByTagName("td")[0].innerText;
+            if (text_td.indexOf("(") != -1){
+                let text_nota = text_td.substring(text_td.indexOf("(")+1,text_td.indexOf("(")+6).replace(",",".");
+                let valor = parseFloat(text_nota);
+                valor_total += valor;
+            }
+        });
+    
+        criarFieldset();
+        let parent = document.getElementById("div-field-excel");
+    
+        //Verifica se possui todas as atividades lançadas (100 pontos)
+        if (valor_total < 100) {
+            console.log("Você deve criar todas as avaliações primeiro!");
+            criarDragDrop(false, parent);
+            criarBotaoModelo(false, parent);
+            criarBotaoCarregar(false, parent);
+        } else {
+            criarDragDrop(true, parent);
+            eventosDragDrop();
+            criarBotaoModelo(true, parent);
+            criarBotaoCarregar(true, parent);
         }
-    });
-
-    criarFieldset();
-    let parent = document.getElementById("div-field-excel");
-
-    //Verifica se possui todas as atividades lançadas (100 pontos)
-    if (valor_total < 100) {
-        console.log("Você deve criar todas as avaliações primeiro!");
-        criarDragDrop(false, parent);
-        criarBotaoModelo(false, parent);
-        criarBotaoCarregar(false, parent);
-    } else {
-        criarDragDrop(true, parent);
-        eventosDragDrop();
-        criarBotaoModelo(true, parent);
-        criarBotaoCarregar(true, parent);
     }
+}
+
+function Desligar_upload_notas(){
+    let fielExcluir = document.getElementById("field-excel");
+    if (!fielExcluir){
+        return;
+    }
+    let pai = fielExcluir.parentNode;
+
+    pai.parentNode.removeChild(pai);
 }

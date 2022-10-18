@@ -25,6 +25,7 @@ var ckbox_on = document.getElementById('SGE_on');
 
 var ckbox_pes = document.getElementById('Pes_on');
 var ckbox_dark = document.getElementById('Dark_on');
+var ckbox_upload_notas = document.getElementById('Upload_notas_on');
 var ckbox_plan_aula = document.getElementById('Plan_aula_on');
 var ckbox_aviso_new = document.getElementById('Aviso_new_on');
 var ckbox_arq_turma = document.getElementById('Arq_turma_on');
@@ -42,6 +43,7 @@ valores_iniciais();
 
 ckbox_pes.checked = (localStorage['SGE-Ágil-Pes']==='true') ? true : false;
 ckbox_dark.checked = (localStorage['SGE-Ágil-Dark']==='true') ? true : false;
+ckbox_upload_notas.checked = (localStorage['SGE-Ágil-Upload-notas']==='true') ? true : false;
 ckbox_plan_aula.checked = (localStorage['SGE-Ágil-Plan-aula']==='true') ? true : false;
 ckbox_aviso_new.checked = (localStorage['SGE-Ágil-Aviso-new']==='true') ? true : false;
 ckbox_arq_turma.checked = (localStorage['SGE-Ágil-Arq-turma']==='true') ? true : false;
@@ -190,6 +192,26 @@ ckbox_dark.onchange = () => {
   localStorage['SGE-Ágil-Dark'] = ckbox_dark.checked;
 }
 
+//Switch de upload notas
+ckbox_upload_notas.onchange = () => {
+  //Saindo do escopo da extensão e indo para o da página
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    //Executando script SetCookie
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: setCookie,
+      args: ["SGE.Agil_Upload_notas", ckbox_upload_notas.checked ? true : false ,43800],
+    });
+    //Executando script para ativar ou desativar tudo automaticamente
+    chrome.scripting.executeScript({
+      target: {tabId: tabs[0].id},
+      function: ckbox_upload_notas.checked ? Ligar_upload_notas_send : Desligar_upload_notas_send,
+    });
+  });
+  //Salvando opção na memória. Não pode usar cookies pois é extenção
+  localStorage['SGE-Ágil-Upload-notas'] = ckbox_upload_notas.checked;
+}
+
 //Switch de plano de aula assistido
 ckbox_plan_aula.onchange = () => {
   //Saindo do escopo da extensão e indo para o da página
@@ -296,6 +318,7 @@ function valores_iniciais() {
   //Valores iniciais
   let init_pes      = true;
   let init_dark     = false;
+  let init_upload_notas   = true;
   let init_plan     = true;
   let init_aviso    = true;
   let init_arq      = true;
@@ -309,6 +332,9 @@ function valores_iniciais() {
   }
   if (!localStorage['SGE-Ágil-Dark']){
     localStorage['SGE-Ágil-Dark']        = init_dark ? 'true' : 'false';
+  }
+  if (!localStorage['SGE-Ágil-Upload-notas']){
+    localStorage['SGE-Ágil-Upload-notas']        = init_upload_notas ? 'true' : 'false';
   }
   if (!localStorage['SGE-Ágil-Plan-aula']){
     localStorage['SGE-Ágil-Plan-aula']        = init_plan ? 'true' : 'false';
@@ -374,6 +400,13 @@ function Ligar_dark_send(){
 }
 function Desligar_dark_send(){
   Desligar_darkMode();
+}
+
+function Ligar_upload_notas_send(){
+  Ligar_upload_notas();
+}
+function Desligar_upload_notas_send(){
+  Desligar_upload_notas();
 }
 
 function Ligar_plan_aula_send(){
