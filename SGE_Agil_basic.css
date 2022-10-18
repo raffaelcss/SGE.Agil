@@ -498,7 +498,8 @@ input:checked + .slider:before {
 }
 
 .area-upload .lista-uploads .barra.complete .fill{
-	background-color: #08ff89;
+	/* background-color: #08ff89; */
+    background-color: #aaffaa;
 }
 
 .area-upload .lista-uploads .barra .text{
@@ -517,13 +518,15 @@ input:checked + .slider:before {
 }
 
 .area-upload .lista-uploads .barra.error .fill{	
-	background-color: #c02929;
+	/* background-color: #c02929; */
+    background-color: #ffaaaa;
 	color: white;
 	min-width: 100%;
 }
 
 .area-upload .lista-uploads .barra.error .text{
-	color: white;
+	/* color: white; */
+    color: black;
 }
 
 .area-upload.drag-off {
@@ -535,16 +538,16 @@ div.fill{
 }
 
 div.fill::before{
-    background-color: #cfffff;
+    background-color: rgba(255,255,255,0.55);
     content: "";
     display: block;
-    transform: rotate(30deg);
+    rotate: 30deg;
     width: 4px;
-    height: 150%;
-    top: -5px;
+    height: 700%;
+    top: -600%;
     position: absolute;
-    left: -5%;
-    animation: load-brightness 1s infinite;
+    /* left: -10%; */
+    animation: load-brightness 1.5s ease-out infinite;
 }
 
 div.complete div.fill::before{
@@ -557,10 +560,12 @@ div.error div.fill::before{
 
 @keyframes load-brightness {
     from {
-        left: -5%;
+        /* left: -10%; */
+        transform: translateX(-15px);
     }
     to {
-        left: 103%;
+        /* left: 110%; */
+        transform: translateX(240px);
     }
 }
 

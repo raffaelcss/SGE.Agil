@@ -269,6 +269,13 @@ function estilizarTabela(ws, rowCount, columnCount){
 function criaTabela(type, fn) {
 	var elt = document.getElementById('ctl24_xgvNotas_DXMainTable').cloneNode(true);
 
+    //pegando versao do SGE Ágil
+    let versaoArquivo = 0;
+    if (document.getElementById("Mver_hide") && document.getElementById("ver_hide") && document.getElementById("subver_hide")){
+        versaoArquivo = document.getElementById("Mver_hide").innerText + document.getElementById("ver_hide").innerText + document.getElementById("subver_hide").innerText;
+        versaoArquivo = parseInt(versaoArquivo);
+    }
+
     //Consertando cabeçalho
     Array.from(elt.children[0].children[0].children).forEach(td => {
         let texto = td.getElementsByTagName("td")[0].innerText;
@@ -285,7 +292,7 @@ function criaTabela(type, fn) {
     wb.Props = {
         Title: fn,
         Manager: "SGE Ágil",
-        Subject: "0.5.0"
+        Subject: versaoArquivo
     }
 
     const range = XLSX.utils.decode_range(wb.Sheets['Notas']["!ref"] ?? "");
@@ -502,18 +509,6 @@ function criarBotaoCarregar(addClick, parent){
     }
 }
 
-function abrirArquivo(file, barra){
-    // var xl2json = new ExcelToJSON();
-    // // console.log(xl2json);
-    
-    // var jsonTable = xl2json.parseExcel(file);
-
-    // console.log(jsonTable);
-
-    lerArquivo(file);
-    
-}
-
 function eventosDragDrop(){
     //Parte visual
     drop_ = document.querySelector('.area-upload #upload-file');
@@ -529,7 +524,17 @@ function eventosDragDrop(){
 
     //Parte funcional
     let input = document.querySelector('#upload-file');
+    input.addEventListener('click', ()=>{
+        //Limpa o arquivo
+        input.value = "";
+    })
     input.addEventListener('change', ()=> {
+        //Apaga barras anteriores
+        let barrasAnteriores = document.getElementsByClassName("barra");
+        Array.from(barrasAnteriores).forEach(barraAnterior  => {
+            barraAnterior.parentNode.removeChild(barraAnterior);
+        });
+        //Change
         let files = input.files;
         if (files.length <= 0){
             return;
@@ -551,7 +556,7 @@ function eventosDragDrop(){
 
         if(info.error == undefined){
             text.innerHTML = info.success;
-            abrirArquivo(files[0],barra); //Enviar
+            lerArquivo(files[0]); //Enviar
         }else{
             text.innerHTML = info.error;
             barra.classList.add("error");
@@ -570,18 +575,17 @@ function validarArquivo(file, size, types){
     if (types){
         mime_types = [...mime_types, ...types];
     }
-    // console.log(mime_types);
 	
-	// // Validar os tipos
-	// if(mime_types.indexOf(file.type) == -1) {
-	// 	return {"error" : "O arquivo " + file.name + " não é permitido"};
-	// }
+	// Validar os tipos
+	if(mime_types.indexOf(file.type) == -1) {
+		return {"error" : "O arquivo " + file.name + " não é permitido"};
+	}
 
-	// // Apenas 2MB é permitido
-    // let maxMB = size || 2;
-	// if(file.size > maxMB*1024*1024) {
-	// 	return {"error" : file.name + " ultrapassou limite de "+maxMB+"MB"};
-	// }
+	// Apenas 2MB é permitido
+    let maxMB = size || 2;
+	if(file.size > maxMB*1024*1024) {
+		return {"error" : file.name + " ultrapassou limite de "+maxMB+"MB"};
+	}
 
 	// Se der tudo certo
 	return {"success": "Enviando... "};
@@ -619,9 +623,9 @@ function lancaNota(progressEvent){
         let versaoAtual = document.getElementById("Mver_hide").innerText + document.getElementById("ver_hide").innerText + document.getElementById("subver_hide").innerText;
         versaoAtual = parseInt(versaoAtual);
         console.log("Versao atual: " + versaoAtual);
-        console.log("Versao arquivo: " + parseInt(loadedWb.Props.Subject.replace(".","").replace(".","")));
+        console.log("Versao arquivo: " + parseInt(loadedWb.Props.Subject));
         
-        if (parseInt(loadedWb.Props.Subject.replace(".","").replace(".","")) > versaoAtual) {
+        if (parseInt(loadedWb.Props.Subject) > versaoAtual) {
             return {
                 error: true,
                 message: "Essa planilha não é compativel com essa versão do SGE Ágil.",
@@ -629,96 +633,114 @@ function lancaNota(progressEvent){
             };
         }
     }
-
-    const loadedSheet = loadedWb.Sheets["Notas"];
-    let range = XLSX.utils.decode_range(loadedSheet["!ref"]);
-    // console.log(range);
-
-    if (range.s){
-        range.s.c = 1;
-        range.s.r = 1;
-    }
-    if (range.e){
-        range.e.c = range.e.c - 3;
-    }
-
-    let newCodedRange = XLSX.utils.encode_range(range);
-    // console.log(newCodedRange);
-
-    // let loadedTable = XLSX.utils.sheet_to_row_object_array(loadedSheet);
-
-    const ArrayAlunosNotas = XLSX.utils.sheet_to_json(loadedSheet,{
-        range: newCodedRange
-    });
-
-    let objAlunosNotas = {
-        alunos: {}
-    };
-    
-    ArrayAlunosNotas.forEach(aluno => {
-        let ra = aluno["R.A."];
-        objAlunosNotas.alunos[ra] = aluno;
-    })
-
-    // console.log(objAlunosNotas);
-    // console.log(objToJSON(objAlunosNotas));
-
-    //Lançando na tabela
-    const htmlTable = document.getElementById("ctl24_xgvNotas_DXMainTable");
-    if (htmlTable){
-        const trAlunos = htmlTable.getElementsByClassName("dxgvDataRow_Edu");
-
-        var nomeAtividades = [];
-
-        //Verifica o nome de cada atividade
-        Array.from(cabecalhoNotas.children).forEach(td => {
-            let text_td = td.getElementsByTagName("td")[0].innerText;
-            if (text_td.indexOf("(") != -1){
-                nomeAtividades.push(text_td);
-            }
-        });
-        nomeAtividades.reverse();
-
-        var inputsNotas ={};
-
-        Array.from(trAlunos).forEach(tr => {
-            let raAtual = parseInt(tr.getElementsByTagName("span").length > 0 ? tr.getElementsByTagName("span")[0].innerText : 0);
-            let inputs = tr.getElementsByTagName("input").length > 0 ? tr.getElementsByTagName("input") : [];
-            
-            inputsNotas[raAtual] = {};
-
-            let nomeAtividades_temp = [...nomeAtividades];
-            Array.from(inputs).forEach(input => {
-                if (input.type == "text") {
-                    //Lança nota
-                    if (objAlunosNotas.alunos[raAtual]){
-                        let nota = objAlunosNotas.alunos[raAtual][nomeAtividades_temp.pop()];
-                        if (nota){
-                            let stringNota = (typeof nota)=="number" ? nota.toFixed(2).replace(".",",") : nota.replace(".",",");
-                            input.value = stringNota;
-                        } else {
-                            //undefined
-                            input.value = "";
-                        }
-                    }
-                }
-            })
-        });
-
-
-    } else {
+    if (!loadedWb.Sheets["Notas"]) {
         return {
             error: true,
-            message: "Tabela de notas não encontrada.",
+            message: "O arquivo não possui planilha de notas!",
             wb: loadedWb
         };
     }
 
+    //Questiona se deseja lançar
+    if (confirm(`Deseja realmente carregar as notas da turma?\nElas poderão ser alteradas manualmente.`)){
+        const loadedSheet = loadedWb.Sheets["Notas"];
+        let range = XLSX.utils.decode_range(loadedSheet["!ref"]);
+        // console.log(range);
+
+        if (range.s){
+            range.s.c = 1;
+            range.s.r = 1;
+        }
+        if (range.e){
+            range.e.c = range.e.c - 3;
+        }
+
+        let newCodedRange = XLSX.utils.encode_range(range);
+        // console.log(newCodedRange);
+
+        // let loadedTable = XLSX.utils.sheet_to_row_object_array(loadedSheet);
+
+        const ArrayAlunosNotas = XLSX.utils.sheet_to_json(loadedSheet,{
+            range: newCodedRange
+        });
+
+        let objAlunosNotas = {
+            alunos: {}
+        };
+        
+        ArrayAlunosNotas.forEach(aluno => {
+            let ra = aluno["R.A."];
+            objAlunosNotas.alunos[ra] = aluno;
+        })
+
+        // console.log(objAlunosNotas);
+        // console.log(objToJSON(objAlunosNotas));
+
+        //Lançando na tabela
+        const htmlTable = document.getElementById("ctl24_xgvNotas_DXMainTable");
+        if (htmlTable){
+            const trAlunos = htmlTable.getElementsByClassName("dxgvDataRow_Edu");
+
+            var nomeAtividades = [];
+
+            //Verifica o nome de cada atividade
+            Array.from(cabecalhoNotas.children).forEach(td => {
+                let text_td = td.getElementsByTagName("td")[0].innerText;
+                if (text_td.indexOf("(") != -1){
+                    nomeAtividades.push(text_td);
+                }
+            });
+            nomeAtividades.reverse();
+
+            var inputsNotas ={};
+
+            Array.from(trAlunos).forEach(tr => {
+                let raAtual = parseInt(tr.getElementsByTagName("span").length > 0 ? tr.getElementsByTagName("span")[0].innerText : 0);
+                let inputs = tr.getElementsByTagName("input").length > 0 ? tr.getElementsByTagName("input") : [];
+                
+                inputsNotas[raAtual] = {};
+
+                let nomeAtividades_temp = [...nomeAtividades];
+                Array.from(inputs).forEach(input => {
+                    if (input.type == "text") {
+                        //Lança nota
+                        if (objAlunosNotas.alunos[raAtual]){
+                            let nota = objAlunosNotas.alunos[raAtual][nomeAtividades_temp.pop()];
+                            if (nota){
+                                let stringNota = (typeof nota)=="number" ? nota.toFixed(2).replace(".",",") : nota.replace(".",",");
+                                input.value = stringNota;
+                            } else {
+                                //undefined
+                                input.value = "";
+                            }
+                        }
+                    }
+                })
+            });
+
+
+        } else {
+            return {
+                error: true,
+                message: "Tabela de notas não encontrada.",
+                wb: loadedWb
+            };
+        }
+
+        return {
+            error: false,
+            message: "Notas lançadas!",
+            wb: loadedWb
+        }
+    } 
+
     return {
-        error: false,
-        message: "Notas lançadas!",
+        error: true,
+        message: "Cancelado!",
         wb: loadedWb
     }
+
+    
 }
 
 function trataRetornoLancamento(ret){
@@ -728,7 +750,7 @@ function trataRetornoLancamento(ret){
 
     console.log(ret);
 
-    text.innerText = "Verificando..";
+    text.innerText = "Finalizando..";
     let percent = 80;
     var time = 20;
     function load80to100(){
@@ -736,7 +758,7 @@ function trataRetornoLancamento(ret){
             fill.style.minWidth = percent + "%";
             percent++;
             //console.log(time);
-            if (percent < 100){
+            if (percent <= 100){
                 load80to100();
             } else {
                 load100();
@@ -766,6 +788,10 @@ function lerArquivo(file){
         let percent = 65;
         var time = 30;
         let progressBar = document.getElementsByClassName("fill").length > 0 ? document.getElementsByClassName("fill")[0] : undefined;
+
+        let text = document.getElementById("info-excel");
+        text.innerText = "Verificando..";
+
         function load65to80(){
             setTimeout(()=>{
                 progressBar.style.minWidth = percent + "%";
