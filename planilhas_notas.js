@@ -400,6 +400,7 @@ function criarDragDrop(enable, parent){
     i.classList.add("fa-cloud-upload-alt");
 
     img.id = "img-drop";
+    img.src = chrome.runtime.getURL('icons/upload20x13.png');
 
     divTexto.classList.add("texto");
 
