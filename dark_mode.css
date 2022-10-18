@@ -66,6 +66,28 @@ TD.AjaxTreeViewCaptionCellWithLink a {
     color: var(--branco) !important;
 }
 
+.dxgvDataRowAlt_Edu > .dxgv > span{
+    color: var(--cinza) !important;
+}
+
+#ctl24_xgvNotas_DXMainTable .dxgvDataRowAlt_Edu{
+    background: var(--branco-escuro) !important;
+}
+
+.dxrpControl .dxrpHeader{
+    background: var(--branco-escuro) !important;
+}
+
+/* Escurecer fundos */
+
+#ctl24_EduTurmasProfFiltroSelecionado1_xrpContextoEducacional_RPC, .dxeButtonEdit td.dxic, input[type="text"].dxeEditAreaSys, #MainContainer .dxeButtonEditSys, .dxgv > input{
+    background: #DDE0F1 !important;
+}
+
+#ctl24_xgvAlunosTurma_dxdt0_xgvNotas_DXHeadersRow0 .dx-wrap {
+    color: var(--branco);
+}
+
 .AccodionHeaderCaptionCell, .LoginAnnonServiceCaption, .login-label-produto, .description, #ctl24_xgvAvaliacao_DXPEForm_ef0_EduCamposObrigatoriosAlertWebForm1_lbCamposObrigatorios, legend > span.EduLabel{
     color: var(--branco-escuro) !important;
 }
@@ -241,4 +263,27 @@ hr {
 .grid {
 
     background-image: repeating-linear-gradient(-135deg,transparent,transparent .5625rem,rgba(213,220,240,0.1) .5625rem,rgba(213,220,240,0.1) .625rem) !important;
+}
+
+
+/* Upload notas */
+.area-upload label.label-upload {
+    border: 2px dashed #64b5e1;
+    color: #64b5e1;
+}
+
+.area-upload label.label-upload * {
+    filter: contrast(0.7);
+}
+
+.btnExcel{
+    background: var(--cinza-claro) !important;
+}
+
+.btnExcel span {
+    color: var(--branco) !important;
+}
+
+.area-upload label.label-upload.highlight{
+	background-color: #fffdaa2e;
 }
