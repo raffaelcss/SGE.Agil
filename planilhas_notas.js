@@ -18,15 +18,15 @@ function corrigirTamanhoColunas(ws, rowCount, columnCount){
     let max_width = 0;
     for (let row = 2; row <= rowCount; row++) {
         const cellRef = XLSX.utils.encode_cell({ r: row, c: 3 });
-        max_width = Math.max(ws[cellRef].v.length*1.2 + 1.5,max_width);
+        max_width = Math.max(ws[cellRef].v.length*1.4 + 1.5,max_width);
     }
     ws["!cols"].push({ wch: max_width });
     //Status
-    ws["!cols"].push({ wch: 14 });
+    ws["!cols"].push({ wch: 17.5 });
     //Atividades
     for (let col = 5; col <= columnCount; col++) {
         const cellRef = XLSX.utils.encode_cell({ r: 0, c: col });
-        ws["!cols"].push({ wch: 12.5 });
+        ws["!cols"].push({ wch: 15.8 });
     }
     //Legenda
     max_width =0;
@@ -34,11 +34,11 @@ function corrigirTamanhoColunas(ws, rowCount, columnCount){
         const cellRef = XLSX.utils.encode_cell({ r: row, c: columnCount+3 });
         // console.log(cellRef);
         if (ws[cellRef]){
-            max_width = Math.max(ws[cellRef].v.length,max_width);
+            max_width = Math.max(ws[cellRef].v.length*1.06,max_width);
         }
     }
     ws["!cols"].push({ wch: 3 });
-    ws["!cols"].push({ wch: 9.5 });
+    ws["!cols"].push({ wch: 12.9 });
     ws["!cols"].push({ wch: max_width });
 }
 
@@ -49,8 +49,9 @@ function addFormulaSomatorioNotas(ws, rowCount, columnCount){
         var sum_range = XLSX.utils.encode_range({ s: { c: 6, r: row }, e: { c: columnCount, r: row } });
 
         ws[cellRef].t = 'n';
+        ws[cellRef].v = 0;
         ws[cellRef].f = "SUM("+sum_range+")";
-        ws[cellRef].F = sum_range;
+        // ws[cellRef].F = sum_range;
     }
 }
 
