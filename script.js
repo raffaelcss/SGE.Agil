@@ -15,6 +15,7 @@ function receber_cookies(){
      //Valores iniciais
     let init_pes      = true;
     let init_dark     = false;
+    let init_upload   = true;
     let init_plan     = true;
     let init_aviso    = true;
     let init_arq      = true;
@@ -25,6 +26,7 @@ function receber_cookies(){
     SGE_Agil_ON = getBoolCookie("SGE.Agil_ON", init_SGE);
     SGE_Agil_ON_Pes = getBoolCookie("SGE.Agil_Pes", init_pes);
     SGE_Agil_ON_Dark = getBoolCookie("SGE.Agil_Dark", init_dark);
+    SGE_Agil_ON_Upload_notas = getBoolCookie("SGE.Agil_Upload_notas", init_upload);
     SGE_Agil_ON_Plan_aula = getBoolCookie("SGE.Agil_Plan_aula", init_plan);
     SGE_Agil_ON_Aviso_new = getBoolCookie("SGE.Agil_Aviso_new", init_aviso);
     SGE_Agil_ON_Arq_turma = getBoolCookie("SGE.Agil_Arq_turma", init_arq);
@@ -61,6 +63,7 @@ function Ligar_Auto(){
     if (SGE_Agil_ON_Pes) {Ligar_pesquisa()};            //Barra de pesquisa
     if (SGE_Agil_ON_Dark) {Ligar_darkMode()};           //Dark Mode
     //if (SGE_Agil_ON_Freq) {Ligar_Freq()};             //Freq assistida
+    if (SGE_Agil_ON_Upload_notas) {Ligar_upload_notas()};     //Upload de notas do excel
     if (SGE_Agil_ON_Plan_aula){                         //Plano de aula assistido
         Ligar_planAula();        
         //Verifica se tem aula a lançar
@@ -108,6 +111,7 @@ function Desligar_Auto(){
     //Funções
     Desligar_pesquisa();                                //Barra de pesquisa
     Desligar_darkMode();                                //Dark Mode
+    Desligar_upload_notas();                            //Upload de notas excel
     Desligar_planAula();                                //Plano de aula assistido
     Desligar_aviso_new();                               //Aviso novas turmas e Ucs
     Desligar_arq_turma();                               //Arquivar turmas
@@ -134,6 +138,7 @@ function Desligar_Auto(){
 var SGE_Agil_ON;
 var SGE_Agil_ON_Pes;
 var SGE_Agil_ON_Dark;
+var SGE_Agil_ON_Upload_notas;
 var SGE_Agil_ON_Plan_aula;
 var SGE_Agil_ON_Aviso_new;
 var SGE_Agil_ON_Arq_turma;
