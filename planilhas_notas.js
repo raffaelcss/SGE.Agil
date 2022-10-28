@@ -218,6 +218,18 @@ function estilizarTabela(ws, rowCount, columnCount){
                 };
             }
 
+            //Alternar linhas
+            if (col >= 1 && col <= columnCount && row >=2 && row <= rowCount && row % 2 == 1){
+                ws[cellRef].s = {
+                    ...ws[cellRef].s,
+                    fill: {
+                        fgColor: {
+                            rgb: "C5D9F1"
+                        }
+                    }
+                };
+            }
+
             //Box Drawin
             if (row === 1 && col > 0) {
                 ws[cellRef].s = {
