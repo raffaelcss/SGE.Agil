@@ -851,6 +851,63 @@ function lerArquivo(file){
     reader.readAsArrayBuffer(file);
 }
 
+function adicionarSomatorioNotas(){
+    let rowAlunos = document.getElementsByClassName("dxgvDataRow_Edu");
+    if (rowAlunos.length <= 0){
+        return;
+    }
+    let camposNotas = {};
+    Array.from(rowAlunos).forEach(aluno => {
+        if (aluno.children.length > 4){
+            //verifica se possui nota
+            if ((aluno.children[4].innerHTML.indexOf("&nbsp") >= 0) || aluno.classList.contains("sge-agil-nota")){
+                aluno.classList.add("sge-agil-nota");
+                camposNotas[aluno.children[1].innerText] = aluno.querySelectorAll("input[type=textbox]");
+                //Soma notas
+                camposNotas[aluno.children[1].innerText]["somatorio"] = 0;
+                Array.from(camposNotas[aluno.children[1].innerText]).forEach(nota => {
+                    //Onchange
+                    nota.addEventListener("change",adicionarSomatorioNotas);
+    
+                    let text_nota = nota.value.replace(",",".");
+                    let valor = parseFloat(text_nota);
+                    //verifica Campos vazios
+                    if (isNaN(valor)){
+                        valor = 0;
+                    }
+                    camposNotas[aluno.children[1].innerText]["somatorio"] += valor;
+                });
+    
+                //Exibe caso não o tenha (Turmas a partir de 2022)
+                let nota = camposNotas[aluno.children[1].innerText]["somatorio"];
+                let text_nota = nota.toFixed(2).replace(".",",");
+                if (aluno.children[4].innerHTML.indexOf("&nbsp") >= 0){
+                    aluno.children[4].innerText = text_nota + "*";
+                }
+                if (nota >= 60){
+                    aluno.children[4].classList.remove("reprovado");
+                    aluno.children[4].classList.remove("recu");
+                    aluno.children[4].classList.add("aprovado");
+                    aluno.title = "Aprovado";
+                } else if (nota >= 40) {
+                    aluno.children[4].classList.remove("reprovado");
+                    aluno.children[4].classList.add("recu");
+                    aluno.children[4].classList.remove("aprovado");
+                    aluno.title = "Recuperação";
+                } else {
+                    aluno.children[4].classList.add("reprovado");
+                    aluno.children[4].classList.remove("recu");
+                    aluno.children[4].classList.remove("aprovado");
+                    aluno.title = "Reprovado";
+                }
+            }
+
+        }
+    });
+    console.log(camposNotas);
+
+}
+
 function Ligar_upload_notas(){
     if (document.getElementById("ctl24_xgvNotas") && !vazio){
     
@@ -868,7 +925,11 @@ function Ligar_upload_notas(){
                 valor_total += valor;
             }
         });
-    
+        
+        //Somatorio de Notas (0.5.2)
+        adicionarSomatorioNotas();
+
+
         criarFieldset();
         let parent = document.getElementById("div-field-excel");
     
