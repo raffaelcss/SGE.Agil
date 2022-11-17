@@ -860,7 +860,7 @@ function adicionarSomatorioNotas(){
     Array.from(rowAlunos).forEach(aluno => {
         if (aluno.children.length > 4){
             //verifica se possui nota
-            if ((aluno.children[4].innerHTML.indexOf("&nbsp") >= 0) || aluno.classList.contains("sge-agil-nota")){
+            if ((aluno.children[4].innerHTML.indexOf("&nbsp") <= 0) || aluno.classList.contains("sge-agil-nota")){
                 aluno.classList.add("sge-agil-nota");
                 camposNotas[aluno.children[1].innerText] = aluno.querySelectorAll("input[type=textbox]");
                 //Soma notas
@@ -881,9 +881,9 @@ function adicionarSomatorioNotas(){
                 //Exibe caso não o tenha (Turmas a partir de 2022)
                 let nota = camposNotas[aluno.children[1].innerText]["somatorio"];
                 let text_nota = nota.toFixed(2).replace(".",",");
-                if (aluno.children[4].innerHTML.indexOf("&nbsp") >= 0){
-                    aluno.children[4].innerText = text_nota + "*";
-                }
+                //Muda o valor
+                aluno.children[4].innerText = text_nota + "*";
+                
                 if (nota >= 60){
                     aluno.children[4].classList.remove("reprovado");
                     aluno.children[4].classList.remove("recu");
