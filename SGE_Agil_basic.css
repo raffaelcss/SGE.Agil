@@ -416,6 +416,19 @@ input:checked + .slider:before {
     filter: opacity(0.5) grayscale(1) blur(0.5px);
 }
 
+/* Notas aprovadas ou reprovadas */
+td.aprovado {
+    color: blue;
+}
+
+td.recu {
+    color: #f67828;
+}
+
+td.reprovado {
+    color: red;
+}
+
 
 /* Drag and drop  */
 
