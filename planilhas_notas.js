@@ -886,7 +886,7 @@ function adicionarSomatorioNotas(){
                 let nota = camposNotas[aluno.children[1].innerText]["somatorio"];
                 let text_nota = nota.toFixed(2).replace(".",",");
                 //Muda o valor
-                aluno.children[4].innerText = text_nota + "*";
+                aluno.children[4].innerText = text_nota;
                 
                 if (nota >= 60){
                     aluno.children[4].classList.remove("reprovado");
