@@ -864,7 +864,7 @@ function adicionarSomatorioNotas(){
             //a idea foi excluida e todas as turmas passarão a ter as notas SGE Ágil
 
             //verifica se possui nota
-            // if ((aluno.children[4].innerHTML.indexOf("&nbsp") <= 0) || aluno.classList.contains("sge-agil-nota")){
+            // if ((aluno.children[4].innerHTML.indexOf("&nbsp") >= 0) || aluno.classList.contains("sge-agil-nota")){
                 aluno.classList.add("sge-agil-nota");
                 camposNotas[aluno.children[1].innerText] = aluno.querySelectorAll("input[type=textbox]");
                 //Soma notas
