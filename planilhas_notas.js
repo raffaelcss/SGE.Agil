@@ -859,8 +859,12 @@ function adicionarSomatorioNotas(){
     let camposNotas = {};
     Array.from(rowAlunos).forEach(aluno => {
         if (aluno.children.length > 4){
+            
+            //Anteriormente iria adicionar a nota a penas para as turmas que não possuiam,
+            //a idea foi excluida e todas as turmas passarão a ter as notas SGE Ágil
+
             //verifica se possui nota
-            if ((aluno.children[4].innerHTML.indexOf("&nbsp") <= 0) || aluno.classList.contains("sge-agil-nota")){
+            // if ((aluno.children[4].innerHTML.indexOf("&nbsp") <= 0) || aluno.classList.contains("sge-agil-nota")){
                 aluno.classList.add("sge-agil-nota");
                 camposNotas[aluno.children[1].innerText] = aluno.querySelectorAll("input[type=textbox]");
                 //Soma notas
@@ -900,7 +904,7 @@ function adicionarSomatorioNotas(){
                     aluno.children[4].classList.remove("aprovado");
                     aluno.title = "Reprovado";
                 }
-            }
+            // }
 
         }
     });
