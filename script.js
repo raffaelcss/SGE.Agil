@@ -3,8 +3,8 @@
 ////////////////////////////////////////////////////////////////////
 
 var newMversion     = 0;
-var newversion      = 5;
-var newsubversion   = 1;
+var newversion      = 6;
+var newsubversion   = 0;
 
 
 
