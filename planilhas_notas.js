@@ -865,10 +865,7 @@ function adicionarSomatorioNotas(){
         if (textoCabecalho.length > 0){
             textoCabecalho[0].innerHTML = "Nota na etapa <span style='color:#14608e'>(SGE ÁGIL)</span>"
         }
-        textoCabecalho[0].innerHTML += "<span id='teste'>Sair</span>";
     }
-
-    document.getElementById("teste").addEventListener("click", removerSomatorioNotas);
 
     Array.from(rowAlunos).forEach(aluno => {
         if (aluno.children.length > 4){
@@ -988,7 +985,7 @@ function Ligar_upload_notas(){
             }
         });
         
-        //Somatorio de Notas (0.5.2)
+        //Somatorio de Notas (0.6.0)
         adicionarSomatorioNotas();
 
 
@@ -1016,6 +1013,9 @@ function Desligar_upload_notas(){
         return;
     }
     let pai = fielExcluir.parentNode;
+
+    //Somatorio de Notas (0.6.0)
+    removerSomatorioNotas();
 
     pai.parentNode.removeChild(pai);
 }
