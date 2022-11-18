@@ -418,15 +418,19 @@ input:checked + .slider:before {
 
 /* Notas aprovadas ou reprovadas */
 td.aprovado {
-    color: blue;
+    color: #4554bf;
 }
 
 td.recu {
-    color: #f67828;
+    color: #e57a36;
 }
 
 td.reprovado {
-    color: red;
+    color: #c94848;
+}
+
+.recu, .aprovado, .reprovado {
+    font-weight: 600;
 }
 
 

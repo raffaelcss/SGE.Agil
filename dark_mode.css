@@ -66,12 +66,15 @@ TD.AjaxTreeViewCaptionCellWithLink a {
     color: var(--branco) !important;
 }
 
-.dxgvDataRowAlt_Edu > .dxgv > span{
+/* Desativado na v0.6.0  */
+/* .dxgvDataRowAlt_Edu > .dxgv > span{
     color: var(--cinza) !important;
-}
+} */
 
 #ctl24_xgvNotas_DXMainTable .dxgvDataRowAlt_Edu{
-    background: var(--branco-escuro) !important;
+    /* background: var(--branco-escuro) !important; */
+    /* v0.6.0  */
+    background: #616364 !important;
 }
 
 .dxrpControl .dxrpHeader{
@@ -244,9 +247,10 @@ hr {
 }
 
 /* Alternar lista alunos Lançamento de notas*/
-#ctl24_xgvNotas_DXMainTable  .dxgvDataRowAlt_Edu{
+/* Desativado na v0.6.0  */
+/* #ctl24_xgvNotas_DXMainTable  .dxgvDataRowAlt_Edu{
     color: var(--cinza);
-}
+} */
 
 /* iframe quando abre o contexto */
 .dxpc-content iframe, iframe body, iframe div, .dxpc-contentWrapper{
@@ -286,4 +290,18 @@ hr {
 
 .area-upload label.label-upload.highlight{
 	background-color: #fffdaa2e;
+}
+
+
+/* Notas aprovadas ou reprovadas */
+td.aprovado {
+    color: #60bdff !important;
+}
+
+td.recu {
+    color: #ffa266 !important;
+}
+
+td.reprovado {
+    color: #f17e7e !important;
 }
