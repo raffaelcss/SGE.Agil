@@ -10,6 +10,7 @@ var newsubversion   = 1;
 
 var oldMVersion;
 var oldversion;
+var oldsubversion;
 
 function receber_cookies(){
      //Valores iniciais
@@ -166,19 +167,64 @@ receber_cookies();
 
 oldMversion = getCookie("SGE.Agil_Mversion") || 0;
 oldversion  = getCookie("SGE.Agil_version") || 0;
-
+oldsubversion  = getCookie("SGE.Agil_subversion") || 0;
 
 
 document.getElementById("Mver_hide").innerHTML = newMversion;
 document.getElementById("ver_hide").innerHTML = newversion;
 document.getElementById("subver_hide").innerHTML = newsubversion;
 
+const CHANGELOG = {
+    "0.3.2" : {
+        message: `-Remoção de bugs.`,
+        show: false
+    },
+    "0.4.0" : {
+        message: `-Adicionado aviso de alunos faltosos.\n-Suporte a turmas "Trilhas do futuro".\n-Adicionado botão de avaliação\n-Remoção de bugs.`,
+        show: true
+    },
+    "0.4.1" : {
+        message: `-Suporte a multi-usuários.\n-Remoção de bugs.`,
+        show: true
+    },
+    "0.4.2" : {
+        message: `-Novo estilo de menu.\n-Adicionado botão AJUDA.\n-Remoção de bugs.`,
+        show: true
+    },
+    "0.4.3" : {
+        message: `-Remoção de bugs.`,
+        show: false
+    },
+    "0.4.4" : {
+        message: `-Adicionado botão de inverter frequência`,
+        show: false
+    },
+    "0.5.0" : {
+        message: `-Adicionado upload de notas a partir do excel.\n-Remoção de bugs.`,
+        show: true
+    },
+    "0.5.1" : {
+        message: `-Adicionado upload de notas a partir do excel.\n-Remoção de bugs.`,
+        show: false
+    },
+    "0.6.0" : {
+        message: `-Adicionado somatório de notas.\n-Adicionado cores de status às notas.\n-Remoção de bugs.`,
+        show: true
+    }
+}
 
-if ((newMversion > oldMversion) || (newversion > oldversion)) {
+
+if ((newMversion > oldMversion) || (newversion > oldversion) || (newsubversion > oldsubversion)) {
     setTimeout(() => {          //Tempo para o CSS carregar e a página abrir tbm
-        alert(`Nova versão do SGE.Ágil instalada!\nVersão atual: ${newMversion}.${newversion}.${newsubversion}`);
+        //Alert buscando ChangeLog (v0.6.0)
+        if (CHANGELOG[`${newMversion}.${newversion}.${newsubversion}`]){
+            if (CHANGELOG[`${newMversion}.${newversion}.${newsubversion}`]["show"]){
+                alert(`Nova versão do SGE Ágil instalada!\nVersão atual: ${newMversion}.${newversion}.${newsubversion}\n\nChangelog:\n\n` + CHANGELOG[`${newMversion}.${newversion}.${newsubversion}`]["message"]);
+            }
+        }
         setCookie("SGE.Agil_Mversion", newMversion, 43800);
         setCookie("SGE.Agil_version", newversion, 43800);
+        setCookie("SGE.Agil_subversion", newsubversion, 43800);
     }, 800);
 }
 
