@@ -707,7 +707,9 @@ function lancaNota(progressEvent){
             //Verifica o nome de cada atividade
             Array.from(cabecalhoNotas.children).forEach(td => {
                 let text_td = td.getElementsByTagName("td")[0].innerText;
-                if (text_td.indexOf("(") != -1){
+                let html_td = td.getElementsByTagName("td")[0].innerHTML;
+                //v0.6.1 Fix: bug lançamento de notas (Reconhecendo o campo notas totais como avaliação)
+                if (text_td.indexOf("(") != -1 && html_td.indexOf("span") < 0){
                     nomeAtividades.push(text_td);
                 }
             });
@@ -737,7 +739,9 @@ function lancaNota(progressEvent){
                             }
                         }
                     }
-                })
+                });
+                //Atualiza o somatório
+                adicionarSomatorioNotas();
             });
 
 
