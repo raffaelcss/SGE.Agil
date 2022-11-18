@@ -857,6 +857,16 @@ function adicionarSomatorioNotas(){
         return;
     }
     let camposNotas = {};
+    //Muda cabeçalho
+    let cabecalho = document.getElementById("ctl24_xgvNotas_col15");
+    let textoCabecalho = cabecalho.getElementsByTagName("td");
+    if (cabecalho){
+        // cabecalho.style.width = "180px";
+        if (textoCabecalho.length > 0){
+            textoCabecalho[0].innerHTML += " <span style='color:#14608e'>(SGE ÁGIL)</span>"
+        }
+    }
+
     Array.from(rowAlunos).forEach(aluno => {
         if (aluno.children.length > 4){
             
