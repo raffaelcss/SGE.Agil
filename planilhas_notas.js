@@ -863,9 +863,12 @@ function adicionarSomatorioNotas(){
     if (cabecalho){
         cabecalho.style.width = "180px";
         if (textoCabecalho.length > 0){
-            textoCabecalho[0].innerHTML += " <span style='color:#14608e'>(SGE ÁGIL)</span>"
+            textoCabecalho[0].innerHTML = "Nota na etapa <span style='color:#14608e'>(SGE ÁGIL)</span>"
         }
+        textoCabecalho[0].innerHTML += "<span id='teste'>Sair</span>";
     }
+
+    document.getElementById("teste").addEventListener("click", removerSomatorioNotas);
 
     Array.from(rowAlunos).forEach(aluno => {
         if (aluno.children.length > 4){
@@ -895,6 +898,9 @@ function adicionarSomatorioNotas(){
                 //Exibe caso não o tenha (Turmas a partir de 2022)
                 let nota = camposNotas[aluno.children[1].innerText]["somatorio"];
                 let text_nota = nota.toFixed(2).replace(".",",");
+
+                //Backup do valor original
+                aluno.children[4].setAttribute("sge-agil-nota-original", aluno.children[4].innerText);
                 //Muda o valor
                 aluno.children[4].innerText = text_nota;
                 
@@ -918,8 +924,50 @@ function adicionarSomatorioNotas(){
 
         }
     });
-    console.log(camposNotas);
+    // console.log(camposNotas);
 
+}
+
+function removerSomatorioNotas(){
+    let rowAlunos = document.getElementsByClassName("dxgvDataRow_Edu");
+    if (rowAlunos.length <= 0){
+        return;
+    }
+    let camposNotas = {};
+    //Muda cabeçalho
+    let cabecalho = document.getElementById("ctl24_xgvNotas_col15");
+    let textoCabecalho = cabecalho.getElementsByTagName("td");
+    if (cabecalho){
+        cabecalho.style.width = "";
+        if (textoCabecalho.length > 0){
+            textoCabecalho[0].innerHTML = "Nota na etapa"
+        }
+    }
+
+    Array.from(rowAlunos).forEach(aluno => {
+        if (aluno.children.length > 4){
+
+            aluno.classList.remove("sge-agil-nota");
+            camposNotas[aluno.children[1].innerText] = aluno.querySelectorAll("input[type=textbox]");
+
+            Array.from(camposNotas[aluno.children[1].innerText]).forEach(nota => {
+                //Onchange
+                nota.removeEventListener("change",adicionarSomatorioNotas);
+            });
+
+            //Exibe a nota original
+            let notaOriginal = aluno.children[4].getAttribute("sge-agil-nota-original");
+            //Muda o valor
+            aluno.children[4].innerText = notaOriginal;
+            //remove atributo
+            aluno.children[4].removeAttribute("sge-agil-nota-original");
+            
+            aluno.children[4].classList.remove("reprovado");
+            aluno.children[4].classList.remove("recu");
+            aluno.children[4].classList.remove("aprovado");
+            aluno.title = "";
+        }
+    });
 }
 
 function Ligar_upload_notas(){
