@@ -4,7 +4,7 @@
 
 var newMversion     = 0;
 var newversion      = 6;
-var newsubversion   = 0;
+var newsubversion   = 1;
 
 
 
@@ -210,6 +210,10 @@ const CHANGELOG = {
     "0.6.0" : {
         message: `-Adicionado somatório de notas.\n-Adicionado cores de status às notas.\n-Remoção de bugs.`,
         show: true
+    },
+    "0.6.1" : {
+        message: `-Remoção de bugs.`,
+        show: false
     }
 }
 
