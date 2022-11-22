@@ -582,6 +582,38 @@ div.error div.fill::before{
     animation: none;
 }
 
+
+/* ShowModel */
+
+dialog#dialogPreset::backdrop {
+    background-color: rgb(0 0 0 / .3);
+}
+
+dialog#dialogPreset {
+    border: none;
+    border-radius: .5rem;
+    box-shadow: 0 0 1em rgb(0 0 0 / .3);
+    width: 70%;
+}
+
+table#teste, table#teste td, table#teste th {
+    border: 1px solid #0000008f;
+}
+
+table#teste {
+    border-collapse: collapse;
+    margin: auto;
+}
+
+table#teste td, table#teste tr {
+    padding: 3px;
+    text-align: center;
+    width: 130px;
+}
+
+
+
+
 @keyframes load-brightness {
     from {
         /* left: -10%; */
