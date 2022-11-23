@@ -47,5 +47,9 @@
         "https://www2.fiemg.com.br/Corpore.Net/*",
         "http://prados101.fiemg.com.br/Corpore.Net/*",
         "https://prados101.fiemg.com.br/Corpore.Net/*"
-    ]
+    ],
+    "optional_host_permissions": [
+        "http://portaldoaluno6.fiemg.com.br/Corpore.Net/*",
+        "https://portaldoaluno6.fiemg.com.br/Corpore.Net/*"
+      ]
 }
