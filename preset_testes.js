@@ -23,8 +23,6 @@ function criarModal(){
     const dialog = document.createElement("dialog");
     dialog.id = "dialogPreset";
 
-    const qtdAtividades = 5;
-
     let nomesEtapas = [];
     let etapaAtual = 0;
     let nomeEtapaAtual = "ctl24_xgvAvaliacao_DXPEForm_efnew_xcbEtapa_DDD_L_LBI" + etapaAtual + "T2";
@@ -39,17 +37,32 @@ function criarModal(){
 
     console.log(nomesEtapas);
 
-    let atividadeHTML = "";
+    var ativAtual = 0;
 
-    for (let i=0; i < qtdAtividades; i++){
+    function addAtividade(){
+        let tbody = document.getElementById("tbody-ativ");
+        if (!tbody){
+            return;
+        }
+        let trs = tbody.getElementsByClassName("tr-atividade");
+        let atividadeHTML ="";
+
+        Array.from(trs).forEach(tr => {
+            atividadeHTML += `
+                <tr class="tr-atividade">
+                    ${tr.innerHTML}
+                </tr>
+            `;
+        });
+
         atividadeHTML += `
-            <tr>
-                <td>Avaliação ${i+1}:</td>
+            <tr class="tr-atividade">
+                <td>Avaliação ${ativAtual+1}:</td>
                 <td>
                     <select name="select">
-                        <option value="valor1">Valor 1</option>
-                        <option value="valor2" selected>Valor 2</option>
-                        <option value="valor3">Valor 3</option>
+                        <option value=0 selected>Valor 1</option>
+                        <option value=1>Valor 2</option>
+                        <option value=2>Valor 3</option>
                     </select>
                 </td>
                 <td>
@@ -60,40 +73,76 @@ function criarModal(){
                 </td>
             </tr>
         `;
+        ativAtual++;
+
+        if (ativAtual < 5){
+            //Botão
+            atividadeHTML += `
+                <tr class="tr-botao">
+                    <td colspan="4">
+                        <button id="btn-add-atividade" style="margin: auto;border: 1px solid #747474;color: #747474;border-radius: 10px;text-rendering: geometricPrecision;">+</button>
+                    </td>
+                </tr>
+            `;
+        }
+        
+        //Add
+        tbody.innerHTML = atividadeHTML;
+
+        if (ativAtual < 5){
+            let btn_atv = document.getElementById("btn-add-atividade");
+            if (btn_atv){
+                btn_atv.addEventListener("click", ()=>{
+                    addAtividade();
+                });
+            }
+        }
+        
     }
     
-
     const innerHTML = `
-    <h1>Criar modelo de avaliações</h1>
-    <div>
-        <h2>Nome do modelo:</h2>
-        <input type="text">
-    </div>
-    <table id="teste" style="">
-        <thead>
-            <tr>
-                <th>Avaliação</th>
-                <th>Etapa</th>
-                <th>Nome</th>
-                <th>Valor</th>
-            </tr>
-        </thead>
-        <tbody style="">           
-            ` + atividadeHTML + `
-        </tbody>
-    </table>
-    <div>
-        <button>Salvar</button>
-        <button>Cancelar</button>
-    </div>
+        <h1 style="text-align: center;">Criar modelo de avaliações</h1>
+        <div style="display: flex;justify-content: space-evenly;margin: 0px 150px;">
+            <h2 style="margin: 0px;">Nome do modelo:</h2>
+            <input type="text" style="width: 180px;">
+        </div>
+        <table id="teste" style="">
+            <thead>
+                <tr>
+                    <th>Avaliação</th>
+                    <th>Etapa</th>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-ativ" style="">           
+                
+            </tbody>
+        </table>
+        <div style="display: flex;justify-content: space-evenly;">
+            <button id="salvar-modelo">Salvar</button>
+            <button id="cancelar-modelo">Cancelar</button>
+        </div>
     `;
 
     dialog.innerHTML = innerHTML;
 
     pai.appendChild(dialog);
+
+    //Botões
+    let cancelBtn = document.getElementById("cancelar-modelo");
+    if (cancelBtn){
+        cancelBtn.addEventListener("click", ()=>{
+            document.getElementById("dialogPreset").close();
+        })
+    }
+
+    //Add atividade 1
+    addAtividade();
 }
 
 let bt = document.createElement("button");
+bt.innerText = "Teste";
 bt.id = "teste";
 bt.addEventListener("click", ()=>{
     criarModal();

@@ -593,22 +593,47 @@ dialog#dialogPreset {
     border: none;
     border-radius: .5rem;
     box-shadow: 0 0 1em rgb(0 0 0 / .3);
-    width: 70%;
+    width: 770px;
+    font-family: sans-serif;
+}
+
+dialog#dialogPreset h1 {
+    margin: 5px;
+    margin-bottom: 20px;
 }
 
 table#teste, table#teste td, table#teste th {
     border: 1px solid #0000008f;
+    font-size: 14pt;
 }
 
 table#teste {
     border-collapse: collapse;
-    margin: auto;
+    margin: 18px auto;
 }
 
 table#teste td, table#teste tr {
     padding: 3px;
     text-align: center;
     width: 130px;
+}
+
+table#teste h2 {
+    margin: 10px;
+}
+
+dialog#dialogPreset input, table#teste input.edtAtividade, table#teste select {
+    font-size: 13pt;
+    text-align: center;
+}
+
+dialog#dialogPreset button:not(#btn-add-atividade) {
+    font-size: 12pt;
+    padding: 5px 25px;
+}
+
+table#teste select {
+    min-width: 170px;
 }
 
 
