@@ -1,8 +1,8 @@
 {
     "manifest_version":3,
-    "name":"SGE Ágil",
-    "version":"0.6.1",
-    "description":"Adiciona recursos ao SGE SENAI",
+    "name":"SGE Ágil BETA",
+    "version":"0.6.1.1",
+    "description":"Adiciona recursos ao SGE SENAI (BETA)",
     "author":"Raffael Christopher Soares Souza",
     "icons": {
         "16": "./icons/icon16.png",
@@ -25,7 +25,7 @@
         "service_worker": "./background.js"
       },
     "content_scripts": [{
-        "js": ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "assistenteFrequencia.js", "plano_aula_assistido.js", "lista_turmas.js", "arquivar_turmas.js", "aviso_novas_turmas.js", "faltas_consecutivas.js", "xlsx.style.min.js","planilhas_notas.js", "script.js"],
+        "js": ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "assistenteFrequencia.js", "plano_aula_assistido.js", "lista_turmas.js", "arquivar_turmas.js", "aviso_novas_turmas.js", "faltas_consecutivas.js", "xlsx.style.min.js","planilhas_notas.js", "script.js", "inject.js"],
         "matches": [
             "http://www2.fiemg.com.br/Corpore.Net/*",
             "https://www2.fiemg.com.br/Corpore.Net/*",
@@ -49,7 +49,6 @@
         "https://prados101.fiemg.com.br/Corpore.Net/*"
     ],
     "optional_host_permissions": [
-        "http://portaldoaluno6.fiemg.com.br/Corpore.Net/*",
-        "https://portaldoaluno6.fiemg.com.br/Corpore.Net/*"
-      ]
+        "<all_urls>"
+    ]
 }

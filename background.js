@@ -62,7 +62,9 @@ function click() {
   console.log("Window: " + windowSGE);
   console.log("Tab Id: " + tabSGE);
   if (tabSGE <= 0){
-    chrome.tabs.create({url:'https://www2.fiemg.com.br/Corpore.Net/Login.aspx'}, ()=>{});
+    //chrome.tabs.create({url:'https://www2.fiemg.com.br/Corpore.Net/Login.aspx'}, ()=>{});
+    //v0.6.2
+    chrome.tabs.create({url:'https://www.fiemg.com.br/pd'}, ()=>{});
   } else {
     try {
       chrome.tabs.highlight({tabs: tabSGE, windowId: windowSGE}, () => {});
@@ -119,6 +121,15 @@ function getSGEIndex(){
       }
     }); 
   }
+  //v0.6.2
+  if (tabSGE == 0){
+    chrome.tabs.query({url:'*://portaldoaluno6.fiemg.com.br/Corpore.Net/*'} ,(tab) => {
+      if(tab.length > 0){
+        tabSGE = tab[0].index;
+        windowSGE = tab[0].windowId;
+      }
+    }); 
+  }
 }
 
 //Atualiza valor do Index da pág do SGE
@@ -128,3 +139,36 @@ chrome.tabs.onMoved.addListener(getSGEIndex);
 chrome.tabs.onRemoved.addListener(getSGEIndex);
 getSGEIndex();
 
+console.log(chrome.permissions.getAll());
+
+js = ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "assistenteFrequencia.js", "plano_aula_assistido.js", "lista_turmas.js", "arquivar_turmas.js", "aviso_novas_turmas.js", "faltas_consecutivas.js", "xlsx.style.min.js","planilhas_notas.js", "script.js"];
+
+function addScript(tab){
+  console.log("Foi meu fi");
+  Array.from(js).forEach(element => {
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: [element]
+    });
+  });
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ["inject.js"]
+  });
+}
+
+// chrome.action.onClicked.addListener((tab) => {
+//   addScript(tab);
+// });
+
+chrome.tabs.onUpdated.addListener((tabId, ci, tab) => {
+  console.log("Testando update");
+  addScript(tab);
+});
+
+// chrome.action.onClicked.addListener((tab) => {
+//   chrome.scripting.executeScript({
+//     target: { tabId: tab.id },
+//     files: ["inject.js"]
+//   });
+// });
