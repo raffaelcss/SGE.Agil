@@ -144,31 +144,74 @@ console.log(chrome.permissions.getAll());
 js = ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "assistenteFrequencia.js", "plano_aula_assistido.js", "lista_turmas.js", "arquivar_turmas.js", "aviso_novas_turmas.js", "faltas_consecutivas.js", "xlsx.style.min.js","planilhas_notas.js", "script.js"];
 
 function addScript(tab){
-  console.log("Foi meu fi");
+  console.log("Adicionando scripts");
   Array.from(js).forEach(element => {
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
       files: [element]
     });
   });
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id },
-    files: ["inject.js"]
-  });
+  // chrome.scripting.executeScript({
+  //   target: { tabId: tab.id },
+  //   files: ["inject.js"]
+  // });
 }
 
 // chrome.action.onClicked.addListener((tab) => {
 //   addScript(tab);
 // });
 
-chrome.tabs.onUpdated.addListener((tabId, ci, tab) => {
-  console.log("Testando update");
-  addScript(tab);
-});
+var tentativas = 1000;
 
-// chrome.action.onClicked.addListener((tab) => {
-//   chrome.scripting.executeScript({
-//     target: { tabId: tab.id },
-//     files: ["inject.js"]
-//   });
-// });
+function injetaScripts(tab){
+  if (tab.status == 'complete'){
+    if (tab.url.indexOf('fiemg.com.br') != -1 && tab.url.indexOf('Corpore') != -1){
+      //Pega link do site
+      let newHost = tab.url.substring(0,tab.url.lastIndexOf("/")) + "/*";
+      console.log(newHost);
+
+      let matches = ["http://www2.fiemg.com.br/Corpore.Net/","https://www2.fiemg.com.br/Corpore.Net/","http://prados101.fiemg.com.br/Corpore.Net","https://prados101.fiemg.com.br/Corpore.Net/"];
+      
+      //Verifica se tem permissão Host no site
+      chrome.permissions.contains(
+        {
+          origins: [newHost]
+        },
+        (retorno) => {
+          let hostOficial = false;
+          //Verifica se é algum dos hosts oficiais
+          Array.from(matches).forEach(host => {
+            if (tab.url.indexOf(host) >= 0){
+              hostOficial = true;
+            }
+          });
+          //Não tem o Host (Solicitar)
+          if (!retorno){
+            //caso não tenha solicite
+            try {
+              chrome.action.setPopup({popup:"index.html?host=" + newHost, tabId: tab.id},()=>{});
+              chrome.action.openPopup();
+            } catch (error) {
+              console.log("Erro ao abrir popup. code: " + error);
+            }
+          } else if (!hostOficial) {
+            //Caso possua Host, add scripts
+            addScript(tab);
+          }
+          console.log("A url: " + newHost + " possui host: " + retorno);
+          console.log("Host oficial: " + hostOficial);
+        }
+      )
+    }
+  } else {
+    tentativas--;
+    if (tentativas >= 0){
+      injetaScripts(tab);
+    }
+  }
+}
+
+chrome.tabs.onUpdated.addListener((tabId, ci, tab) => {
+  tentativas = 1000;
+  injetaScripts(tab);
+});

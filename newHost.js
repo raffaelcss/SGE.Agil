@@ -1,28 +1,27 @@
-const elmRequest = document.createElement("input");
-const elmGetAll = document.createElement("input");
+const urlParams = new URLSearchParams(window.location.search);
+const hostParam = urlParams.get('host');
+console.log("Host: " + hostParam);
 
-elmRequest.type = "button";
-elmRequest.id = "request";
-elmRequest.value = "request";
+if (!hostParam){
+    let divHost = document.getElementsByClassName("host")[0];
+    divHost.classList.add("host-hidden");
 
-elmGetAll.type = "button";
-elmGetAll.id = "getAll";
-elmGetAll.value = "getAll";
-
-
-elmRequest.onclick = () => {
-    request();
-}
-
-elmGetAll.onclick = () => {
-    getAll();
+    ////////FECHAR o MENU
 }
 
 function request() {
+    //Requisita acesso ao Host
     chrome.permissions.request({
-        origins: ["https://portaldoaluno6.fiemg.com.br/Corpore.Net/*"]
-    }, (granted) => {
-        console.log(granted);
+        origins: [hostParam]
+    }, (retorno) => {
+        if (retorno){
+            //Caso aceite recarrega a página
+            chrome.tabs.query({highlighted: true, currentWindow: true}, (tab) => {
+                chrome.tabs.reload(tab.id);
+            });
+        } else {
+            //Caso não exibe mensagem
+        }
     });
 }
 
@@ -110,12 +109,15 @@ function refreshDarkMode(){
 
 
 //Changes
-document.getElementById("Dark_on").addEventListener("change", refreshDarkMode);
-document.getElementById("SGE_on").addEventListener("change", refreshCssBasic);
+// document.getElementById("Dark_on").addEventListener("change", refreshDarkMode);
+// document.getElementById("SGE_on").addEventListener("change", refreshCssBasic);
 
+//Host
 
-
-
+let btnHost = document.getElementById("aceitar-host");
+if (btnHost){
+    btnHost.addEventListener("click",request);
+}
 
 
 document.getElementsByTagName("body")[0].insertAdjacentElement('afterend', elmRequest);

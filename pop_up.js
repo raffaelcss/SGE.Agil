@@ -51,4 +51,3 @@ setTimeout(()=> {
         element.onclick = clickBotao;
     });
 },500);
-

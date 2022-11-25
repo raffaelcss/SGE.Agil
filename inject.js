@@ -1,6 +1,6 @@
-function refreshCssBasic(direto){
-    if (direto || (document.getElementById("SGE_on") ? document.getElementById("SGE_on").checked : false)){
-        console.log("checked");
+function refreshCssBasic(){
+    let sgeOn = getBoolCookie("SGE.Agil_ON");
+    if (sgeOn){
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.scripting.insertCSS(
             {
@@ -16,7 +16,6 @@ function refreshCssBasic(direto){
         //Retorna Dark Mode
         refreshDarkMode();      
     } else {
-        console.log("unchecked");
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.scripting.removeCSS(
             {
@@ -44,7 +43,8 @@ function refreshCssBasic(direto){
     }
 }
 function refreshDarkMode(){
-    if (document.getElementById("Dark_on").checked){
+    let sgeDark = getBoolCookie("SGE.Agil_Dark");
+    if (sgeDark){
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.scripting.insertCSS(
             {
@@ -73,7 +73,5 @@ function refreshDarkMode(){
     }
 }
 
-console.log("inject.js");
-
-refreshCssBasic(true);
+refreshCssBasic();
 refreshDarkMode();
