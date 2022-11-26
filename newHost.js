@@ -56,7 +56,7 @@ function request() {
         } else {
             //Caso não exibe mensagem
             let hostMessage = document.getElementById("host-message");
-            hostMessage.innerText = "Infelizmente o SGE Ágil precisa de sua permissão para funcionar";
+            hostMessage.innerText = "Infelizmente não foi possível habilitar o SGE Ágil. Tente novamente.";
             let btnAceitar = document.getElementById("aceitar-host");
 
             btnAceitar.classList.add("oculto");

@@ -411,6 +411,7 @@ body .host {
 
 .host span {
   color: #585858;
+  margin: 0 8px;
 }
 
 .body {
@@ -450,6 +451,10 @@ body:has(.host:not(.host-hidden)) #sub-menu {
 .host a.not-active {
   pointer-events: none;
   cursor: default;
+}
+
+div.host:has(#aceitar-host.oculto) {
+  background: #ffdbdb87;
 }
 
 
