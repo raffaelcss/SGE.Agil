@@ -1,7 +1,7 @@
 {
     "manifest_version":3,
     "name":"SGE Ágil BETA",
-    "version":"0.6.2.6",
+    "version":"0.6.2.7",
     "description":"Adiciona recursos ao SGE SENAI (BETA)",
     "author":"Raffael Christopher Soares Souza",
     "icons": {
@@ -35,14 +35,7 @@
     }],
     "web_accessible_resources": [{
         "resources": ["SGE_Agil_basic.css","dark_mode.css","icons/btRaio_amarelo.gif","icons/btRaio_azul.gif","icons/mn_Professor.gif","icons/sesi-senai.png", "icons/upload20x13.png", "svg/archive-box-bold-svgrepo-com.svg", "svg/archive-out-svgrepo-com.svg"],
-        "matches": [
-            "http://www2.fiemg.com.br/*",
-            "https://www2.fiemg.com.br/*",
-            "http://prados101.fiemg.com.br/*",
-            "https://prados101.fiemg.com.br/*",
-            "http://portaldoaluno6.fiemg.com.br/*",
-            "https://portaldoaluno6.fiemg.com.br/*"
-        ]
+        "matches": ["<all_urls>"]
     }],
     "host_permissions": [
         "http://www2.fiemg.com.br/Corpore.Net/*",
