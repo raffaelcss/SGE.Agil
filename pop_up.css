@@ -353,7 +353,7 @@ body:has(#Dark_on:checked):has(#SGE_on:checked) .button_footer a{
   color: #65bbff;
 }
 
-body:has(#Dark_on:checked) .logo{
+body:has(#Dark_on:checked):has(#SGE_on:checked) .logo{
   background: url(./logo/logo_alpha_white.png) no-repeat;
 }
 
