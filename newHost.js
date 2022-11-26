@@ -2,25 +2,60 @@ const urlParams = new URLSearchParams(window.location.search);
 const hostParam = urlParams.get('host');
 console.log("Host: " + hostParam);
 
-if (!hostParam){
-    let divHost = document.getElementsByClassName("host")[0];
-    divHost.classList.add("host-hidden");
+var btnHost = document.getElementById("aceitar-host");
+var btnFechar = document.getElementById("fechar-host");
 
-    ////////FECHAR o MENU
+function modoNewHost(hasNewHost){
+    let cbSGEON = document.getElementById("SGE_on");
+    let divPrincipal = document.getElementsByClassName("menu-principal");
+    let divHost = document.getElementsByClassName("host");
+    if (hasNewHost){
+        //Exibe menu de opçoes
+        if (divHost.length > 0){
+            divHost[0].classList.remove("host-hidden");
+        }
+        //Bloqueia switch principal
+        cbSGEON.setAttribute("disabled","");
+        if (divPrincipal.length > 0){
+            divPrincipal[0].classList.add("disable");
+        }
+    } else {
+        //Oculta menu de opçoes
+        if (divHost.length > 0){
+            divHost[0].classList.add("host-hidden");
+        }
+        //Desbloqueia switch principal
+        cbSGEON.removeAttribute("disabled");
+        if (divPrincipal.length > 0){
+            divPrincipal[0].classList.remove("disable");
+        }
+    }
 }
+
+//Modo Host caso tenha GET param
+modoNewHost(hostParam);
 
 function request() {
     //Requisita acesso ao Host
     chrome.permissions.request({
         origins: [hostParam]
-    }, (retorno) => {
-        if (retorno){
+    }, (granted) => {
+        if (granted){
             //Caso aceite recarrega a página
             chrome.tabs.query({highlighted: true, currentWindow: true}, (tab) => {
                 chrome.tabs.reload(tab.id);
             });
+            //Volta o menu
+            modoNewHost(false);
         } else {
             //Caso não exibe mensagem
+            let hostMessage = document.getElementById("host-message");
+            hostMessage.innerText = "Infelizmente o SGE Ágil precisa de sua permissão para funcionar";
+            let btnAceitar = document.getElementById("aceitar-host");
+
+            btnAceitar.classList.add("oculto");
+            btnFechar.classList.remove("oculto");
+            
         }
     });
 }
@@ -114,12 +149,15 @@ function refreshDarkMode(){
 
 //Host
 
-let btnHost = document.getElementById("aceitar-host");
+
 if (btnHost){
     btnHost.addEventListener("click",request);
 }
 
 
-document.getElementsByTagName("body")[0].insertAdjacentElement('afterend', elmRequest);
-document.getElementsByTagName("body")[0].insertAdjacentElement('afterend', elmGetAll);
+if (btnFechar){
+    btnFechar.addEventListener("click",()=>{
+        window.close();
+    });
+}
 
