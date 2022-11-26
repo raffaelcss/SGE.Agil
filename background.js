@@ -283,3 +283,24 @@ chrome.tabs.onUpdated.addListener((tabId, ci, tab) => {
   tentativas = 1000;
   injetaScripts(tab);
 });
+
+//Receber mensagens do newHost.js para ativar os scripts assim que aceitar o Host
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if(message.name === 'sendNewHost') {
+    console.log("Mensagem do newHost recebida, injetando scripts.");
+    tentativas = 1000;
+    chrome.tabs.query({highlighted: true, currentWindow: true}, (tab) => {
+      if (tab.length > 0){
+        if (tab[0].status == 'complete' || count <= 0){
+          if (tab[0].url.indexOf('fiemg.com.br') != -1 && tab[0].url.indexOf('Corpore') != -1){
+            console.log("Injetando scripts após aceitar o HOST");
+            //Caso possua Host, mas não oficial, add scripts e depois recarrega a página
+            ////////////////// NÃO ALTERAR //////////////////
+            addScript(tab[0]);
+            chrome.tabs.reload(tab[0].id);
+          }
+        }
+      }
+    });
+  }
+});
