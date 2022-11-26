@@ -1,3 +1,7 @@
+const urlParams_func = new URLSearchParams(window.location.search);
+const hostParam_func = urlParams.get('host');
+// console.log(hostParam_func);
+
 function Change_menu_apare(){
   if (ckbox_on.checked){
     //Deixar sub-menu normal
@@ -67,20 +71,24 @@ function getVersion(){
   if (document.getElementById("ver_hide") && document.getElementById("subver_hide"))
     return [document.getElementById("Mver_hide").innerHTML,document.getElementById("ver_hide").innerHTML, document.getElementById("subver_hide").innerHTML];
 }
-chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-  chrome.scripting.executeScript(
-    {
-      target: {tabId: tabs[0].id, allFrames: true},
-      func: getVersion,
-    },
-    (injectionResults) => {
-      if (typeof injectionResults != "undefined"){
-        if (injectionResults.length > 0) {
-          document.getElementById("version_info").innerHTML = "v" + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
+
+//Verifica se possui o HOST, caso contrário não tenta pegar a versão do app pois não tem acesso
+if (!hostParam_func){
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.scripting.executeScript(
+      {
+        target: {tabId: tabs[0].id, allFrames: true},
+        func: getVersion,
+      },
+      (injectionResults) => {
+        if (typeof injectionResults != "undefined"){
+          if (injectionResults.length > 0) {
+            document.getElementById("version_info").innerHTML = "v" + injectionResults[0]["result"][0] + '.' + injectionResults[0]["result"][1] + '.' + injectionResults[0]["result"][2];
+          }
         }
-      }
-    });
-});
+      });
+  });
+}
 
 //Limite Faltas change
 limite_faltas.onchange = () => {
