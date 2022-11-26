@@ -172,6 +172,10 @@ function atualizar_status_turmas() {
 
 //função para adicionar margin laterl no menu principal para quando não houver scroll
 function refresh_scroll_mainContainer() {
+    //Fix v0.6.2
+    if (!document.getElementById("MainContainer")){
+        return;
+    }
     if (document.getElementById("MainContainer").clientHeight == document.getElementById("MainContainer").scrollHeight){
         document.getElementById("MainContainer").classList.add("sem-scroll");
     } else {
