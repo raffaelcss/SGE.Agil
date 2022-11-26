@@ -80,12 +80,15 @@ function click() {
           if (tab[0].status == 'complete' || count <= 0){
             if (tab[0].url.indexOf('fiemg.com.br') != -1 && tab[0].url.indexOf('Corpore') != -1){
               console.log(tab[0]);
-              try {
-                chrome.action.setPopup({popup:"index.html", tabId: tab[0].id},()=>{});
-                chrome.action.openPopup();
-              } catch (error) {
-                console.log("Erro ao abrir popup. code: " + error);
-              }
+              // try {
+              //   chrome.action.setPopup({popup:"index.html", tabId: tab[0].id},()=>{});
+              //   chrome.action.openPopup();
+              // } catch (error) {
+              //   console.log("Erro ao abrir popup. code: " + error);
+              // }
+              
+              //Abre Popup comum ou o de Host
+              abrePopup(tab[0], false);
             }
           } else {
             console.log("tentando.. " + (1000 - count)*20 + "ms decorridos");
@@ -163,47 +166,64 @@ function addScript(tab){
 //   addScript(tab);
 // });
 
+function abrePopup(tab, abrirApenasHost){
+  //Pega link do site
+  let newHost = tab.url.substring(0,tab.url.lastIndexOf("/")) + "/*";
+  console.log(newHost);
+
+  let matches = ["http://www2.fiemg.com.br/Corpore.Net/","https://www2.fiemg.com.br/Corpore.Net/","http://prados101.fiemg.com.br/Corpore.Net","https://prados101.fiemg.com.br/Corpore.Net/"];
+  
+  //Verifica se tem permissão Host no site
+  chrome.permissions.contains(
+    {
+      origins: [newHost]
+    },
+    (retorno) => {
+      let hostOficial = false;
+      //Verifica se é algum dos hosts oficiais
+      Array.from(matches).forEach(host => {
+        if (tab.url.indexOf(host) >= 0){
+          hostOficial = true;
+        }
+      });
+      //Não tem o Host (Solicitar)
+      if (!retorno){
+        //caso não tenha solicite (Abre popup new Host)
+        try {
+          chrome.action.setPopup({popup:"index.html?host=" + newHost, tabId: tab.id},()=>{});
+          chrome.action.openPopup();
+        } catch (error) {
+          console.log("Erro ao abrir popup. code: " + error);
+        }
+      } else {
+        if (!hostOficial) {
+          //Caso possua Host, mas não oficial, add scripts
+          addScript(tab);
+        }
+        //onUpdate não precisa abrir o popup normal, apenas no click
+        if (!abrirApenasHost){
+          //Abre o popup normal
+          try {
+            chrome.action.setPopup({popup:"index.html", tabId: tab.id},()=>{});
+            chrome.action.openPopup();
+          } catch (error) {
+            console.log("Erro ao abrir popup. code: " + error);
+          }
+        }
+      }
+      console.log("A url: " + newHost + " possui host: " + retorno);
+      console.log("Host oficial: " + hostOficial);
+    }
+  )
+}
+
 var tentativas = 1000;
 
 function injetaScripts(tab){
   if (tab.status == 'complete'){
     if (tab.url.indexOf('fiemg.com.br') != -1 && tab.url.indexOf('Corpore') != -1){
-      //Pega link do site
-      let newHost = tab.url.substring(0,tab.url.lastIndexOf("/")) + "/*";
-      console.log(newHost);
-
-      let matches = ["http://www2.fiemg.com.br/Corpore.Net/","https://www2.fiemg.com.br/Corpore.Net/","http://prados101.fiemg.com.br/Corpore.Net","https://prados101.fiemg.com.br/Corpore.Net/"];
-      
-      //Verifica se tem permissão Host no site
-      chrome.permissions.contains(
-        {
-          origins: [newHost]
-        },
-        (retorno) => {
-          let hostOficial = false;
-          //Verifica se é algum dos hosts oficiais
-          Array.from(matches).forEach(host => {
-            if (tab.url.indexOf(host) >= 0){
-              hostOficial = true;
-            }
-          });
-          //Não tem o Host (Solicitar)
-          if (!retorno){
-            //caso não tenha solicite
-            try {
-              chrome.action.setPopup({popup:"index.html?host=" + newHost, tabId: tab.id},()=>{});
-              chrome.action.openPopup();
-            } catch (error) {
-              console.log("Erro ao abrir popup. code: " + error);
-            }
-          } else if (!hostOficial) {
-            //Caso possua Host, add scripts
-            addScript(tab);
-          }
-          console.log("A url: " + newHost + " possui host: " + retorno);
-          console.log("Host oficial: " + hostOficial);
-        }
-      )
+      //Abre Popup caso não possua Host
+      abrePopup(tab, true);
     }
   } else {
     tentativas--;
