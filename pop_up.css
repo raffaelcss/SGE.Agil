@@ -340,7 +340,7 @@ h2.beta:not(.is-beta){
 
 body:has(#Dark_on:checked):has(#SGE_on:checked) {
   background: #18191A;
-  color: #E4E6EB;
+  color: #E4E6EB !important;
 }
 
 body:has(#Dark_on:checked):has(#SGE_on:checked) span{
