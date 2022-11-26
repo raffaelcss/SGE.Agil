@@ -64,7 +64,33 @@ function click() {
   if (tabSGE <= 0){
     //chrome.tabs.create({url:'https://www2.fiemg.com.br/Corpore.Net/Login.aspx'}, ()=>{});
     //v0.6.2
-    chrome.tabs.create({url:'https://www.fiemg.com.br/pd'}, ()=>{});
+    chrome.tabs.create({url:'https://www.fiemg.com.br/pd'}, (tab)=>{
+      console.log("tab criada");
+    });
+    let count2 = 1000;
+    function esperaPagNova() { 
+      setTimeout(()=>{
+        chrome.tabs.query({highlighted: true, currentWindow: true}, (tab) => {
+          if (tab.length > 0){
+            if (tab[0].status == 'complete' || count2 <= 0){
+              if (tab[0].url.indexOf('fiemg.com.br') != -1 && tab[0].url.indexOf('Corpore') != -1){
+                //Abre Popup se e somente si já tiver o Host, caso contrário o onUpdate abre a
+                //solicitação de host
+                abrePopup(tab[0], false, true);
+              }
+            } else {
+              console.log("tentando.. " + (1000 - count2)*20 + "ms decorridos");
+              console.log(tab[0]);
+              count2--;
+              esperaPagNova();
+            }
+          }
+        });
+      },20);
+    }
+    esperaPagNova();
+    //Testando para evitar de tentar injetar scripts e abrir popup duas vezes
+    return;
   } else {
     try {
       chrome.tabs.highlight({tabs: tabSGE, windowId: windowSGE}, () => {});
@@ -79,7 +105,7 @@ function click() {
         if (tab.length > 0){
           if (tab[0].status == 'complete' || count <= 0){
             if (tab[0].url.indexOf('fiemg.com.br') != -1 && tab[0].url.indexOf('Corpore') != -1){
-              console.log(tab[0]);
+              console.log(tab[0].id);
               // try {
               //   chrome.action.setPopup({popup:"index.html", tabId: tab[0].id},()=>{});
               //   chrome.action.openPopup();
@@ -146,27 +172,45 @@ getSGEIndex();
 
 console.log(chrome.permissions.getAll());
 
-js = ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "assistenteFrequencia.js", "plano_aula_assistido.js", "lista_turmas.js", "arquivar_turmas.js", "aviso_novas_turmas.js", "faltas_consecutivas.js", "xlsx.style.min.js","planilhas_notas.js", "script.js"];
+js_to_inject = ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "assistenteFrequencia.js", "plano_aula_assistido.js", "lista_turmas.js", "arquivar_turmas.js", "aviso_novas_turmas.js", "faltas_consecutivas.js", "xlsx.style.min.js","planilhas_notas.js", "script.js"];
 
 function addScript(tab){
   console.log("Adicionando scripts");
-  Array.from(js).forEach(element => {
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: [element]
-    });
-  });
-  // chrome.scripting.executeScript({
-  //   target: { tabId: tab.id },
-  //   files: ["inject.js"]
+  //Legado v0.6.2
+  // Array.from(js).forEach(element => {
+  //   chrome.scripting.executeScript({
+  //     target: { tabId: tab.id },
+  //     files: [element]
+  //   });
   // });
+
+  chrome.scripting.getRegisteredContentScripts(
+    {
+      ids:["js-injetado-sge-agil"]
+    },(returned_scripts)=>{
+      //Verifica se o script já foi injetado, caso não, insira
+      if (returned_scripts.length <= 0){
+        //teste novo metodo de inserção de script v0.6.4
+        let newHost = tab.url.substring(0,tab.url.lastIndexOf("/")) + "/*";
+        console.log("Matches: " + newHost);
+        chrome.scripting.registerContentScripts(
+          [{
+            id: "js-injetado-sge-agil",
+            js: js_to_inject,
+            matches: [newHost] 
+          }],
+          ()=>{
+            chrome.scripting.getRegisteredContentScripts({},(returned_scripts)=>{
+              console.log(returned_scripts);
+            });
+          }
+        );
+      }
+    }
+  );
 }
 
-// chrome.action.onClicked.addListener((tab) => {
-//   addScript(tab);
-// });
-
-function abrePopup(tab, abrirApenasHost){
+function abrePopup(tab, abrirApenasHost, abrirApenasNormal){
   //Pega link do site
   let newHost = tab.url.substring(0,tab.url.lastIndexOf("/")) + "/*";
   console.log(newHost);
@@ -187,7 +231,7 @@ function abrePopup(tab, abrirApenasHost){
         }
       });
       //Não tem o Host (Solicitar)
-      if (!retorno){
+      if (!retorno && !abrirApenasNormal){
         //caso não tenha solicite (Abre popup new Host)
         try {
           chrome.action.setPopup({popup:"index.html?host=" + newHost, tabId: tab.id},()=>{});
@@ -196,13 +240,13 @@ function abrePopup(tab, abrirApenasHost){
           console.log("Erro ao abrir popup. code: " + error);
         }
       } else {
-        if (!hostOficial) {
+        if (!hostOficial && retorno) {
           //Caso possua Host, mas não oficial, add scripts
           addScript(tab);
         }
         //onUpdate não precisa abrir o popup normal, apenas no click
-        if (!abrirApenasHost){
-          //Abre o popup normal
+        if (!abrirApenasHost && retorno){
+          //Abre o popup normal caso possua host
           try {
             chrome.action.setPopup({popup:"index.html", tabId: tab.id},()=>{});
             chrome.action.openPopup();
@@ -213,6 +257,8 @@ function abrePopup(tab, abrirApenasHost){
       }
       console.log("A url: " + newHost + " possui host: " + retorno);
       console.log("Host oficial: " + hostOficial);
+      console.log("Abrir somente Host: " + abrirApenasHost);
+      console.log("Abrir somente Normal: " + abrirApenasNormal);
     }
   )
 }
@@ -222,7 +268,7 @@ var tentativas = 1000;
 function injetaScripts(tab){
   if (tab.status == 'complete'){
     if (tab.url.indexOf('fiemg.com.br') != -1 && tab.url.indexOf('Corpore') != -1){
-      //Abre Popup caso não possua Host
+      //Abre Popup caso não possua Host e somente se não possuir
       abrePopup(tab, true);
     }
   } else {
