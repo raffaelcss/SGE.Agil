@@ -1,8 +1,8 @@
 {
     "manifest_version":3,
-    "name":"SGE Ágil BETA",
-    "version":"0.6.2.7",
-    "description":"Adiciona recursos ao SGE SENAI (BETA)",
+    "name":"SGE Ágil",
+    "version":"0.6.2",
+    "description":"Adiciona recursos ao SGE SENAI",
     "author":"Raffael Christopher Soares Souza",
     "icons": {
         "16": "./icons/icon16.png",

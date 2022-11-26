@@ -214,6 +214,10 @@ const CHANGELOG = {
     "0.6.1" : {
         message: `-Remoção de bugs.`,
         show: false
+    },
+    "0.6.2" : {
+        message: `-Adicionado suporte ao novo link de acesso do SGE: portaldoaluno6.fiemg.com.br.\n-Adicionado suporte à qualquer nova url do SGE/TOTVS.`,
+        show: true
     }
 }
 
