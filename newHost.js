@@ -36,10 +36,16 @@ function modoNewHost(hasNewHost){
 modoNewHost(hostParam);
 
 function request() {
+    //Desabilita segundo clique
+    btnHost.removeEventListener("click",request);
+    btnHost.classList.add("disable");
     //Requisita acesso ao Host
     chrome.permissions.request({
         origins: [hostParam]
     }, (granted) => {
+        //Devolve clique
+        btnHost.addEventListener("click",request);
+        btnHost.classList.remove("disable");
         if (granted){
             //Caso aceite recarrega a página
             chrome.tabs.query({highlighted: true, currentWindow: true}, (tab) => {
