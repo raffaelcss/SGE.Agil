@@ -4,7 +4,7 @@
 
 var newMversion     = 0;
 var newversion      = 6;
-var newsubversion   = 2;
+var newsubversion   = 3;
 
 
 
@@ -215,7 +215,7 @@ const CHANGELOG = {
         message: `-Remoção de bugs.`,
         show: false
     },
-    "0.6.2" : {
+    "0.6.3" : {
         message: `-Adicionado suporte ao novo link de acesso do SGE: portaldoaluno6.fiemg.com.br.\n-Adicionado suporte à qualquer nova url do SGE/TOTVS.`,
         show: true
     }
