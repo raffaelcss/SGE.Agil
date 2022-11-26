@@ -323,33 +323,33 @@ input:checked + .slider:before {
 
 /* Dark mode  */
 
-body:has(#Dark_on:checked) {
+body:has(#Dark_on:checked):has(#SGE_on:checked) {
   background: #18191A;
   color: #E4E6EB;
 }
 
-body:has(#Dark_on:checked) span{
+body:has(#Dark_on:checked):has(#SGE_on:checked) span{
   color: #E4E6EB;
 }
 
-body:has(#Dark_on:checked) #sub-menu{
+body:has(#Dark_on:checked):has(#SGE_on:checked) #sub-menu{
   background: #242526;
   color: #E4E6EB;
 }
 
-body:has(#Dark_on:checked) [type="image"]{
+body:has(#Dark_on:checked):has(#SGE_on:checked) [type="image"]{
   filter: invert(1);
 }
 
-body:has(#Dark_on:checked) > div, body:has(#Dark_on:checked) > footer {
+body:has(#Dark_on:checked):has(#SGE_on:checked) > div, body:has(#Dark_on:checked):has(#SGE_on:checked) > footer {
   border-top: 1px solid #424446
 }
 
-body:has(#Dark_on:checked) button::before, body:has(#Dark_on:checked) button::after{
+body:has(#Dark_on:checked):has(#SGE_on:checked) button::before, body:has(#Dark_on:checked):has(#SGE_on:checked) button::after{
   background-color: #65bbff;
 }
 
-body:has(#Dark_on:checked) .button_footer a{
+body:has(#Dark_on:checked):has(#SGE_on:checked) .button_footer a{
   color: #65bbff;
 }
 
@@ -422,6 +422,15 @@ body:has(.host:not(.host-hidden)) #sub-menu {
   border-radius: 6px;
   border-color: #0497E1;
   background: #EDF9FF;
+}
+
+.host .button_host.oculto {
+  display: none;
+}
+
+.host a.not-active {
+  pointer-events: none;
+  cursor: default;
 }
 
 /* Animações  */
