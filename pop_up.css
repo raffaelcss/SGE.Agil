@@ -322,6 +322,20 @@ input:checked + .slider:before {
   padding: 3px;
 }
 
+/* Beta message */
+
+h2.beta.is-beta {
+  margin: 0px;
+  position: absolute;
+  right: 0px;
+  top: calc(100%/2 - 22px/2);
+  color: #320000;
+}
+
+h2.beta:not(.is-beta){
+  display: none;
+}
+
 /* Dark mode  */
 
 body:has(#Dark_on:checked):has(#SGE_on:checked) {
@@ -432,21 +446,6 @@ body:has(.host:not(.host-hidden)) #sub-menu {
 .host a.not-active {
   pointer-events: none;
   cursor: default;
-}
-
-
-/* Beta message */
-
-h2.beta.is-beta {
-  margin: 0px;
-  position: absolute;
-  right: 0px;
-  top: calc(100%/2 - 22px/2);
-  color: #320000;
-}
-
-h2.beta:not(.is-beta){
-  display: none;
 }
 
 
