@@ -4,7 +4,7 @@
 
 var newMversion     = 0;
 var newversion      = 6;
-var newsubversion   = 1;
+var newsubversion   = 2;
 
 
 
