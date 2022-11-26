@@ -134,6 +134,8 @@ function getSGEIndex(){
 
 //Atualiza valor do Index da pág do SGE
 chrome.tabs.onCreated.addListener(getSGEIndex);
+//v0.6.2 getSGEIndex in onUpdate
+chrome.tabs.onUpdated.addListener(getSGEIndex);
 chrome.tabs.onDetached.addListener(getSGEIndex);
 chrome.tabs.onMoved.addListener(getSGEIndex);
 chrome.tabs.onRemoved.addListener(getSGEIndex);
