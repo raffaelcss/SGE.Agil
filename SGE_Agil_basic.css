@@ -593,7 +593,7 @@ dialog#dialogPreset {
     border: none;
     border-radius: .5rem;
     box-shadow: 0 0 1em rgb(0 0 0 / .3);
-    width: 770px;
+    width: 950px;
     font-family: sans-serif;
 }
 
@@ -615,7 +615,11 @@ table#teste {
 table#teste td, table#teste tr {
     padding: 3px;
     text-align: center;
-    width: 130px;
+    /* width: 130px; */
+}
+
+input.edtValor {
+    width: 100px;
 }
 
 table#teste h2 {
