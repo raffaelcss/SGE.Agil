@@ -740,9 +740,12 @@ function lancaNota(progressEvent){
                         }
                     }
                 });
-                //Atualiza o somatório
-                adicionarSomatorioNotas();
             });
+
+            //v0.6.5 fix: lançamento muito lento em turmas muito grandes pois atualizava
+            //o somatório a cada aluno
+            //Atualiza o somatório
+            adicionarSomatorioNotas();
 
 
         } else {
