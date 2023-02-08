@@ -70,8 +70,8 @@ function request() {
     });
 }
 
-function getAll() {
-    chrome.permissions.getAll((permissions) => {
+function getAllPermissions() {
+    chrome.permissions.getAllPermissions((permissions) => {
         console.log(permissions);
     });
 }

@@ -76,7 +76,8 @@ function click() {
               if (tab[0].url.indexOf('fiemg.com.br') != -1 && tab[0].url.indexOf('Corpore') != -1){
                 //Abre Popup se e somente si já tiver o Host, caso contrário o onUpdate abre a
                 //solicitação de host
-                abrePopup(tab[0], false, true);
+                //console.log("Abre popup dentro do click, pag nova");
+                //abrePopup(tab[0], false, true);
               }
             } else {
               console.log("tentando.. " + (1000 - count2)*20 + "ms decorridos");
@@ -114,7 +115,8 @@ function click() {
               // }
               
               //Abre Popup comum ou o de Host
-              abrePopup(tab[0], false);
+              console.log("Abre popup dentro do click, pag velha");
+              //abrePopup(tab[0], false);
             }
           } else {
             console.log("tentando.. " + (1000 - count)*20 + "ms decorridos");
@@ -153,6 +155,15 @@ function getSGEIndex(){
   //v0.6.2
   if (tabSGE == 0){
     chrome.tabs.query({url:'*://portaldoaluno6.fiemg.com.br/Corpore.Net/*'} ,(tab) => {
+      if(tab.length > 0){
+        tabSGE = tab[0].index;
+        windowSGE = tab[0].windowId;
+      }
+    }); 
+  }
+  //v0.7.0
+  if (tabSGE == 0){
+    chrome.tabs.query({url:'*://*.fiemg.com.br/Corpore.Net/*'} ,(tab) => {
       if(tab.length > 0){
         tabSGE = tab[0].index;
         windowSGE = tab[0].windowId;
@@ -210,12 +221,18 @@ function addScript(tab){
   );
 }
 
+var timeAbriuSolcitacao = false;
+
 function abrePopup(tab, abrirApenasHost, abrirApenasNormal){
   //Pega link do site
   let newHost = tab.url.substring(0,tab.url.lastIndexOf("/")) + "/*";
   console.log(newHost);
 
-  let matches = ["http://www2.fiemg.com.br/Corpore.Net/","https://www2.fiemg.com.br/Corpore.Net/","http://prados101.fiemg.com.br/Corpore.Net","https://prados101.fiemg.com.br/Corpore.Net/"];
+  let matches = ["http://www2.fiemg.com.br/Corpore.Net/",
+    "https://www2.fiemg.com.br/Corpore.Net/",
+    "http://prados101.fiemg.com.br/Corpore.Net",
+    "https://prados101.fiemg.com.br/Corpore.Net/"    
+  ];
   
   //Verifica se tem permissão Host no site
   chrome.permissions.contains(
@@ -234,8 +251,36 @@ function abrePopup(tab, abrirApenasHost, abrirApenasNormal){
       if (!retorno && !abrirApenasNormal){
         //caso não tenha solicite (Abre popup new Host)
         try {
-          chrome.action.setPopup({popup:"index.html?host=" + newHost, tabId: tab.id},()=>{});
-          chrome.action.openPopup();
+          chrome.action.setPopup(
+            {popup:"index.html?host=" + newHost, tabId: tab.id},
+            ()=>{
+              
+            }
+          );
+          if (newHost.indexOf("chrome-extension") == -1){
+            //Verificar se pág ja existe, pois está criando 2 ou 3 pag
+            let qtd = 0;
+            chrome.tabs.query({url:'chrome-extension://*/index.html?host=*'} ,(tab2) => {
+              qtd = tab2.length;
+              console.log("Quantidade de chrome-extensions: " + qtd);
+              //Verifica se não abriu uma página recentemente, o metodo query não funciona bem
+              //Pois são executados várias requisições antes mesmo da pág ficar visível ao query
+              if(qtd <= 0 && !timeAbriuSolcitacao){
+                setTimeout(()=>{
+                  chrome.tabs.create({url:"newHost.html?host=" + newHost}, (tab)=>{
+                    console.log("tab criada");
+                  });
+                },1500);
+                timeAbriuSolcitacao = true;
+                console.log("bloqueando novas pag de Host");
+                setTimeout(()=>{
+                  timeAbriuSolcitacao = false;
+                  console.log("liberando novas pag de Host");
+                },3000);
+              }
+            });
+          }
+          // chrome.action.openPopup();
         } catch (error) {
           console.log("Erro ao abrir popup. code: " + error);
         }
@@ -266,9 +311,10 @@ function abrePopup(tab, abrirApenasHost, abrirApenasNormal){
 var tentativas = 1000;
 
 function injetaScripts(tab){
-  if (tab.status == 'complete'){
+  if (tab.status != 'complete'){
     if (tab.url.indexOf('fiemg.com.br') != -1 && tab.url.indexOf('Corpore') != -1){
       //Abre Popup caso não possua Host e somente se não possuir
+      console.log("abrindo popUp pois nao possui host")
       abrePopup(tab, true);
     }
   } else {
@@ -281,6 +327,7 @@ function injetaScripts(tab){
 
 chrome.tabs.onUpdated.addListener((tabId, ci, tab) => {
   tentativas = 1000;
+  console.log("chamando update: " + tab.url);
   injetaScripts(tab);
 });
 

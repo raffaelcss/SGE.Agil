@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>SGE Ágil</title>
+    <link rel="stylesheet" type="text/css" href="pop_up.css" media="screen" />
+    <script type="text/javascript" src="pop_up.js"></script>
+</head>
+<body>
+    <div>
+        <div>
+            <div class="title">
+                <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">
+                    <div class="logo"> </div>
+                </a>
+                <div class="title-icons">
+                    <h2 class="beta not-is-beta">(BETA)</h2>
+                    <input class="hide" type="image" src="./icons/icon-config.svg" width="15" height="15">
+                    <input class="hide" type="image" src="./icons/icon-help.svg" width="15" height="15">
+                </div>
+            </div>
+        </div>
+        <div class="menu menu-principal">
+            <div class="menu sub-menu">
+                <h3>Ativar SGE.Ágil</h3>
+                <label class="switch">
+                    <input type="checkbox" id="SGE_on">
+                    <span class="slider round grande" id="SGE_on_swt"></span>        
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <div class ="body">
+        <!-- Menu Solicitar HOST -->
+        <div class="host">
+            <strong>Aceitar novos termos</strong>
+            <span id="host-message">Clique no botão abaixo para que o SGE Ágil possa ser habilitado neste novo link.</span>
+            <span class="button_footer button_host" id="aceitar-host">
+                <a class="not-active" href="" target="">Aceitar</a>
+            </span>
+            <span class="button_footer button_host oculto" id="fechar-host">
+                <a class="not-active" href="" target="">Fechar</a>
+            </span>
+        </div>
+        <!-- Sub menus -->
+        <div class="menu-func" id="sub-menu">
+            <!-- Botão Pesquisa -->
+            <div class="menu sub-menu">
+                <p>Pesquisa de turmas</p>
+                <label class="switch">
+                    <input type="checkbox" id="Pes_on">
+                    <span class="slider round" id="Pes_on_swt"></span>        
+                </label>
+            </div>
+            <!-- Botão Modo escuro -->
+            <div class="menu sub-menu">
+                <p>Modo escuro</p>
+                <label class="switch">
+                    <input type="checkbox" id="Dark_on">
+                    <span class="slider round" id="Dark_on_swt"></span>        
+                </label>
+            </div>
+            <!-- Botão Upload de notas -->
+            <div class="menu sub-menu">
+                <p>Upload e somatório de notas</p>
+                <label class="switch">
+                    <input type="checkbox" id="Upload_notas_on">
+                    <span class="slider round" id="Upload_notas_on_swt"></span>        
+                </label>
+            </div>
+            <!-- Botão Plano de aula assistido -->
+            <div class="menu sub-menu">
+                <p>Plano de aula assistido</p>
+                <label class="switch">
+                    <input type="checkbox" id="Plan_aula_on">
+                    <span class="slider round" id="Plan_aula_on_swt"></span>        
+                </label>
+            </div>
+            <!-- Botão Aviso Novas Ucs -->
+            <div class="menu sub-menu">
+                <p>Aviso novas Turmas e Uc's</p>
+                <label class="switch">
+                    <input type="checkbox" id="Aviso_new_on">
+                    <span class="slider round" id="Aviso_new_on_swt"></span>        
+                </label>
+            </div>
+            <!-- Botão Arquivar Turmas -->
+            <div class="menu sub-menu">
+                <p>Arquivar e desarquivar turmas</p>
+                <label class="switch">
+                    <input type="checkbox" id="Arq_turma_on">
+                    <span class="slider round" id="Arq_turma_on_swt"></span>        
+                </label>
+            </div>
+            <!-- Botão Aviso alunos faltosos -->
+            <div class="menu sub-menu">
+                <p>Avisar sobre alunos faltosos</p>
+                <label class="switch">
+                    <input type="checkbox" id="Aviso_faltas_on">
+                    <span class="slider round" id="Aviso_faltas_on_swt"></span>        
+                </label>
+            </div>
+            <!-- Edit Aviso alunos faltosos -->
+            <div class="menu sub-menu">
+                <input type="image" src="./icons/seta_lado_ultima.png" width="22" height="13.5" style="cursor: default;">
+                <p style="margin-left: 2px;">Limite de faltas consecutivas</p>
+                <label class="switch">
+                    <span class="control" id="diminui-falta" style="left: -7px;">-</span>
+                    <input class="limite_edit" type="number" min="5" max="30" value=15 id="Limite_faltas" >
+                    <span class="control" id="aumenta-falta" style="right: -6px;">+</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="newHost.js"></script>
+    <footer class="footer">
+        <ul class="panels">
+            <li class="tabpanel" id="footer-panel-0" aria-hidden="false">
+                <span>Gostou do SGE.Ágil?</span>
+                <span class="button_footer">
+                    <a href="https://chrome.google.com/webstore/detail/sge-%C3%A1gil/lkhojjbphbkdefaikmcpiamkhcojdcin/reviews?ref=store-rating" target="_blank">AVALIE</a>
+                </span>
+            </li>
+            <li class="tabpanel" id="footer-panel-1" aria-hidden="true">
+                <span>Deseja apoiar o SGE.Ágil?</span>
+                <span class="button_footer">
+                    <a href="pagseguro/doe.html" target="_blank">DOE</a>
+                </span>
+            </li>
+            <li class="tabpanel" id="footer-panel-2" aria-hidden="true">
+                <span>Alguma dúvida?</span>
+                <span class="button_footer">
+                    <a href="pagseguro/ajuda.html" target="_blank">AJUDA</a>
+                </span>
+            </li>
+        </ul>
+        <ul class="tabs animated">
+            <li>
+                <button role="tab" id="footer-tab-0" aria-controls="footer-panel-0" aria-labelledby="footer-panel-description-0" aria-selected="true" tabindex="0"></button>
+            </li>
+            <li>
+                <button role="tab" id="footer-tab-1" aria-controls="footer-panel-1" aria-labelledby="footer-panel-description-1" aria-selected="false" tabindex="-1"></button>
+            </li>
+            <li>
+                <button role="tab" id="footer-tab-2" aria-controls="footer-panel-2" aria-labelledby="footer-panel-description-2" aria-selected="false" tabindex="-1"></button>
+            </li>
+        </ul>
+    </footer>
+    <div class="div_version">
+        <span id="version_info"></span>
+    </div>
+    
+    <script src="functions.js"></script>
+</body>
+</html>

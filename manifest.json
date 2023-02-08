@@ -26,7 +26,20 @@
         "service_worker": "./background.js"
       },
     "content_scripts": [{
-        "js": ["SGE_Agil_cookies.js", "barraDePesquisa.js", "Dark_mode.js", "assistenteFrequencia.js", "plano_aula_assistido.js", "lista_turmas.js", "arquivar_turmas.js", "aviso_novas_turmas.js", "faltas_consecutivas.js", "xlsx.style.min.js","planilhas_notas.js", "script.js"],
+        "js": [
+            "SGE_Agil_cookies.js", 
+            "barraDePesquisa.js",
+            "Dark_mode.js", 
+            "assistenteFrequencia.js", 
+            "plano_aula_assistido.js", 
+            "lista_turmas.js", 
+            "arquivar_turmas.js", 
+            "aviso_novas_turmas.js", 
+            "faltas_consecutivas.js", 
+            "xlsx.style.min.js",
+            "planilhas_notas.js", 
+            "script.js"
+        ],
         "matches": [
             "http://www2.fiemg.com.br/Corpore.Net/*",
             "https://www2.fiemg.com.br/Corpore.Net/*",
@@ -35,7 +48,17 @@
         ]
     }],
     "web_accessible_resources": [{
-        "resources": ["SGE_Agil_basic.css","dark_mode.css","icons/btRaio_amarelo.gif","icons/btRaio_azul.gif","icons/mn_Professor.gif","icons/sesi-senai.png", "icons/upload20x13.png", "svg/archive-box-bold-svgrepo-com.svg", "svg/archive-out-svgrepo-com.svg"],
+        "resources": [
+            "SGE_Agil_basic.css",
+            "dark_mode.css",
+            "icons/btRaio_amarelo.gif",
+            "icons/btRaio_azul.gif",
+            "icons/mn_Professor.gif",
+            "icons/sesi-senai.png", 
+            "icons/upload20x13.png", 
+            "svg/archive-box-bold-svgrepo-com.svg", 
+            "svg/archive-out-svgrepo-com.svg"
+        ],
         "matches": ["<all_urls>"]
     }],
     "host_permissions": [
