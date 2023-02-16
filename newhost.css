@@ -1,0 +1,90 @@
+/* Pedir HOST */
+body .host {
+
+    animation: refresh-scale 0.5s ease-in-out;
+    position: absolute;
+    background: #fff;
+
+    height: 170px;
+
+    left: 10px;
+    right: 10px;
+    top: calc(100%/2 - 170px/2);
+
+    z-index: 999;
+
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px 0 hsla(0, 0%, 84%, 0.5);
+
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    font-size: 13px;
+}
+
+.host strong {
+    font-weight: bold;
+}
+
+.host span {
+    color: #585858;
+    margin: 0 8px;
+}
+
+.body {
+    position: relative;
+    background: #f7f7f7;
+}
+
+body:has(.host:not(.host-hidden)) #sub-menu {
+    visibility: hidden;
+}
+
+.host.host-hidden{
+    display: none;
+}
+
+.button_host a{
+    border: none;
+}
+
+.button_host a:hover{
+    border: none;
+}
+
+.button_host{
+    margin: 0 20px;
+    padding: 6px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    border-color: #0497E1;
+    background: #EDF9FF;
+}
+
+.host .button_host.oculto {
+    display: none;
+}
+
+.host a.not-active {
+    pointer-events: none;
+    cursor: default;
+}
+
+div.host:has(#aceitar-host.oculto) {
+    background: #ffdbdb87;
+}
+
+@keyframes refresh-scale {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+  }

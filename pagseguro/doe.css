@@ -189,6 +189,7 @@ ol, ul {
     margin: 71px 150px 40px 150px;
     display: flex;
     flex-direction: column;
+    min-height: 68%;
 }
 
 #doar-pagseguro{

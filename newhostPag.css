@@ -1,0 +1,11 @@
+div.container-doar {
+    display: flex;
+    margin: auto !important;
+    padding-top: 65px;
+    justify-content: center;
+}
+
+div.host {
+    position: relative;
+    margin: auto;
+}

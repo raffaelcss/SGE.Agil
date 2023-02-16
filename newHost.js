@@ -32,8 +32,12 @@ function modoNewHost(hasNewHost){
     }
 }
 
-//Modo Host caso tenha GET param
-modoNewHost(hostParam);
+//Caso esteja no contexto do popup, excute
+if (document.getElementById("SGE_on")){
+    //Modo Host no pop up caso tenha GET param
+    modoNewHost(hostParam);
+}
+
 
 function request() {
     //Desabilita segundo clique

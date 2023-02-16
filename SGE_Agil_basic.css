@@ -313,7 +313,7 @@ tr.primeira_aula{
     background-color: var(--branco);
 }
 
-#btn-inverter:hover{
+#btn-inverter:not(.dxbDisabled_Edu):hover{
     color: #000000;
     background: #E4E4E4 top;
     background-repeat: repeat-x;
